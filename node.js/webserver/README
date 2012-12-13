@@ -1,0 +1,3 @@
+Web server based on "The Node beginner book", by Manuel Kiessling, available at nodebeginner.org (2012.12.13). Dependencies:
+* NodeJS 0.8.15
+* Formidable module (available through npm)
