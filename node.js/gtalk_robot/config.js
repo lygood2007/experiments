@@ -2,7 +2,7 @@ exports.settings = {
 	"status_message": "A demo Node.js Google Talk bot",
 	"client": {
 		"jid": "ivan.objap@gmail.com",
-		"password": "iv@N.0Bj@p",
+		"password": "<password>",
 		"host": "talk.google.com",
 		"port": 5222
 	},
