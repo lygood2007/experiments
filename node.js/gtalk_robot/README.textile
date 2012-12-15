@@ -1,1 +1,7 @@
 Robô baseado na matéria "Node.JS/Crie um robô Google talk", de Simon Holywell, publicado na edição 141, ano 12, da "Revista W" (revistaw.com.br).
+
+Dependências:
+* npm install node-xmpp
+* npm install request
+* sudo apt-get install libcu-dev
+* npm install node-stringprep (requer libcu-dev)
