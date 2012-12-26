@@ -1,0 +1,15 @@
+<html>
+<head>
+	<script src="js/socket.io.min.js"></script>
+	<script>
+	  var persistent_data;
+	  var socket = io.connect('http://localhost');
+	  socket.on('news', function (data) {
+	    persistent_data = data;
+	    console.log(data);
+	    socket.emit('my other event', { my: 'data' });
+	  });
+	</script>
+</head>
+<body></body>
+</html>
