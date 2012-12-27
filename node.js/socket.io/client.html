@@ -2,17 +2,36 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8"/>
-	// ATENÇÃO, sofri muito com isso: o script socket.io.js é servido automaticamente pelo NodeJS ao instalar a biblioteca socket.io. É possível usar a versão do script js/socket.io.min.js, que baixei do repositório de desenvolvimento, mas deste modo somente é possível se eu abrir o ARQUIVO client.html no navegador. Isto é, se eu tentar obter o index.html, que contém essencialmente o mesmo conteúdo que este arquivo, através do servidor web (porta 80), NÃO funciona o script js/socket.io.min.js. Por isso tanto aqui quanto no index.html o src aponta para o servidor web.
+	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="http://localhost/socket.io/socket.io.js"></script>
 	<script>
-	  var persistent_data;
-	  var socket = io.connect('http://localhost');
-	  socket.on('news', function (data) {
-	    persistent_data = data;
-	    console.log(data);
-	    socket.emit('my other event', { my: 'data' });
-	  });
+		var socket = io.connect('http://localhost');
+
+		socket.on('news', function (data) {
+			console.log(data);
+			socket.emit('my other event', { my: 'data' });
+		});
+
+		socket.on('this', function (data) {
+			console.log(data);
+		});
+
+		$(document).ready(function() {
+			$("form").submit(function(){
+				var from = $(":input[title=name]").val();
+				var message = $(":input[title=message]").val();
+				socket.emit('private message', from, message);
+			});
+		});
 	</script>
 </head>
-<body></body>
+<body>
+	<form>
+		<div>Nome: </div>
+		<input type="text" title="name"><br/>
+		<div>Mensagem: </div>
+		<input type="text" title="message"><br/>
+		<input type="submit" title="Send">
+	</form>
+</body>
 </html>

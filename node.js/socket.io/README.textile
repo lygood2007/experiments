@@ -1,0 +1,4 @@
+h1. Learning socket.io
+
+* Experiência 1: executar server.js e acessar http://localhost (o cliente recebe um objeto, impresso no console do cliente).
+* Experiência 2: executar socket_server.js e acessar file://<path>/client.html (preencher o formulário e pressionar submit. A mensagem enviada pelo cliente para o servidor é impressa no console do servidor).
