@@ -1,26 +1,20 @@
-var app = require('http').createServer(handler);
-var io = require('socket.io').listen(app);
-var fs = require('fs');
+/*
+ * Esta versão utiliza o framework Express para NodeJS:
+ * npm install express
+ */
+var app = require('express')();
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
 
-// ATENÇÃO, que sofri com isso: usuários comuns (não root) não podem usar porta menor que a 1024. Por isso, para rodar esse server é preciso fazê-lo usando sudo.
-app.listen(80);
+server.listen(80); // ATENÇÃO: precisa ser root/sudoer para usar porta < 1024
 
-function handler (req, res) {
-  fs.readFile(__dirname + '/index.html',
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
-    }
-
-    res.writeHead(200, {'content-type': 'text/html'});
-    res.end(data);
-  });
-}
+app.get('/', function (req, res) {
+	res.sendfile(__dirname + "/index.html");
+});
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+	socket.emit('news', {hello: 'world'});
+	socket.on('my other event', function (data) {
+		console.log(data);
+	});
 });
