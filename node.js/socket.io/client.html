@@ -1,6 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<script src="js/socket.io.min.js"></script>
+	<meta charset="utf-8"/>
+	// ATENÇÃO, sofri muito com isso: o script socket.io.js é servido automaticamente pelo NodeJS ao instalar a biblioteca socket.io. É possível usar a versão do script js/socket.io.min.js, que baixei do repositório de desenvolvimento, mas deste modo somente é possível se eu abrir o ARQUIVO client.html no navegador. Isto é, se eu tentar obter o index.html, que contém essencialmente o mesmo conteúdo que este arquivo, através do servidor web (porta 80), NÃO funciona o script js/socket.io.min.js. Por isso tanto aqui quanto no index.html o src aponta para o servidor web.
+	<script src="http://localhost/socket.io/socket.io.js"></script>
 	<script>
 	  var persistent_data;
 	  var socket = io.connect('http://localhost');
