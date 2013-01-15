@@ -8,7 +8,7 @@ template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
 
 class BlogEntry (db.Model):
-	title = db.StringProperty(required = True)
+	subject = db.StringProperty(required = True)
 	content = db.TextProperty(required = True)
 	created = db.DateTimeProperty(auto_now_add = True)
 
@@ -29,21 +29,30 @@ class Homework3 (Handler):
 		self.render("front.html", entries = entries)
     
 class NewPost (Handler):
-	def render_form (self, error = "", title="", content=""):
-		self.render("newpost.html", error = error, title = title, content = content)
+	def render_form (self, error = "", subject="", content=""):
+		self.render("newpost.html", error = error, subject = subject, content = content)
 		
 	def get(self):
 		self.render_form()
 
 	def post(self):
-		title = self.request.get("title")
+		subject = self.request.get("subject")
 		content = self.request.get("content")
 		
-		# Verifica se title/content 
-		if title and content:
-			post = BlogEntry(title = title, content = content)
-			post.put()
-			self.redirect("/homework3") # TROCAR PELO PERMALINK
+		# Verifica se subject/content 
+		if subject and content:
+			post = BlogEntry(subject = subject, content = content)
+			rc = post.put()
+			self.redirect("/homework3/%d" % int(rc.id()))
 		else:
-			error = "I need both title and content."
-			self.render_form(error, title, content)
+			error = "I need both subject and content."
+			self.render_form(error, subject, content)
+
+class Permalink (Handler):
+	def get(self, blog_id): # Não entendi esse blog_id aqui, que tirei de http://forums.udacity.com/questions/6014750/a-couple-helpful-links-for-hw-3#cs253
+		entries = [BlogEntry.get_by_id(int(blog_id))]		
+
+		if entries:
+			self.render("front.html", entries = entries)
+		else:
+			self.request.out.write("This is not a valid post!")

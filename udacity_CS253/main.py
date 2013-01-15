@@ -16,5 +16,6 @@ app = webapp2.WSGIApplication([
         ('/homework2', unit2.Homework2),
         ('/homework2/welcome', unit2.Homework2_WelcomePage),
         ('/homework3', unit3.Homework3),
-        ('/homework3/newpost', unit3.NewPost)
+        ('/homework3/newpost', unit3.NewPost),
+		('/homework3/(\d+)', unit3.Permalink)
 ], debug=True)
