@@ -1,0 +1,6 @@
+------------
+PROBLEMA: o Python, quando executado pelo Google App Engine, não enxerga a biblioteca Jinja2, instalada através do aplicativo easy_install (pacote de ferramentas do Python).
+RESOLUÇÃO: no arquivo app.yaml, seção "libraries", inseri o item
+- name: jinja2
+  version: "2.6"
+------------
