@@ -1,4 +1,3 @@
-# Homework 1
 import webapp2
 import cgi
 import re

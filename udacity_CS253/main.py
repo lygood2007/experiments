@@ -1,5 +1,6 @@
 ﻿import cgi
-import homeworks # Meu módulo com as tarefas de casa
+import unit2 # Tarefas da unidade 2
+import unit3 # Tarefas da unidade 3
 import re
 import webapp2
 
@@ -11,7 +12,9 @@ class MainPage (webapp2.RequestHandler):
 # Router
 app = webapp2.WSGIApplication([
         ('/', MainPage),
-	('/unit2/homework1', homeworks.Homework1),
-        ('/unit2/homework2', homeworks.Homework2),
-        ('/unit2/homework2/welcome', homeworks.Homework2_WelcomePage)
+		('/homework1', unit2.Homework1),
+        ('/homework2', unit2.Homework2),
+        ('/homework2/welcome', unit2.Homework2_WelcomePage),
+        ('/homework3', unit3.Homework3),
+        ('/homework3/newpost', unit3.NewPost)
 ], debug=True)
