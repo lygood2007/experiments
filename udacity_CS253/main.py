@@ -23,6 +23,10 @@ app = webapp2.WSGIApplication([
         ('/homework3', unit3.Homework3),
         ('/homework3/newpost', unit3.NewPost),
 		('/homework3/(\d+)', unit3.Permalink),
-		('/unit4', unit4.Unit4),
+		('/homework4', unit4.Unit4),
+		('/homework4/signup', unit4.Signup),
+		('/homework4/welcome', unit4.Welcome),
+		('/homework4/login', unit4.Login),
+		('/homework4/logout', unit4.Logout),
 		('.*', PageNotFound)
 ], debug=True)
