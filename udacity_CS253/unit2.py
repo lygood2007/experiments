@@ -121,17 +121,11 @@ class Homework2 (webapp2.RequestHandler):
                     display_email_error_message = "none" if valid_email else "block"
                     self.write_form(escape(username), escape(email), display_username_error_message, display_password_error_message, display_email_error_message)
                 else:
-                    self.redirect("/unit2/homework2/welcome?username=%s" % username)
+                    self.redirect("/homework2/welcome?username=%s" % username)
                 
 class Homework2_WelcomePage (webapp2.RequestHandler):
         def get(self):
                 username = self.request.get("username")
                 self.response.out.write("Welcome, %s!" % username)
-
-#app = webapp2.WSGIApplication([
-#	('/unit2/homework1', Homework1),
-#        ('/unit2/homework2', Homework2),
-#        ('/unit2/homework2/welcome', Homework2_WelcomePage)
-#], debug=True)
 
 

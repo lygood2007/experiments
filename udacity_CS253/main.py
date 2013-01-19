@@ -1,7 +1,6 @@
 ﻿import cgi
 import unit2 # Tarefas da unidade 2
-import unit3 # Tarefas da unidade 3
-import unit4
+import blog
 import re
 import webapp2
 
@@ -17,16 +16,17 @@ class PageNotFound (webapp2.RequestHandler):
 # Router
 app = webapp2.WSGIApplication([
         ('/', MainPage),
-		('/homework1', unit2.Homework1),
-        ('/homework2', unit2.Homework2),
-        ('/homework2/welcome', unit2.Homework2_WelcomePage),
-        ('/homework3', unit3.Homework3),
-        ('/homework3/newpost', unit3.NewPost),
-		('/homework3/(\d+)', unit3.Permalink),
-		('/homework4', unit4.Unit4),
-		('/homework4/signup', unit4.Signup),
-		('/homework4/welcome', unit4.Welcome),
-		('/homework4/login', unit4.Login),
-		('/homework4/logout', unit4.Logout),
+		('/homework1/?', unit2.Homework1),
+        ('/homework2/?', unit2.Homework2),
+        ('/homework2/welcome/?', unit2.Homework2_WelcomePage),
+		('/blog/?', blog.BlogFront),
+		('/blog/?.json', blog.BlogJSON),
+		('/blog/signup/?', blog.Signup),
+		('/blog/welcome/?', blog.Welcome),
+		('/blog/login/?', blog.Login),
+		('/blog/logout/?', blog.Logout),
+		('/blog/newpost/?', blog.NewPost),
+		('/blog/(\d+)/?', blog.Permalink),
+		('/blog/(\d+)/?.json', blog.PermalinkJSON),
 		('.*', PageNotFound)
 ], debug=True)
