@@ -2,7 +2,9 @@ import hmac
 import re
 from base_handler import BaseHandler
 from google.appengine.ext import db
+from google.appengine.api import memcache
 import json
+import time
 
 USERNAME_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$") # RE para verificar username
 PASSWORD_RE = re.compile(r"^.{3,20}$") # RE para verificar password
@@ -101,8 +103,17 @@ class Logout (BaseHandler):
 # Blog's front page
 class BlogFront (BaseHandler):
     def get(self):
-		entries = db.GqlQuery("select * from BlogDB order by created desc")
-		self.render("front.html", entries = entries)
+				
+		entries = memcache.get("blog_entries")
+		
+		if not entries:
+			entries = db.GqlQuery("select * from BlogDB order by created desc")
+			memcache.set("blog_entries", entries)
+			memcache.set("blog_entries_last_query_time", time.time())
+			
+		last_query = time.time() - float(memcache.get("blog_entries_last_query_time"))
+			
+		self.render("front.html", entries = entries, last_query = last_query)
 
 # Returns the JSON of blog index
 class BlogJSON (BaseHandler):
@@ -144,12 +155,20 @@ class NewPost (BaseHandler):
 # Permalink (blog) page
 class Permalink (BaseHandler):
 	def get(self, blog_id):
-		entries = [BlogDB.get_by_id(int(blog_id))]		
-
-		if entries:
-			self.render("front.html", entries = entries)
-		else:
-			self.request.out.write("This is not a valid post!")
+		entry = memcache.get("%s" % blog_id)
+		
+		if not entry:
+			entry = BlogDB.get_by_id(int(blog_id))
+			
+			if entry:		
+				memcache.set("%s" % blog_id, entry)
+				memcache.set("%s_last_query_time" % blog_id, time.time())				
+			else:
+				self.request.out.write("This is not a valid post!")
+				return
+		
+		last_query = time.time() - float(memcache.get("%s_last_query_time" % blog_id))
+		self.render("front.html", entries = [entry], last_query = last_query)
 	
 # Returns the JSON of a blog post (permalink)
 class PermalinkJSON (BaseHandler):
@@ -162,6 +181,11 @@ class PermalinkJSON (BaseHandler):
 		self.response.out.write(entry_json)
 		pass
 		
+# Limpa o cache do blog
+class FlushMemcache (BaseHandler):
+	def get(self):
+		memcache.flush_all()
+		self.redirect("/blog")
 		
 ###### Useful functions ######
 

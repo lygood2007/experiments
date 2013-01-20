@@ -28,5 +28,6 @@ app = webapp2.WSGIApplication([
 		('/blog/newpost/?', blog.NewPost),
 		('/blog/(\d+)/?', blog.Permalink),
 		('/blog/(\d+)/?.json', blog.PermalinkJSON),
+		('/blog/flush/?', blog.FlushMemcache),
 		('.*', PageNotFound)
 ], debug=True)

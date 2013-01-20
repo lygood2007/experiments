@@ -110,11 +110,14 @@
 	<hr>
 	{% for entry in entries %}
 		<div class="entry">
-			<div class="post-title">{{entry.subject}}</div>
+			<div class="post-title"><a href="/blog/{{entry.id}}">{{entry.subject}}</a></div>
 			<div class="post-content">{{entry.content}}</div>
 		</div>
 		<hr>
 	{% endfor %}
-			
+	
+	<hr>
+	
+	<div class="queried-time">Queried {{last_query}} seconds ago</div>
 </body>
 </html>
