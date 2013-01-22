@@ -10,8 +10,14 @@ import hashlib
 import webapp2
 from utils import *
 import logging
+from user import *
 
-SIGNUP_PAGE = "wiki_signup.html"
+TEMPLATE_SIGNUP = "wiki_signup.html"
+
+PATH_WIKI = "/wiki"
+PATH_SIGNUP = "/wiki/signup"
+PATH_LOGIN = "/wiki/login"
+PATH_LOGOUT = "/wiki/logout"
 
 FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
 logging.basicConfig(format=FORMAT)
@@ -34,16 +40,17 @@ class WikiHandler(webapp2.RequestHandler):
 	def render(self, template, **kw):
 		self.write(self.render_str(template, **kw))
 
-	def set_secure_cookie(self, name, val):
+	# TODO: implementar o expires (associado ao check box "remember me")
+	def set_secure_cookie(self, name, val, expires = None):
 		cookie_val = make_secure_val(val)
 		self.response.headers.add_header('Set-Cookie', '%s=%s; Path=/' % (name, cookie_val))
 
 	def get_secure_cookie(self, name):
 		cookie_val = self.request.cookies.get(name)
 		return cookie_val and check_secure_val(cookie_val)
-
+	
 	def login(self, user):
-		self.set_secure_cookie(self.UID_COOKIE_NAME, str(user.key().id()))
+		self.set_secure_cookie(self.UID_COOKIE_NAME, str(self.user.key().id()))
 
 	def logout(self):
 		self.response.headers.add_header('Set-Cookie', '%s=; Path=/' % self.UID_COOKIE_NAME)
@@ -57,7 +64,7 @@ class WikiHandler(webapp2.RequestHandler):
 class Signup (WikiHandler):
 
 	def get(self):
-		self.render(SIGNUP_PAGE)
+		self.render(TEMPLATE_SIGNUP)
 
 	def post(self):
 		have_error = False
@@ -68,37 +75,43 @@ class Signup (WikiHandler):
 
 		params = dict(username = username, email = email)
 
-		if not valid_username(self.username):
+		if not valid_username(username):
 			params['error_username'] = "That's not a valid username."
 			have_error = True
 
-		if not valid_password(self.password):
+		if not valid_password(password):
 			params['error_password'] = "That wasn't a valid password."
 			have_error = True
-		elif self.password != self.verify:
+		elif password != verify:
 			params['error_verify'] = "Your passwords didn't match."
 			have_error = True
 
-		if not valid_email(self.email):
+		if not valid_email(email):
 			params['error_email'] = "That's not a valid email."
 			have_error = True
 
-		#### !!!! ACHO QUE FALTA REGISTRAR O USUARIO NA BASE DE DADOS
 		if have_error:
-			self.render(SIGNUP_PAGE, **params)
+			self.render(TEMPLATE_SIGNUP, **params)
 		else:
-			self.redirect('/wiki')
+			#encrypted_password = encrypt_password(username, password)
+			#user = User(username = username, password = encrypted_password, email = email).put()			
+			#self.set_secure_cookie(self.UID_COOKIE_NAME, str(user.id()))
+			
+			user = User.register(username, password, email if email else None).put()
+			self.login(user)
+			self.redirect(PATH_WIKI)
 
 # Welcome page
 class Welcome (WikiHandler):
 	def get(self):
 
-		user_id = get_user(self)
+		#user_id = self.get_secure_cookie(self.UID_COOKIE_NAME)
 
-		if user_id:
-			entry = UserDB.get_by_id(int(user_id))#db.GqlQuery("select * from User where id = %s" % user_id)
-			username = entry.username
-			self.response.out.write("Welcome, %s!" % username)
+		#if user_id:
+		if self.user:
+			#user = User.get_by_id(int(user_id))
+			self.response.out.write("Welcome, %s!" % user.username)
 		else:
-			self.redirect("/wiki/signup")
+			self.redirect(PATH_SIGNUP)
 
+			

@@ -1,5 +1,9 @@
-import utils
+from utils import *
 from google.appengine.ext import db
+
+def users_key(group = 'default'):
+    return db.Key.from_path('users', group)
+
 
 # Users database
 class User (db.Model):
@@ -17,15 +21,15 @@ class User (db.Model):
 		return u
 
 	@classmethod
-	def register(cls, name, pw, email = None):
-		encrypted_password = encrypt_password(name, pw)
+	def register(cls, name, password, email = None):
 		return User(parent = users_key(),
 					username = name,
-					password = encrypted_password,
+					password = encrypt_password(name, password),
 					email = email)
 
+	# TODO: ESTE NOME NAO ESTA LEGAL PQ EH IGUAL AQUELE NO HANDLERS.WIKIHANDLER... CONFUNDE!!!
 	@classmethod
-	def login(cls, name, pw):
-		u = cls.by_name(name)
-		if u and valid_pw(name, pw, u.pw_hash):
-			return u
+	def login(cls, name, password):
+		user = cls.by_name(name)
+		if user and valid_password(name, password, user.password):
+			return user
