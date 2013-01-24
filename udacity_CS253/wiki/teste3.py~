@@ -1,0 +1,2 @@
+def bla(a):
+	return "Uma string qquer"

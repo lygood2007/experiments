@@ -230,7 +230,7 @@ class PageJSON (webapp2.RequestHandler):
 			"version": page.version
 		})
 		
-		self.response.headers['Content-Type'] = 'application/json'
+		self.response.headers['Content-Type'] = 'application/json'		
 		self.response.out.write(response)
 		
 # Flush memcache. Notice that this page does not inherits from WikiHandler

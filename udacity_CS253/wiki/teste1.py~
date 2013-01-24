@@ -1,0 +1,2 @@
+def teste1(a):
+	return "Uma string qquer"

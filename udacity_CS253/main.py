@@ -1,10 +1,9 @@
 ﻿import cgi
 import unit2 # Tarefas da unidade 2
-import blog
 import re
 import webapp2
-import handlers
-import logging
+import wiki.handlers
+import blog.handlers
 
 # A página principal: um "hello, world!"
 class MainPage (webapp2.RequestHandler):
@@ -17,10 +16,6 @@ class PageNotFound (webapp2.RequestHandler):
 		
 #PAGE_RE = r'(/(?:[a-zA-Z0-9_-]+/?)*)'
 PAGE_RE = r'[a-zA-Z0-9_-]+'
-		
-
-logging.getLogger().setLevel(logging.DEBUG)
-
         
 # Router
 app = webapp2.WSGIApplication([
@@ -28,27 +23,27 @@ app = webapp2.WSGIApplication([
 		('/homework1/?', unit2.Homework1),
         ('/homework2/?', unit2.Homework2),
         ('/homework2/welcome/?', unit2.Homework2_WelcomePage),
-		('/blog/?', blog.BlogFront),
-		('/blog/?.json', blog.BlogJSON),
-		('/blog/signup/?', blog.Signup),
-		('/blog/welcome/?', blog.Welcome),
-		('/blog/login/?', blog.Login),
-		('/blog/logout/?', blog.Logout),
-		('/blog/newpost/?', blog.NewPost),
-		('/blog/(\d+)/?', blog.Permalink),
-		('/blog/(\d+)/?.json', blog.PermalinkJSON),
-		('/blog/flush/?', blog.FlushMemcache),
-		('/wiki/signup/?', handlers.Signup),
-		('/wiki/login/?', handlers.Login),
-		('/wiki/logout/?', handlers.Logout),
-        ('/wiki/_edit/?', handlers.PageEdit),
-		('/wiki/_edit/(%s)/?' % PAGE_RE, handlers.PageEdit),
-        ('/wiki/_history/?', handlers.PageHistory),
-        ('/wiki/_history/(%s)/?' % PAGE_RE, handlers.PageHistory),        
-        ('/wiki/?', handlers.PageView),
-        ('/wiki/(%s)/?' % PAGE_RE, handlers.PageView),
-        ('/wiki/?.json', handlers.PageJSON),
-        ('/wiki/(%s)/?.json', handlers.PageJSON),
-        ('/wiki/flush', handlers.FlushMemcache),
+		('/blog/?', blog.handlers.BlogFront),
+		('/blog/?.json', blog.handlers.BlogJSON),
+		('/blog/signup/?', blog.handlers.Signup),
+		('/blog/welcome/?', blog.handlers.Welcome),
+		('/blog/login/?', blog.handlers.Login),
+		('/blog/logout/?', blog.handlers.Logout),
+		('/blog/newpost/?', blog.handlers.NewPost),
+		('/blog/(\d+)/?', blog.handlers.Permalink),
+		('/blog/(\d+)/?.json', blog.handlers.PermalinkJSON),
+		('/blog/flush/?', blog.handlers.FlushMemcache),
+		('/wiki/signup/?', wiki.handlers.Signup),
+		('/wiki/login/?', wiki.handlers.Login),
+		('/wiki/logout/?', wiki.handlers.Logout),
+        ('/wiki/_edit/?', wiki.handlers.PageEdit),
+		('/wiki/_edit/(%s)/?' % PAGE_RE, wiki.handlers.PageEdit),
+        ('/wiki/_history/?', wiki.handlers.PageHistory),
+        ('/wiki/_history/(%s)/?' % PAGE_RE, wiki.handlers.PageHistory),        
+        ('/wiki/?', wiki.handlers.PageView),
+        ('/wiki/(%s)/?' % PAGE_RE, wiki.handlers.PageView),
+        ('/wiki/?.json', wiki.handlers.PageJSON),
+        ('/wiki/(%s)/?.json', wiki.handlers.PageJSON),
+        ('/wiki/flush', wiki.handlers.FlushMemcache),
 		('.*', PageNotFound)
 ], debug=True)
