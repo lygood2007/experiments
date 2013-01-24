@@ -28,9 +28,9 @@ class Page (db.Model):
 		else:			
 			version = previous_page.version + 1
 			previous_page.newer = False
+			previous_page.put()
 			
 		current_page = Page(title = name, content = content, uid = uid, newer = True, version = version)
-		
-		previous_page.put()
+	
 		current_page.put()
 			

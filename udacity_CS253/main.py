@@ -1,5 +1,4 @@
 ﻿import cgi
-import unit2 # Tarefas da unidade 2
 import re
 import webapp2
 import wiki.handlers
@@ -20,9 +19,6 @@ PAGE_RE = r'[a-zA-Z0-9_-]+'
 # Router
 app = webapp2.WSGIApplication([
         ('/', MainPage),
-		('/homework1/?', unit2.Homework1),
-        ('/homework2/?', unit2.Homework2),
-        ('/homework2/welcome/?', unit2.Homework2_WelcomePage),
 		('/blog/?', blog.handlers.BlogFront),
 		('/blog/?.json', blog.handlers.BlogJSON),
 		('/blog/signup/?', blog.handlers.Signup),
