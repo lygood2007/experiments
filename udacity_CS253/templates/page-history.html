@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+	<br>
 	<table>
 		<tr>
-			<td>Title</td>
-			<td>Content</td>
-			<td>Author</td>
-			<td>Timestamp</td>
+			<td class="table-title">Title</td>
+			<td class="table-title">Content</td>
+			<td class="table-title">Author</td>
+			<td class="table-title">Timestamp</td>
 		</tr>
 		{% for page in pages %}
 		<tr>
@@ -19,5 +20,4 @@
 		</tr>
 		{% endfor %}	
 	</table>
-	<div class="age">Queried {{age}} seconds ago</div>
 {% endblock %}

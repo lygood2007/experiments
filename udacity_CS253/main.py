@@ -46,6 +46,9 @@ app = webapp2.WSGIApplication([
         ('/wiki/_history/?', handlers.PageHistory),
         ('/wiki/_history/(%s)/?' % PAGE_RE, handlers.PageHistory),        
         ('/wiki/?', handlers.PageView),
-        ('/wiki/(%s)/?' % PAGE_RE, handlers.PageView),		
+        ('/wiki/(%s)/?' % PAGE_RE, handlers.PageView),
+        ('/wiki/?.json', handlers.PageJSON),
+        ('/wiki/(%s)/?.json', handlers.PageJSON),
+        ('/wiki/flush', handlers.FlushMemcache),
 		('.*', PageNotFound)
 ], debug=True)

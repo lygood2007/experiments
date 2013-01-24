@@ -11,14 +11,14 @@ import webapp2
 from utils import *
 from user import *
 from wikipage import *
-import logging
 from time import gmtime, strftime
+import cgi
 
 TEMPLATE_SIGNUP = "wiki-signup.html"
 TEMPLATE_LOGIN = "wiki-login.html"
-TEMPLATE_NEWPAGE = "page-edit.html"
-TEMPLATE_WIKIPAGE = "page-view.html"
-TEMPLATE_HISTORY = "page-history.html"
+TEMPLATE_PAGE_EDIT = "page-edit.html"
+TEMPLATE_PAGE_VIEW = "page-view.html"
+TEMPLATE_PAGE_HISTORY = "page-history.html"
 PATH_WIKIROOT = "/wiki"
 PATH_SIGNUP = "/wiki/signup"
 PATH_LOGIN = "/wiki/login"
@@ -40,7 +40,6 @@ class WikiHandler(webapp2.RequestHandler):
 	def render(self, template, **kw):
 		self.write(self.render_str(template, **kw))
 
-	# TODO: implementar o expires (associado ao check box "remember me")
 	def set_secure_cookie(self, name, val, expires = None):
 		cookie_val = make_secure_val(val)
 		if expires:
@@ -126,14 +125,13 @@ class Login (WikiHandler):
 		password = self.request.get('password')
 		redirect = self.request.get('redirect')
 		remember_me = self.request.get('remember_me')
-
-		logging.debug("redirect = %s" % redirect)
-
+		
 		user = User.login(username, password)
 		if user:
 			self.login(user, remember_me)
 			self.redirect(redirect if redirect else PATH_WIKIROOT)
 		else:
+			params = dict()
 			params['error_login'] = 'Invalid login'
 			self.render(TEMPLATE_LOGIN, **params)
 	
@@ -151,10 +149,25 @@ class PageView (WikiHandler):
 	def get(self, page_name = ""):
 		
 		version = self.request.get("version")
-		page = Page.by_name(page_name, version)
+		page = None
 		
+		# If version is given, it is possible, with page name, to assemble a memcache key. In this case, search first on memcache.
+		if version:
+			page = memcache.get("%s?version=%s" % (page_name, version))
+			if page: page.last_query = memcache.get("%s?version=%s&last_query" % (page_name, version))
+			
+		# If no version is given or if the requested page is not present at memcache, search on datastore
+		if not page:
+			page = Page.by_name(page_name, version)			 
+			if page:
+				page.last_query = str(strftime("%d-%b-%Y %H:%M:%S GMT", gmtime(time.time()))) 
+				memcache.set("%s?version=%s" % (page_name, version), page)
+				memcache.set("%s?version=%s&last_query" % (page_name, version), page.last_query)
+		
+		# At this point, if page = None it does not exist. In this case, creates it; otherwise, edits it.
 		if page:
-			self.render(TEMPLATE_WIKIPAGE, page = page)
+			version = page.version
+			self.render(TEMPLATE_PAGE_VIEW, page = page)
 		else:
 			self.redirect(PATH_EDIT + "/" + page_name)
 
@@ -164,9 +177,9 @@ class PageEdit (WikiHandler):
 		
 		if self.user:
 			version = self.request.get("version")
-			page = Page.by_name(page_name, version if version else None)
+			page = Page.by_name(page_name, version if version else None)			
 			content = page.content if page else "<h1>%s</h1>" % page_name
-			self.render(TEMPLATE_NEWPAGE, title = page_name, content = content)
+			self.render(TEMPLATE_PAGE_EDIT, title = page_name, content = content)
 		else:
 			self.redirect_with_return(PATH_LOGIN)
 		
@@ -175,15 +188,53 @@ class PageEdit (WikiHandler):
 		content = self.request.get("content")
 		
 		if content:
-			page = Page.register(page_name, content, self.user.key().id())			
+			page = Page.create(page_name, content, self.user.key().id())			
 			self.redirect(PATH_WIKIROOT + "/" + page_name)
 
 # View of the last 10 versions (editions) of a given wikipage
 class PageHistory (WikiHandler):
-	def get(self, page_name):
+	def get(self, page_name = ""):
 		pages = Page.all().filter("title = ", page_name).order("-timestamp").fetch(10)
 		
 		for page in pages:
 			page.author = User.by_id(page.uid).username
 		
-		self.render(TEMPLATE_HISTORY, pages = pages)
+		self.render(TEMPLATE_PAGE_HISTORY, pages = pages)
+
+# Returns a JSON representation of a wikipage. Notice that this page does not inherits from WikiHandler
+class PageJSON (webapp2.RequestHandler):
+	def get(self, page_name = ""):
+		
+		version = self.request.get("version")
+		page = None
+		
+		# If version is given, it is possible, with page name, to assemble a memcache key. In this case, search first on memcache.
+		if version:
+			page = memcache.get("%s?version=%s" % (page_name, version))
+			
+		# If no version is given or if the requested page is not present at memcache, search on datastore
+		if not page:
+			page = Page.by_name(page_name, version)			 
+			if page:
+				page.last_query = str(strftime("%d-%b-%Y %H:%M:%S GMT", gmtime(time.time()))) 
+				memcache.set("%s?version=%s" % (page_name, version), page)
+				memcache.set("%s?version=%s&last_query" % (page_name, version), page.last_query)
+				
+		response = json.dumps({
+			"name": page.title,
+			"title": page.title,
+			"content": cgi.escape(page.content, quote=True),
+			"timestamp": str(page.timestamp),
+			"uid": page.uid,
+			"newer": page.newer,
+			"version": page.version
+		})
+		
+		self.response.headers['Content-Type'] = 'application/json'
+		self.response.out.write(response)
+		
+# Flush memcache. Notice that this page does not inherits from WikiHandler
+class FlushMemcache (webapp2.RequestHandler):
+	def get(self):
+		memcache.flush_all()
+		self.redirect(PATH_WIKIROOT)
