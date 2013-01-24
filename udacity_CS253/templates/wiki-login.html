@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2>Login</h2>
+	<form method="post" action="/wiki/login?redirect={{redirect}}">
+		<table>
+		<tr>
+			<td class="label">
+				Username
+			</td>
+			<td>
+				<input type="text" name="username" value="{{username}}">
+			</td>
+		</tr>
+	
+		<tr>
+			<td class="label">
+				Password
+			</td>
+			<td>
+				<input type="password" name="password" value="">
+			</td>
+		</tr>
+	
+		<tr>
+			<td class="label">
+			</td>
+			<td>
+				<div class="error">{{error_login}}</div>
+			</td>
+		</tr>
+		</table>
+		
+		<label>
+			<input type="checkbox" name="remember_me">
+			Remember me
+		</label>
+		
+		<br>
+		
+		<input type="submit" value="Log in">
+	</form>
+{% endblock %}

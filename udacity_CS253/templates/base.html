@@ -2,17 +2,15 @@
 <html>
 <head>
   <link type="text/css" rel="stylesheet" href="/static/main.css" />
-  <title>My simple wiki</title>
+  <title>{{title}}</title>
 </head>
 
 <body>
-  <a href="/wiki" class="main-title">
-    My simple wiki
-  </a>
-
   <div class="login-area">
     {% if user %}
-      {{user.name}} (<a class="login-link" href="/wiki/logout">logout</a>)
+      {{user.username}} (<a class="login-link" href="/wiki/logout?redirect={{redirect}}">logout</a>)
+      |
+      <a href="/wiki/_history/{{page.title}}">history</a>
     {% else %}
       <a class="login-link" href="/wiki/login">login</a>
       |

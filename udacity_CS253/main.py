@@ -4,6 +4,7 @@ import blog
 import re
 import webapp2
 import handlers
+import logging
 
 # A página principal: um "hello, world!"
 class MainPage (webapp2.RequestHandler):
@@ -14,8 +15,13 @@ class PageNotFound (webapp2.RequestHandler):
 	def get (self):
 		self.response.out.write("-- Page not found --")
 		
-PAGE_RE = r'(/(?:[a-zA-Z0-9_-]+/?)*)'
+#PAGE_RE = r'(/(?:[a-zA-Z0-9_-]+/?)*)'
+PAGE_RE = r'[a-zA-Z0-9_-]+'
 		
+
+logging.getLogger().setLevel(logging.DEBUG)
+
+        
 # Router
 app = webapp2.WSGIApplication([
         ('/', MainPage),
@@ -32,12 +38,14 @@ app = webapp2.WSGIApplication([
 		('/blog/(\d+)/?', blog.Permalink),
 		('/blog/(\d+)/?.json', blog.PermalinkJSON),
 		('/blog/flush/?', blog.FlushMemcache),
-		('/wiki/?', handlers.Welcome),
 		('/wiki/signup/?', handlers.Signup),
-		#('/wiki/login/?', wiki.Login),
-		#('/wiki/logout/?', wiki.Logout),
-		#('/wiki/_edit/' + PAGE_RE + '/?', wiki.EditPage),
-		#('/wiki/_history/' + PAGE_RE + '/?', wiki.HistoryPage),
-		#('/wiki/' + PAGE_RE + '/?', wiki.WikiPage),
+		('/wiki/login/?', handlers.Login),
+		('/wiki/logout/?', handlers.Logout),
+        ('/wiki/_edit/?', handlers.PageEdit),
+		('/wiki/_edit/(%s)/?' % PAGE_RE, handlers.PageEdit),
+        ('/wiki/_history/?', handlers.PageHistory),
+        ('/wiki/_history/(%s)/?' % PAGE_RE, handlers.PageHistory),        
+        ('/wiki/?', handlers.PageView),
+        ('/wiki/(%s)/?' % PAGE_RE, handlers.PageView),		
 		('.*', PageNotFound)
 ], debug=True)
