@@ -194,7 +194,7 @@ class PageEdit (WikiHandler):
 # View of the last 10 versions (editions) of a given wikipage
 class PageHistory (WikiHandler):
 	def get(self, page_name = ""):
-		pages = Page.all().filter("title = ", page_name).order("-timestamp").fetch(10)
+		pages = Page.all().filter("title = ", page_name).order("-timestamp").fetch(50)
 		
 		for page in pages:
 			page.author = User.by_id(page.uid).username
