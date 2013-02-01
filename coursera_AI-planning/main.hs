@@ -3,11 +3,12 @@ data State = State (Int, Int, Int) deriving Show
 
 -- Checks whether a given state is valid
 checkState :: State -> Bool
-checkState (State (x, y, z)) = if x >= 0 && x <= 3
-							   then if x == 0 || x == 3
-									then y >= 0 && y <= 3
-									else x == y
-							   else False
+checkState (State (x, y, z))
+	= if x >= 0 && x <= 3
+	  then if x == 0 || x == 3
+	  	   then y >= 0 && y <= 3
+		   else x == y
+	  else False
 							   
 -- The goal state is just "State (0,0,0)"
 checkGoalState :: State -> Bool
@@ -18,6 +19,17 @@ checkGoalState _               = False
 data Action = Left2Right (Int, Int)
 			| Right2Left (Int, Int)
 			  deriving Show
+
+
+{-
+-- An alternative approach to Action
+data Action2 = Action (Maybe State -> Maybe State)
+left2right :: (Int,Int) -> Maybe State -> Maybe State
+left2right (dx, dy) (Just (State (x, y, z))) = ...
+
+actions2 :: [Action]
+actions2 = [Action (left2right(1,1)), ...]
+-}
 
 -- Checks whether a given action is valid (for a given state)
 checkAction :: State -> Action -> Bool
@@ -69,6 +81,8 @@ checkGoalNode node = checkGoalState (state node)
 -- Given the initial state, returns the goal node
 --depthFirstSearch :: State -> Node
 --depthFirstSearch initialState = ...?
+
+--[(s0, [(s1, [s11, s12], (s2, [(s21), (s22)], s3])]
 
 data Tree a = Leaf a | Branch [Tree a]
 
