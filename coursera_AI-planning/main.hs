@@ -103,6 +103,9 @@ toTree :: [Node] -> [Tree Node]
 toTree (x:xs) = Leaf (Node {state = state x, action = action x}) : toTree xs
 toTree []     = []
 
+toTree2 :: Node -> Tree Node
+toTree2 node = Leaf node
+
 -- Auxiliar
 toNode :: (Action, State) -> Node 
 toNode (a, s) = Node {state = s, action = Just a}
@@ -110,18 +113,77 @@ toNode (a, s) = Node {state = s, action = Just a}
 -- Performs the search (depth-first or breadth first??)
 search :: Tree Node -> Tree Node
 search (Leaf node) = 
-	if checkGoalNode node
+	if checkGoalNode node || length children == 0
 	then Leaf node
-	else case (action node) of 
-		Just a -> search (Branch (node, toTree (map toNode (filter (nowayback a) (successorFunction (state node))))))
-		Nothing -> search (Branch (node, toTree (map toNode (successorFunction (state node)))))
+	--else Branch(node, map search (toTree (map toNode children)))
+	else search (Branch (node, map (toTree2 . toNode) children))
+	where children = filter (nowayback (action node)) (successorFunction (state node))
 search (Branch (node, nodes)) = Branch (node, map search nodes)
 
 -- Auxiliar (used to remove from the successor function the action that goes back, ie, which takes the current state and leads to the previous one)
-nowayback :: Action -> (Action, State) -> Bool
-nowayback previous_action (action, _) = not (action == inverse previous_action)
+nowayback :: Maybe Action -> (Action, State) -> Bool
+nowayback previous_action (action, _) = case previous_action of
+										Just a  -> not (action == inverse a)
+										Nothing -> True
 
 
+{- Manual simulation of the algorithm. It seems to work, but... it doesn't!
+n0 <- Node {state = State(3,3,1), action = Nothing}
+search (Leaf n0)
+	checkGoalNode n0 = checkGoalState (state n0)
+  					 = checkGoalState (State (3,3,1))
+  					 = False
+	children = filter (nowayback (action n0)) (successorFunction (state n0))
+    		 = filter (nowayback Nothing) (successorFunction (State (3,3,1)))
+  		   	 = filter (nowayback Nothing) [(LR(2,0), State(1,3,0)), (LR(1,0), State(2,3,0)), (LR(0,2), State(3,1,0)), (LR(0,1), State(3,2,0)), (LR(1,1), State(2,2,0))]
+  		   	 = [(LR(0,2), State(3,1,0)), (LR(0,1), State(3,2,0)), (LR(1,1), State(2,2,0))]  	
+	length children = 3
+search (Branch (n0, map (toTree2 . toNode) [(LR(0,2), State(3,1,0)), (LR(0,1), State(3,2,0)), (LR(1,1), State(2,2,0))]
+search (Branch (n0, map toTree2 [Node {state = State(3,1,0), action = Just LR(0,2)}, Node {state = State(3,2,0), action = Just LR(0,1)}, Node {state = State(2,2,0), action = Just LR(1,1)}]
+search (Branch (n0, [Leaf (Node {state = State(3,1,0), action = Just LR(0,2)}),
+					 Leaf (Node {state = State(3,2,0), action = Just LR(0,1)}),
+					 Leaf (Node {state = State(2,2,0), action = Just LR(1,1)})]))
+Branch (n0, map search [Leaf (Node {state = State(3,1,0), action = Just LR(0,2)}),
+					    Leaf (Node {state = State(3,2,0), action = Just LR(0,1)}),
+					    Leaf (Node {state = State(2,2,0), action = Just LR(1,1)})])
+n310_LR02 <- Node {state = State(3,1,0), action = Just LR(0,2)}
+n320_LR01 <- Node {state = State(3,2,0), action = Just LR(0,1)}
+n220_LR11 <- Node {state = State(2,2,0), action = Just LR(1,1)}
+Branch (n0, [search (Leaf n310_LR02),  <-- (1)
+			 search (Leaf n320_LR01),  <-- (2)
+			 search (Leaf n220_LR11)]) <-- (3)
+(1)	search (Leaf n310_LR02)
+		ceckGoalNode n310_LR02 = False
+		children = filter (nowayback (action n310)) (successorFunction (state n310))
+				 = filter (nowayback (Just LR(0,2)) [(RL(0,2), State(3,1,0)), (RL(0,1), State(3,2,1))]
+				 = [(RL(0,1), State(3,2,1))]
+		length children = 1
+	search (Branch (n310_LR02, map (toTree2 . toNode) [(RL(0,1), State(3,2,1))]))
+	search (Branch (n310_LR02, map toTree2 [toNode (RL(0,1), State(3,2,1))]))
+	search (Branch (n310_LR02, map toTree2 [Node {state = State(3,2,1), action = Just RL(0,1)}]))
+	search (Branch (n310_LR02, [toTree2 (Node {state = State(3,2,1), action = Just RL(0,1)})]))
+	search (Branch (n310_LR02, [Leaf (Node {state = State(3,2,1), action = Just RL(0,1)})]))
+	Branch (n310_LR02, map search [Leaf (Node {state = State(3,2,1), action = Just RL(0,1)})])
+	Branch (n310_LR02, [search (Leaf (Node {state = State(3,2,1), action = Just RL(0,1)}))])
+	n321_RL01 <- Node {state = State(3,2,1), action = Just RL(0,1)}
+	Branch (n310_LR02, [search (Leaf n321_RL01)])
+		search (Leaf n321_RL01)
+			checkGoalNode n321_RL01 = False
+			children = filter (nowayback (action n321_RL01)) (successorFunction (state n321_RL01))
+			 		 = filter (nowayback (Just RL(0,1))) [(LR(1,0), State(2,2,0)), (LR(0,2), State(3,0,0)), (LR(0,1), State(3,1,0))]
+			 		 = [(LR(1,0), State(2,2,0)), (LR(0,2), State(3,0,0))]
+			length children = 2
+		search (Branch (n321_RL01, map (toTree2 . toNode) [(LR(1,0), State(2,2,0)), (LR(0,2), State(3,0,0))]))
+		search (Branch (n321_RL01, map toTree2 [toNode (LR(1,0), State(2,2,0)), toNode (LR(0,2), State(3,0,0))]))
+		n220_LR10 <- Node {state = State(2,2,0), action = LR(1,0)}
+		n300_LR02 <- Node {state = State(3,0,0), action = LR(0,2)}
+		search (Branch (n321_RL01, map toTree2 [n220_LR10, n300_LR02]))
+		search (Branch (n321_RL01, [Leaf n220_LR10, Leaf n300_LR02]))
+		Branch (n321_RL01, map search [Leaf n220_LR10, Leaf n300_LR02])
+		Branch (n321_RL01, [search (Leaf n220_LR10), search (Leaf n300_LR02)])
+
+Branch(n0, [Branch(n310_LR02, [Branch(n321_RL01, [...])])])
+-}
 
 -- ---------------------------- TESTS -------------
 -- Example of node
