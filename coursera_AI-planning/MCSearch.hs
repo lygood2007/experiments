@@ -1,3 +1,5 @@
+module MCSearch where
+
 -- A state of the missionaries/cannibals problem might be represented by an integer triple (x, y, z),
 -- where x and y are the number o missionaries and cannibals, respectively, at LEFT bank of the river
 -- (the right bank configuration is complementary, so it can be hidden). $x, y \in [0,3]$. z represents
@@ -28,10 +30,10 @@ instance Eq Action where
 -- Checks whether a given state is valid
 checkState :: State -> Bool
 checkState (State (x, y, z))
-	= if x >= 0 && x <= 3
-	  then if x == 0 || x == 3
-	  	   then y >= 0 && y <= 3
-		   else x == y
+	= if (x >= 0 && x <= 3) && (z == 0 || z == 1)
+	  then if (x == 0) || (x == 3)
+	  	   then (y >= 0) && (y <= 3)
+		   else (x == y)
 	  else False
 							   
 -- The goal state is just "State (0,0,0)" (nobody at the left bank of the river, including boat)
