@@ -1,17 +1,22 @@
 
+Breadth-first search = uninformed search with FIFO strategy (requer memória exponencial)
+Depth-first search = uninformed search with LIFO strategy (não requer memória exponencial)
+
 Heuristic function
 h() :: State Space -> REal
 h()
 
-Evaluation function f(n) -> Wich node to expand next
+Evaluation function f(n) -> Which node to expand next
 Heuristic function h(n) -> Problem specific (distance to the nearest goal node)
 
-Greedy
-
-
-Depth-first e breadth-first são métodos de busca numa árvore-de-busca que NÃO utilizam qualquer conhecimento sobre o espaço de estados do problema. Isto é, trata-se de um método do tipo "força-bruta" (ou ainda, avalia tudo). Por outro lado, greedy best-first e A* são algoritmos, do tipo best-first, que usam algum método para determinar qual é o melhor nó a seguir. Para isso serve a "evaluation function", que no caso do método greedy é simplesmente igual à "heuristic function", a distância até o próximo nó; no A* é uma estimativa do custo de ir do nó inicial até o nó final passando por um nó em particular.
+Depth-first e breadth-first são métodos de busca numa árvore-de-busca que NÃO utilizam qualquer conhecimento (uninformed) sobre o espaço de estados do problema. Isto é, trata-se de um método do tipo "força-bruta" (ou ainda, avalia tudo). Por outro lado, greedy best-first e A* são algoritmos, do tipo best-first, que usam algum método para determinar qual é o melhor nó a seguir. Para isso serve a "evaluation function", que no caso do método greedy é simplesmente igual à "heuristic function", a distância até o próximo nó; no A* é uma estimativa do custo de ir do nó inicial até o nó final passando por um nó em particular.
 
 A* algorithm
 f(n) = h(n) + g(n) [is the estimated cost of the cheapest solution throught n]
 h(n) the heuristic function (estimated)
 g(n) the cost to reach the node n (measured)
+
+"A* algorithm is optimal for any acceptable heuristic" - Isto é, qualquer que seja a heurística ADMISSÍVEL escolhida, A* retornará o melhor resultado (para quem está executando o plano, não em termos de tempo de execução). Mesmo para a - péssima - heurística h(n) = 0, para qualquer n, o resultado dado por A*, se existir, será otimizado. Uma heurística melhor pode facilita a busca, mas não impede A* de encontrar a solução.
+
+Fringe é o conjunto de nós da árvore-de-busca que podem ser visitados no próximo passo. (?)
+
