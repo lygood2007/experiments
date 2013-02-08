@@ -20,3 +20,5 @@ g(n) the cost to reach the node n (measured)
 
 Fringe é o conjunto de nós da árvore-de-busca que podem ser visitados no próximo passo. (?)
 
+
+Pergunta: a função g(n) necessita, de fato, do caminho para ser avaliada, a não ser que eu já saiba o custo de se chegar ao nó n. Neste caso não preciso de g(n). Então, não seria mais interessante usar g(path)?

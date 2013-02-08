@@ -83,3 +83,9 @@ print ("False == %s" % is_applicable(state, +3))
 state = [0,1,2,3,4,5,6,7,8]
 hope = [[1,0,2,3,4,5,6,7,8], [3,1,2,0,4,5,6,7,8]]
 print ("%s == %s" % (hope, successors(state)))
+
+s1 = [1,0,2,3,4,5,6,7,8]
+s2 = goal
+print "1 == %s" % h2(s1, s2)
+
+result = aStar_search(eight_puzzle_problem, h1)
