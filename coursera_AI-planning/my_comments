@@ -22,3 +22,39 @@ Fringe é o conjunto de nós da árvore-de-busca que podem ser visitados no pró
 
 
 Pergunta: a função g(n) necessita, de fato, do caminho para ser avaliada, a não ser que eu já saiba o custo de se chegar ao nó n. Neste caso não preciso de g(n). Então, não seria mais interessante usar g(path)?
+
+Pergunta: uma heurística, para ser admissível, deve subestimar o custo. Isto é mencionado no exemplo do touring Romenia. Mas, se eu uso o mesmo método para estimar o custo em todos os nós, essa estimativa não é consistente uma com as outras, ao ponto de eu aind assim conseguir encontrar a melhor solução? Por exemplo, eu posso (?) multiplicar por dois, três etc a distância de Manhattan e ainda assim achar a melhor solução(?)
+
+
+------------------------------------------------------------
+== Graph vs tree search ==
+After implementing the A* tree- and graph-searches (questions 1 and 2 of the programming assignment 1), I documented my code with the text below. Is it correct? Am I missing something?
+
+"The main difference between the graph- and a tree-search is that in the graph-search we keep a list of visited nodes, which is used to avoid visiting the same node twice. So, when expanding a node, we apply a filter to its successors, which removes from it all nodes already visited. In the tree search, however, the only filter we apply to the successors is the one that removes from it the node (only one) that is the parent of the current node (in this case we were going back in the search)."
+
+Thanks
+------------------------------------------------------------
+== Benchmarking ==
+I've just (supposedly) finished the implementation of the A* tree- and graph-searches in Python (questions 1 and 2 of the programming assignment 1), and I would like to share some comparison among the tree vs graph searches and h1 vs h2 heuristics. Here is it:
+
+               ------------------------------------------------------------------------
+               | h1 (misplaced pieces)            || h2 (Manhattan distance)          |
+               |-----------------------------------------------------------------------
+               | Elapsed time (s) | Visited nodes || Elapsed time (s) | Visited nodes |
+---------------------------------------------------------------------------------------
+| Tree-search  | 0.9              | 7057          || 0.09             | 669           |
+---------------------------------------------------------------------------------------
+| Graph-search | 1.9              | 4670          || 0.09             | 560           |
+---------------------------------------------------------------------------------------
+
+It is clear that the graph-search is far more sensitive to the heuristic. Is this a general property? Other interesting property is that, although graph-search (with h1) visited only 67% of the nodes visited by the tree-search, it took the double of the time of the tree-search. So, graph-search spends most of its time seeking the closed-list (visited nodes). Is this conclusion right?
+
+------------------------------------------------------------
+== Iterative greaph-search with h2, step-by-step ==
+After implementing the A* tree- and graph-searches in the eight-puzzle (questions 1 and 2 of the programming assignment 1), I inserted some debug messages in my code, which explains the iterative search, step-by-step. The result got interesting, so I decided to share it here [just for the graph-search with heuristic h2 (Manhattan distance)]. I remove the plan, its size and a lot of iterations from the output in order to hide the solution.
+
+------------------------------------------------------------
+== Can I submit answers after course finishes? ==
+I would like to know if the assignments and other resources will stay opened after the course finish. I ask this because maybe I won't manage to solve all the exercises in the five weeks of the course.
+
+------------------------------------------------------------
