@@ -9,7 +9,7 @@ EIGHT_PUZZLE_PROBLEM = {
 }
 
 # What kind of search: tree (True) or graph-search (False)
-TREE_SEARCH = True
+TREE_SEARCH = False
 
 # Heuristic: h1 or h2 (from module imported)
 HEURISTIC = h2
