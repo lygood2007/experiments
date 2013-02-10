@@ -6,7 +6,7 @@ import time
 
 DEBUG = False
 STEP_BY_STEP = False
-N = 10000
+N = 1000000
 
 # Performs the A* tree/graph-search.
 # The main difference between the graph- and a tree-search is that in the graph-search we keep a list
@@ -30,13 +30,15 @@ def aStar_search (problem, heuristic, tree_search = False):
 		fringe = PriorityQueue(N) # Also known as "open list"
 		fringe.put((n0.total_cost,n0))
 
-		visited_states = [] # Also known as "closed list"
+		visited_states = {}
+		n_visited_state = 0
+		
 		keep_searching = True
 
 		while keep_searching:
 			
 			verbose("# of visited nodes so far: %s\nFringe has %s node%s." \
-					 % (len(visited_states), fringe.qsize(), ("" if fringe.qsize() == 1 else "s")), indentation)
+					 % (n_visited_state, fringe.qsize(), ("" if fringe.qsize() == 1 else "s")), indentation)
 
 			if fringe.empty():
 				plan = None
@@ -46,7 +48,9 @@ def aStar_search (problem, heuristic, tree_search = False):
 
 			else:
 				node = fringe.get()[1]
-				visited_states.append(node.state)
+				visited_states[getHash(node.state)] = node.state
+				n_visited_state += 1
+
 				indentation = 2 * node.depth()
 
 				verbose("Cheapest node in the fringe: %s" % node.state, indentation)
@@ -65,7 +69,7 @@ def aStar_search (problem, heuristic, tree_search = False):
 						if not node.is_root():
 							available_states = filter(lambda (a,s): not (s == node.parent.state), available_states)
 					else:
-						available_states = filter(lambda (a,s): not (s in visited_states), successors(node.state))
+						available_states = filter(lambda (a,s): not (getHash(s) in visited_states), successors(node.state))
 
 					singular = len(available_states) == 1
 					verbose("Current node's state is not a goal. Expand the node.\nThere %(is_or_are)s %(n_pairs)s available (action,state) pair%(s_or_none)s: %(pairs)s" \
@@ -88,7 +92,7 @@ def aStar_search (problem, heuristic, tree_search = False):
 							
 		print("Elapsed time: %(dt)s seconds.\nVisited nodes: %(n)s." \
 		       % {"dt" : time.clock() - t0,
-		          "n"  : len(visited_states)})
+		          "n"  : n_visited_state})
 	else:
 		print("ERROR: initial or goal state is invalid.")
 
@@ -117,6 +121,13 @@ def h2 (s, gs):
 		d += abs(p2[0] - p1[0]) + abs(p2[1] - p1[1])
 
 	return d
+
+# Returns a hash of the state, which is just the concatenation of the pieces
+def getHash (s):
+	h = 0
+	for i in range(9): h += s[i] * 10**i
+	return h
+
 
 # Given a <node> in the tree, return the plan from initial state to the current state/node
 def getPlan (node):

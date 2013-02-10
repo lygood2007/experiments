@@ -37,6 +37,7 @@ Thanks
 == Benchmarking ==
 I've just (supposedly) finished the implementation of the A* tree- and graph-searches in Python (questions 1 and 2 of the programming assignment 1), and I would like to share some comparison among the tree vs graph searches and h1 vs h2 heuristics. Here is it:
 
+				Question 1 - Programming assignment 1
                ------------------------------------------------------------------------
                | h1 (misplaced pieces)            || h2 (Manhattan distance)          |
                |-----------------------------------------------------------------------
@@ -46,6 +47,18 @@ I've just (supposedly) finished the implementation of the A* tree- and graph-sea
 ---------------------------------------------------------------------------------------
 | Graph-search | 1.9              | 4670          || 0.09             | 560           |
 ---------------------------------------------------------------------------------------
+
+				Question 2 - Programming assignment 1
+               ------------------------------------------------------------------------
+               | h1 (misplaced pieces)            || h2 (Manhattan distance)          |
+               |-----------------------------------------------------------------------
+               | Elapsed time (s) | Visited nodes || Elapsed time (s) | Visited nodes |
+---------------------------------------------------------------------------------------
+| Tree-search  | 12.96            | 73653         || 0.13             | 889           |
+---------------------------------------------------------------------------------------
+| Graph-search | 6.14             | 34976         || 0.15             | 939           |
+---------------------------------------------------------------------------------------
+
 
 It is clear that the graph-search is far more sensitive to the heuristic. Is this a general property? Other interesting property is that, although graph-search (with h1) visited only 67% of the nodes visited by the tree-search, it took the double of the time of the tree-search. So, graph-search spends most of its time seeking the closed-list (visited nodes). Is this conclusion right?
 
