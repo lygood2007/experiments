@@ -1,0 +1,52 @@
+Branch (Node {state = State (3,3,1), action = Nothing},
+	[Branch (Node {state = State (3,1,0), action = Just (LR (0,2))},
+		[Branch (Node {state = State (3,2,1), action = Just (RL (0,1))},
+			[Leaf (Node {state = State (2,2,0), action = Just (LR (1,0))}),
+			 Branch (Node {state = State (3,0,0), action = Just (LR (0,2))},
+				[Branch (Node {state = State (3,1,1), action = Just (RL (0,1))},
+					[Branch (Node {state = State (1,1,0), action = Just (LR (2,0))},
+						[Branch (Node {state = State (2,2,1), action = Just (RL (1,1))},
+							[Branch (Node {state = State (0,2,0), action = Just (LR (2,0))},
+								[Branch (Node {state = State (0,3,1), action = Just (RL (0,1))},
+									[Branch (Node {state = State (0,1,0), action = Just (LR (0,2))},
+										[Branch (Node {state = State (1,1,1), action = Just (RL (1,0))},
+											[Leaf (Node {state = State (0,0,0), action = Just (LR (1,1))})]),
+											 Branch (Node {state = State (0,2,1), action = Just (RL (0,1))},
+											 	[Leaf (Node {state = State (0,0,0), action = Just (LR (0,2))})]
+											 )]
+									)]
+								)]
+							)]
+						)]
+					)]
+				)]
+			)]
+		)]
+	),
+	Leaf (Node {state = State (3,2,0), action = Just (LR (0,1))}),
+	Branch (Node {state = State (2,2,0), action = Just (LR (1,1))},
+		[Branch (Node {state = State (3,2,1), action = Just (RL (1,0))},
+			[Branch (Node {state = State (3,0,0), action = Just (LR (0,2))},
+				[Branch (Node {state = State (3,1,1), action = Just (RL (0,1))},
+					[Branch (Node {state = State (1,1,0), action = Just (LR (2,0))},
+						[Branch (Node {state = State (2,2,1), action = Just (RL (1,1))},
+							[Branch (Node {state = State (0,2,0), action = Just (LR (2,0))},
+								[Branch (Node {state = State (0,3,1), action = Just (RL (0,1))},
+									[Branch (Node {state = State (0,1,0), action = Just (LR (0,2))},
+										[Branch (Node {state = State (1,1,1), action = Just (RL (1,0))},
+											[Leaf (Node {state = State (0,0,0), action = Just (LR (1,1))})
+										]),
+										Branch (Node {state = State (0,2,1), action = Just (RL (0,1))},
+										 	[Leaf (Node {state = State (0,0,0), action = Just (LR (0,2))})]
+										 )]
+									)]
+								)]
+							)]
+						)]
+					)]
+				)]
+			),
+			Leaf (Node {state = State (3,1,0), action = Just (LR (0,1))})]
+		)]
+	)]
+)
