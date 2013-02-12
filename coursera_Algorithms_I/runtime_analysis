@@ -1,0 +1,42 @@
+-------------------------------------------------------------------------------------------------------------
+What is the order of growth of the worst case running time of the following code fragment as a function of N?
+
+int sum = 0;
+for (int i = 1; i*i <= N; i = i*4)
+    for (int j = 0; j < i; j++)
+        sum++;
+-------------------------------------------------------------------------------------------------------------
+
+i =  1: j = 0			sum++ executed 1 time
+i =  4: j = 0..3 		sum++ executed 4 times
+i = 16: j = 0..15		16 times
+i = 64: j = 0..63		64 times
+...						...
+i =  k: j = 0..(k-1)    k times
+...						...
+i =  n: j = 0..(n-1)	n times
+
+In the sequence above, i = k is the last i value that satisfies i^2 <= N. In the worst scenario (longer),
+
+(1)   k^2 == N => ln k = ln N / 2
+
+The total number of executions of sum++ is [notice that k = 4^q] <-- (2)
+1   + 4   + 16  + 64  + ... + k
+4^0 + 4^1 + 4^2 + 4^3 + ... + 4^q
+
+This is a geometric progression with ratio r = 4 and a_0 = 1. The sum of the q-th first elements is
+
+\sum_{t = 0}^q a_0 r^t = (r^{q+1} - 1)/(r - 1) 
+					   = (4^{q+1} - 1)/3
+					   = (4*4^q - 1)/3 
+					   = (4*k - 1)/3 <-- From (2) above
+					   = (4\sqrt{N} - 1)/3 <-- From (1) above
+
+So, as N grows to infinity, sum++ is executed m times, with
+
+m ~ \sqrt{N}
+
+Conclusion: the loop above is, in worst case, with O(\sqrt{N})
+
+
+

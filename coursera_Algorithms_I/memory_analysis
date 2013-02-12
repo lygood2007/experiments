@@ -1,0 +1,23 @@
+public class MysteryBox {
+	                      --> Overhead of the object: 16 bytes
+
+    private int x0,       --> 4 bytes
+                x1,       --> 4 bytes
+                x2;       --> 4 bytes
+    private double y0,    --> 8 bytes
+    			   y1,    --> 8 bytes
+    			   y2;    --> 8 bytes
+    private long z0,      --> 8 bytes
+    			 z1;      --> 8 bytes
+
+    private boolean[] a = --> Reference to array: 8 bytes (em máquina de 64 bits)
+    	new boolean[240]; --> Array itself: 240*1 + 24 (overhead)
+
+    ...
+
+                          --> Padding: 4 bytes
+                              The sum of memory above: 16 + 3*4 + 5*8 + 8 + 240*1 + 24 = 340 bytes
+                              340/8 = 42.5. In order to make the entire object memory a multiple of 8, must sum 4 bytes (padding)
+
+                          --> Total memory: 344 bytes
+}

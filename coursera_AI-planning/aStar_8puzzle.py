@@ -6,7 +6,7 @@ import time
 
 DEBUG = False
 STEP_BY_STEP = False
-N = 1000000
+N = 100000
 
 # Performs the A* tree/graph-search.
 # The main difference between the graph- and a tree-search is that in the graph-search we keep a list
@@ -67,7 +67,8 @@ def aStar_search (problem, heuristic, tree_search = False):
 
 					if tree_search:
 						if not node.is_root():
-							available_states = filter(lambda (a,s): not (s == node.parent.state), available_states)
+							#available_states = filter(lambda (a,s): not (s == node.parent.state), available_states)
+							pass
 					else:
 						available_states = filter(lambda (a,s): not (getHash(s) in visited_states), successors(node.state))
 
