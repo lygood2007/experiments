@@ -1,64 +1,110 @@
+/**
+ * @author Ivan Ramos Pagnossin
+ * Email: ivan.pagnossin@gmail.com
+ * Date: 2013.02.12
+ * Description: statistical analysis of percolation problem (programming assignment).
+ */
 public class PercolationStats {
-    
-    //private int [] openedSites;
-   // private int [] closedSites;
-    private float [] threshold;
+
+    private double [] threshold; // The threshold of the <n> experiments
+    private int n; // The amount of experiments
     
     /**
      * Perform T independent computational experiments on an N-by-N grid
      */
     public PercolationStats(int N, int T) {
-        for (int t = 1; t <= T; ++t) {
-            //int size = N * N;
-            //openedSites = new int[size];
-            //closedSites = new int[size];
-            Percolation percolation = new Percolation(N);
+        
+        if (N < 1) throw new IllegalArgumentException("N must be 1 or greater.");
+        if (T < 1) throw new IllegalArgumentException("T must be 1 or greater.");
+        
+        n = T;
+        threshold = new double[T];
+        
+        int x;
+        int[] coord;
+        int opened;
+        Percolation p;
             
-            do {
-                boolean percolates = false;
+        for (int t = 0; t < T; t++) {
+            
+            StdRandom.setSeed(System.currentTimeMillis());
+            
+            p = new Percolation(N);
+            opened = 0;
+            
+            while (!p.percolates()) {                
+                x = (int) StdRandom.uniform(0, N * N);
+                coord = fromX(x, N);
                 
-                int x;
-                do {
-                    x = random(0,size-1);
-                } while (isOpened(x))
-                    
-                p.open(x);
-                    
-                    
-            } while (!percolates);
+                if (!p.isOpen(coord[0], coord[1])) {
+                    p.open(coord[0], coord[1]);
+                    ++opened;
+                }
+            } 
             
-            
-            
+            threshold[t] = (double) opened / (N * N);          
+            System.out.println(t + "\t" + threshold[t]);
         }
+        
+        System.out.println(mean() + "\t" + stddev() + "\t" + confidenceLo() + "\t" + confidenceHi());
     }
     
     /**
-     * sample mean of percolation threshold
+     * Sample mean of percolation threshold
      */
     public double mean() {
+        double mean = 0;
+        
+        for (int i = 0; i < n; i++) {
+            mean += threshold[i];
+        }
+        
+        return mean / n;
     }
         
     /**
-     * sample standard deviation of percolation threshold
+     * Sample standard deviation of percolation threshold
      */
     public double stddev() {
+        
+        double mean = mean();
+        double diff = 0;
+        
+        double stddev = 0;
+        for (int i = 0; i < n; i++) {
+            diff = threshold[i] - mean;
+            stddev += diff * diff;
+        }
+        
+        return Math.sqrt(stddev / (n - 1));
     }
 
     /**
-     * returns lower bound of the 95% confidence interval
+     * Returns lower bound of the 95% confidence interval
      */
     public double confidenceLo() {
+        return mean() - 1.96 * stddev() / Math.sqrt(n);
     }
     
     /**
-     * returns upper bound of the 95% confidence interval
+     * Returns upper bound of the 95% confidence interval
      */
     public double confidenceHi() {
+        return mean() + 1.96 * stddev() / Math.sqrt(n);
     }
     
     /**
-     * test client, described below
+     * x \in [0..N^2) -> (i,j) \in [0..N)
+     */
+    private int [] fromX(int x, int size) {
+        int [] ans = {x / size + 1, x % size + 1};
+        return ans;
+    }
+    
+    /**
+     * Test client, described below
      */
     public static void main(String[] args) {
+        PercolationStats stats = new PercolationStats(100, 30);
     }
 }
