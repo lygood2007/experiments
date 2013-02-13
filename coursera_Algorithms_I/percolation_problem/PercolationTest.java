@@ -12,10 +12,7 @@ public class PercolationTest {
         p.open(4,1);
         
         System.out.println(p.percolates()); // true
-        System.out.println(p.isFull(4,1)); // false
-        
-        
-          */  
+        System.out.println(p.isFull(4,1)); // false*/
         
         int x, i, j;
         int N = 20;

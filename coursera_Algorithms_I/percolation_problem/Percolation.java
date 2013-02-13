@@ -6,9 +6,10 @@
  */
 public class Percolation {
 
-    private boolean [] open; // Open sites
-    private WeightedQuickUnionUF uf; // Union-find associated to open
-    private int N; // N-by-N grid
+    private boolean [] open; // Open(true)/close(false) sites
+    private WeightedQuickUnionUF puf; // Percolation union-find
+    private WeightedQuickUnionUF fuf; // Full union-find
+    private int N; // Size of the N-by-N grid
     
     /**
      * Create an N-by-N grid, with all sites blocked.
@@ -20,9 +21,12 @@ public class Percolation {
         int M = N * N + 2;
         
         open = new boolean[M];        
-        for (int x = 0; x < M; x++) open[x] = false;
+        for (int x = 0; x < M; x++) {
+            open[x] = false;
+        }
                 
-        uf = new WeightedQuickUnionUF(M);
+        puf = new WeightedQuickUnionUF(M);
+        fuf = new WeightedQuickUnionUF(M-1);
         
         this.N = N;
     }
@@ -31,29 +35,41 @@ public class Percolation {
      * Open site (row,column) = (i,j) if it is not already opened.
      */
     public void open(int i, int j) {
-        if (i < 1 || i > N) throw new IndexOutOfBoundsException("row index i out of bounds");
-        if (j < 1 || i > N) throw new IndexOutOfBoundsException("column index j out of bounds");
+        check(i, j);
         
         int x = toX(i, j); // Internal one-dimentional coordinate x
         
         open[x] = true;
         
-        if (i > 1 && isOpen(i-1, j)) uf.union(x, toX(i-1, j));
-        if (i < N && isOpen(i+1, j)) uf.union(x, toX(i+1, j));
-        if (j > 1 && isOpen(i, j-1)) uf.union(x, toX(i, j-1));
-        if (j < N && isOpen(i, j+1)) uf.union(x, toX(i, j+1));        
+        if (i > 1 && isOpen(i-1, j)) {
+            puf.union(x, toX(i-1, j));
+            fuf.union(x, toX(i-1, j));
+        }
+        if (i < N && isOpen(i+1, j)) {
+            puf.union(x, toX(i+1, j));
+            fuf.union(x, toX(i+1, j));
+        }
+        if (j > 1 && isOpen(i, j-1)) {
+            puf.union(x, toX(i, j-1));
+            fuf.union(x, toX(i, j-1));
+        }
+        if (j < N && isOpen(i, j+1)) {
+            puf.union(x, toX(i, j+1));
+            fuf.union(x, toX(i, j+1));        
+        }
         
-        if (i == 1) uf.union(x, 0);
-        else if (i == N) uf.union(x, N*N+1);
+        if (i == 1) {
+            puf.union(x, 0);
+            fuf.union(x, 0);
+        }
+        else if (i == N) puf.union(x, N*N+1);
     }    
     
     /**
      * Is site (row, column) = (i, j) open?
      */
     public boolean isOpen(int i, int j) {
-        if (i < 1 || i > N) throw new IndexOutOfBoundsException("row index i out of bounds");
-        if (j < 1 || i > N) throw new IndexOutOfBoundsException("column index j out of bounds");
-        
+        check(i, j);
         return open[toX(i, j)];
     }
     
@@ -61,17 +77,15 @@ public class Percolation {
      * Is site (row, column) = (i, j) full?
      */
     public boolean isFull(int i, int j) {
-        if (i < 1 || i > N) throw new IndexOutOfBoundsException("row index i out of bounds");
-        if (j < 1 || i > N) throw new IndexOutOfBoundsException("column index j out of bounds");
-        
-        return uf.connected(0, toX(i, j));
+        check(i, j);        
+        return fuf.connected(0, toX(i, j));
     }
     
     /**
      * Does the system percolate? 
      */
     public boolean percolates() {
-        return uf.connected(0, N*N+1);
+        return puf.connected(0, N*N+1);
     }
     
     /**
@@ -80,5 +94,16 @@ public class Percolation {
      */
     private int toX(int i, int j) {
         return (i - 1) * N + j;
-    }    
+    }
+    
+    /**
+     * @private
+     * Check whether i, j are inside bounds.
+     */
+    private void check(int i, int j) {
+        if (i < 1 || i > N)
+            throw new IndexOutOfBoundsException("row index i out of bounds");
+        if (j < 1 || i > N) 
+            throw new IndexOutOfBoundsException("column index j out of bounds");
+    }
 }
