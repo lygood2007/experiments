@@ -1,0 +1,23 @@
+
+* Stack implementation with arrays is faster than with linked lists, but it inserts the need to know the capacity of the stack.
+* Loitering: the effect of leaving useless data in the array, for instance. To avoid this, make the pointer points to null. This way the garbage collector can reclaim the memory.
+* Trashing: after a pop-operation that triggers a resize of an array, occurs a push-operation, that also triggers a resize. If push/pop operations are done alternatively, the array is resized on each operation, which makes it a very expensive.
+* Autoboxing: automatic cast between a primitive type and its wrapper (in Java).
+* Diamond operator (for Java 7): Stack<Integer> stack = new Stack<>(); instead of Stack<Integer> stack = new Stack<Integer>();
+
+
+Total order: is a binary operation <= that satisfies:
+ 1) Antisymmetry: if v <= w and w <= v, then v = w
+ 2) Transitivity: if v <= w and w <= x, then v <= x
+ 3) Totality: either v <= w or w >= v or both
+
+Example of intransitive relation: scissors/paper/stone game
+
+11:15 - implementando um parser
+
+selection sort ~ O(N^2/2) even if the list is partially sorted
+insertion sort ~ O(N^2/4). It is quicker for partially sorted list (the best scenario is a full sorted list, for which it is ~O(N)) and slower for reverse order list.
+shell sort (h-sort) ~O(N^(3/2)) for h = 3x+1. There is no accurate model. For an already sorted list, h-sort with h = 3x + 1 is ~O(N log(N))
+Knuth-shuffle ~O(N)
+
+32 bit-seed leads to 2^32 possible random numbers!
