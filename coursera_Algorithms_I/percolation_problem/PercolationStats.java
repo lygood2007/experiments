@@ -1,8 +1,21 @@
 /**
+ * <p>Usage:
+ * <pre>
+ * java PercolationStats N T
+ * </pre>
+ * It performs T independent computational experiments on an N-by-N grid.
+ * N > 0 and T > 0 are integers.
+ * </p>
+ * 
+ * <p>Example:
+ * <pre>
+ * % java PercolationStats 300 100
+ * </pre>
+ * </p>
+ * 
  * @author Ivan Ramos Pagnossin
- * Email: ivan.pagnossin@gmail.com
- * Date: 2013.02.12
- * Description: statistical analysis of percolation problem (programming assignment).
+ * @version 2013.02.12
+ * @description statistical analysis of percolation problem (programming assignment).
  */
 public class PercolationStats {
 
@@ -20,9 +33,8 @@ public class PercolationStats {
         n = T;
         threshold = new double[T];
         
-        int x;
-        int[] coord;
-        int opened;
+        int x, i, j;
+        int nopen;
         Percolation p;
             
         for (int t = 0; t < T; t++) {
@@ -30,53 +42,35 @@ public class PercolationStats {
             StdRandom.setSeed(System.currentTimeMillis());
             
             p = new Percolation(N);
-            opened = 0;
+            nopen = 0;
             
             while (!p.percolates()) {                
                 x = (int) StdRandom.uniform(0, N * N);
-                coord = fromX(x, N);
+                i = x / N + 1;
+                j = x % N + 1;
                 
-                if (!p.isOpen(coord[0], coord[1])) {
-                    p.open(coord[0], coord[1]);
-                    ++opened;
+                if (!p.isOpen(i, j)) {
+                    p.open(i, j);
+                    ++nopen;
                 }
             } 
             
-            threshold[t] = (double) opened / (N * N);          
-            System.out.println(t + "\t" + threshold[t]);
+            threshold[t] = (double) nopen / (N * N);
         }
-        
-        System.out.println(mean() + "\t" + stddev() + "\t" + confidenceLo() + "\t" + confidenceHi());
     }
     
     /**
      * Sample mean of percolation threshold
      */
     public double mean() {
-        double mean = 0;
-        
-        for (int i = 0; i < n; i++) {
-            mean += threshold[i];
-        }
-        
-        return mean / n;
+        return StdStats.mean(threshold);
     }
         
     /**
      * Sample standard deviation of percolation threshold
      */
     public double stddev() {
-        
-        double mean = mean();
-        double diff = 0;
-        
-        double stddev = 0;
-        for (int i = 0; i < n; i++) {
-            diff = threshold[i] - mean;
-            stddev += diff * diff;
-        }
-        
-        return Math.sqrt(stddev / (n - 1));
+        return StdStats.stddev(threshold);
     }
 
     /**
@@ -94,17 +88,17 @@ public class PercolationStats {
     }
     
     /**
-     * x \in [0..N^2) -> (i,j) \in [0..N)
-     */
-    private int [] fromX(int x, int size) {
-        int [] ans = {x / size + 1, x % size + 1};
-        return ans;
-    }
-    
-    /**
      * Test client, described below
      */
     public static void main(String[] args) {
-        PercolationStats stats = new PercolationStats(100, 30);
+        
+        int N = Integer.parseInt(args[0]);
+        int T = Integer.parseInt(args[1]);
+        
+        PercolationStats stats = new PercolationStats(N, T);
+        
+        System.out.println("mean                    = " + stats.mean());
+        System.out.println("stddev                  = " + stats.stddev());
+        System.out.println("95% confidence interval = " + stats.confidenceLo() + ", " + stats.confidenceHi());
     }
 }
