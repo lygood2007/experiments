@@ -113,10 +113,10 @@ public class RandomizedQueueTest {
 	}
 	
 	@Test
-	public void test13() {
+	public static void test13() {
 		RandomizedQueue<String> rq = new RandomizedQueue<String>();
 		
-		for (int i = 1; i <= 10; i++) rq.enqueue("1");
+		for (int i = 1; i <= 10; i++) rq.enqueue(((Integer) i).toString());
 		Iterator<String> iterator1 = rq.iterator();
 		Iterator<String> iterator2 = rq.iterator();
 		
@@ -134,7 +134,7 @@ public class RandomizedQueueTest {
 	 */
 	public static void main(String [] args) {
 		RandomizedQueue<String> rq = new RandomizedQueue<String>();
-		
+		/*
 		int N = 100;
 				
 		for (int i = 1; i <= N; i++) {			
@@ -145,7 +145,8 @@ public class RandomizedQueueTest {
 		for (int i = 1; i <= N; i++) {			
 			rq.dequeue();
 			System.out.println(rq);
-		}
+		}*/
+		test13();
 	}	
 }
 
