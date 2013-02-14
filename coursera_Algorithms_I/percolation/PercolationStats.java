@@ -39,8 +39,6 @@ public class PercolationStats {
             
         for (int t = 0; t < T; t++) {
             
-            StdRandom.setSeed(System.currentTimeMillis());
-            
             p = new Percolation(N);
             nopen = 0;
             

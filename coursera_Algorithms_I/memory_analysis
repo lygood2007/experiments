@@ -21,3 +21,27 @@ public class MysteryBox {
 
                           --> Total memory: 344 bytes
 }
+
+-----------------------------------------------------------------
+Consider an object of type GenericMysteryBox<Double> that stores N items of type Double.
+
+The correct answer is:~72N
+
+public class GenericMysteryBox<Item> {        //       16 (object overhead)
+    private Node first;                       //        8 (reference)
+
+    private class Node {                      //       16 (object overhead)
+                                              //        8 (inner class overhead)
+        private Item item;                    //        8 (reference to Double)
+                                              //       24 (Double)
+        private Node next;                    //        8 (reference)
+        private Node prev;                    //        8 (reference)
+    }                                             -------
+                                                 24 + 72N
+    ...
+}
+
+
+Using the 64-bit memory cost model from the lecture, how many bytes does it use as a function of N?
+Include all memory referenced by the object and use tilde notation to simplify your answer.
+For example, enter ~1N if the number of bytes is 1N + 32.

@@ -35,7 +35,7 @@ public class Percolation {
      * Open site (row,column) = (i,j) if it is not already opened.
      */
     public void open(int i, int j) {
-        check(i, j);
+        checkArgs(i, j);
         
         int x = toX(i, j); // Internal one-dimentional coordinate x
         
@@ -62,14 +62,15 @@ public class Percolation {
             puf.union(x, 0);
             fuf.union(x, 0);
         }
-        else if (i == N) puf.union(x, N*N+1);
+        
+        if (i == N) puf.union(x, N*N+1);
     }    
     
     /**
      * Is site (row, column) = (i, j) open?
      */
     public boolean isOpen(int i, int j) {
-        check(i, j);
+        checkArgs(i, j);
         return open[toX(i, j)];
     }
     
@@ -77,7 +78,7 @@ public class Percolation {
      * Is site (row, column) = (i, j) full?
      */
     public boolean isFull(int i, int j) {
-        check(i, j);        
+        checkArgs(i, j);        
         return fuf.connected(0, toX(i, j));
     }
     
@@ -100,10 +101,10 @@ public class Percolation {
      * @private
      * Check whether i, j are inside bounds.
      */
-    private void check(int i, int j) {
+    private void checkArgs(int i, int j) {
         if (i < 1 || i > N)
             throw new IndexOutOfBoundsException("row index i out of bounds");
-        if (j < 1 || i > N) 
+        if (j < 1 || j > N) 
             throw new IndexOutOfBoundsException("column index j out of bounds");
     }
 }
