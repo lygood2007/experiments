@@ -1,48 +1,48 @@
+/**
+ * A simple generic Randomized Queue implementation.
+ * @param <Item> The type of data to be stored.
+ * @author irpagnossin
+ */
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-	
+
 	private Item [] list; // The list of items
 	private int n; // Amount of items on the queue
-	private int current; // Index of the next item
+	private int current; // Position to insert another item
 	
 	/**
-	 * construct an empty randomized queue
+	 * Constructs an empty randomized queue.
 	 */
-	@SuppressWarnings("unchecked")
 	public RandomizedQueue() {
-		list = (Item[]) new Object[1];
+		list = (Item[]) new Object[2];
 		n = 0;
 	}
 	
 	/**
-	 * is the queue empty?
-	 * @return
+	 * Is the queue empty?
+	 * @return true if empty; false otherwise.
 	 */
 	public boolean isEmpty() {
 		return n == 0;
 	}
 	
 	/**
-	 * return the number of items on the queue
-	 * @return
+	 * Returns the number of items on the queue.
+	 * @return Number of items on the queue.
 	 */
 	public int size() {
 		return n;
 	}
 	
-	// TODO: REMOVER ESTE MÉTODO
-	public int capacity() {
-		return list.length;
-	}
-	
 	/**
-	 * add the item
-	 * @param item
+	 * Add an item.
+	 * @param item Element to insert.
 	 */
 	public void enqueue(Item item) {
-		if (item == null) throw new NullPointerException("item cannot be null.");
+		if (item == null)
+			throw new NullPointerException("item cannot be null.");
 		
 		if (current == list.length) resize();
 		list[current++] = item;
@@ -50,22 +50,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 	
 	/**
-	 * delete and return a random item
-	 * @return
+	 * Deletes and return a random item.
+	 * @return The item removed from the queue.
 	 */
 	public Item dequeue() {
-		if (isEmpty()) throw new NoSuchElementException("deque is empty.");
+		if (isEmpty())
+			throw new NoSuchElementException("deque is empty.");
 				
 		int idx;
 		Item item;
-		
-		for (int i = 0; i < list.length; i++) System.out.print(list[i] + " ");
-		System.out.println();
-		
+				
 		do {			
 			idx = (int) StdRandom.uniform(0, list.length);
 			item = list[idx];
-			System.out.println(idx);
 		} while (item == null);
 		
 		--n;		
@@ -77,11 +74,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 	
 	/**
-	 * return (but do not delete) a random item
-	 * @return
+	 * Return (but do not delete) a random item.
+	 * @return The item sampled from the queue.
 	 */
 	public Item sample() {
-		if (isEmpty()) throw new NoSuchElementException("deque is empty.");
+		if (isEmpty())
+			throw new NoSuchElementException("deque is empty.");
 		
 		Item item;
 		
@@ -93,22 +91,38 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 	
 	/**
-	 * return an independent iterator over items in random order
+	 * Returns an independent iterator over items in random order
+	 * @return The iterator
 	 */
 	public Iterator<Item> iterator() {
-		Iterator<Item> iterator = new RandomizedQueueIterator();
+		Iterator<Item> iterator = new RandomizedQueueIterator(list, n);
 		return iterator;
 	}
 	
-	@SuppressWarnings("unchecked")
-	private void resize () {
+	/**
+	 * @InheritDoc
+	 */
+	@Override
+	public String toString() {
+		String str = "";
+		for (int i = 0; i < list.length; i++) {
+			if (list[i] == null) str += "-";
+			else str += "x";
+		}
+		return str;
+	}
+	
+	/**
+	 * @private
+	 * Resizes the queue.
+	 */
+	private void resize() {
 		
 		Item[] copy = (Item[]) new Object[2 * n];
 			
 		int j = 0;
-		for (int i = 0; i < n; i++) {			
-			Item item = list[i];
-			if (item != null) copy[j++] = item;
+		for (int i = 0; i < list.length; i++) {
+			if (list[i] != null) copy[j++] = list[i];
 		}
 		
 		current = j;
@@ -116,19 +130,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 	
 	/**
+	 * @private
 	 * The iterator of the deque.
 	 * @author irpagnossin
 	 */
 	private class RandomizedQueueIterator implements Iterator<Item> {
 		
-		private Item [] l;
-		private int nn;
+		private Item [] iteratorList;
+		private int iteratorN;
 		
-		@SuppressWarnings("unchecked")
-		public RandomizedQueueIterator () {
-			l = (Item[]) new Object[size()];			
-			for (int i = 0; i < size(); i++) l[i] = list[i];
-			nn = size();
+		public RandomizedQueueIterator(Item[] list, int size) {
+			iteratorList = (Item[]) new Object[size];
+			int j = 0;
+			for (int i = 0; i < size(); i++) {
+				if (list[i] != null) iteratorList[j++] = list[i];
+			}
+			iteratorN = size;
 		}
 		
 		/**
@@ -136,7 +153,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		 * @return true if yes; false otherwise.
 		 */
 		public boolean hasNext() {
-			return nn > 0;
+			return iteratorN > 0;
 		}
 		
 		/**
@@ -144,27 +161,50 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		 * Use Deque API instead.
 		 */
 		public void remove() {
-			throw new UnsupportedOperationException("iterators cannot remove elements from the deque.");
+			throw new UnsupportedOperationException("iterators "
+					+ "cannot remove elements from the deque.");
 		}
 		
 		/**
 		 * Returns the next item on the deque.
 		 */
-		public Item next() {
-			if (!hasNext()) throw new NoSuchElementException("deque is empty.");
+		public Item next() {			
+			if (!hasNext())
+				throw new NoSuchElementException("deque is empty.");
 			
 			int idx;
 			Item item;
-			
-			do {
-				idx = (int) StdRandom.uniform(0, list.length);
-				item = list[idx];
+					
+			do {			
+				idx = (int) StdRandom.uniform(0,
+						iteratorList.length);
+				item = iteratorList[idx];
 			} while (item == null);
 			
-			list[idx] = null;
-			--nn;
+			--iteratorN;		
+			iteratorList[idx] = null;
+					
+			if (iteratorN > 0 && iteratorN == iteratorList.length / 4)
+				iteratorResize();
+					
+			return item;			
+		}
+		
+		/**
+		 * @private
+		 * Resizes the iterator queue.
+		 */
+		private void iteratorResize() {
 			
-			return item;
+			Item[] copy = (Item[]) new Object[2 * iteratorN];
+				
+			int j = 0;
+			for (int i = 0; i < iteratorList.length; i++) {
+				if (iteratorList[i] != null)
+					copy[j++] = iteratorList[i];
+			}
+			
+			iteratorList = copy;
 		}
 	}
 }

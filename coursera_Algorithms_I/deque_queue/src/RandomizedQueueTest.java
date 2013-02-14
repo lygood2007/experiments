@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import junit.framework.Assert;
@@ -12,7 +13,7 @@ public class RandomizedQueueTest {
 	public void test1() {
 		RandomizedQueue<String> rq = new RandomizedQueue<String>();
 		Assert.assertEquals(0, rq.size());		
-		Assert.assertEquals(true, rq.isEmpty());
+		Assert.assertTrue(rq.isEmpty());
 	}
 	
 	@Test
@@ -22,7 +23,7 @@ public class RandomizedQueueTest {
 		rq.enqueue("a");
 		Assert.assertEquals("a", rq.dequeue());
 		Assert.assertEquals(0, rq.size());		
-		Assert.assertEquals(true, rq.isEmpty());
+		Assert.assertTrue(rq.isEmpty());
 	}
 	
 	@Test(expected=NoSuchElementException.class)
@@ -45,78 +46,106 @@ public class RandomizedQueueTest {
 		rq.enqueue(null); // Exception
 	}
 	
+	@Test(expected=NoSuchElementException.class)
+	public void test6() {
+		RandomizedQueue<String> rq = new RandomizedQueue<String>();
+		Iterator<String> iterator = rq.iterator();
+		iterator.next(); // Exception
+	}
+	
+	@Test
+	public void test7() {
+		RandomizedQueue<String> rq = new RandomizedQueue<String>();
+		Iterator<String> iterator = rq.iterator();
+		Assert.assertFalse(iterator.hasNext());
+	}
+	
+	@Test
+	public void test8() {
+		RandomizedQueue<String> rq = new RandomizedQueue<String>();
+		rq.enqueue("1");		
+		Iterator<String> iterator = rq.iterator();		
+		Assert.assertTrue(iterator.hasNext());
+	}
+	
+	@Test
+	public void test9() {
+		RandomizedQueue<String> rq = new RandomizedQueue<String>();
+		
+		for (int i = 1; i <= 10; i++) rq.enqueue("1");
+		Iterator<String> iterator = rq.iterator();
+		
+		for (int i = 1; i <= 9; i++) {
+			Assert.assertNotNull(iterator.next());
+			Assert.assertTrue(iterator.hasNext());
+		}
+		
+		Assert.assertNotNull(iterator.next());
+		Assert.assertFalse(iterator.hasNext());
+	}
+	
+	@Test(expected=UnsupportedOperationException.class)
+	public void test10() {
+		RandomizedQueue<String> rq = new RandomizedQueue<String>();
+		Iterator<String> iterator = rq.iterator();
+		iterator.remove();
+	}
+	
+	@Test
+	public void test11() {
+		RandomizedQueue<String> rq = new RandomizedQueue<String>();
+		
+		int N = 10;
+		
+		for (int i = 1; i <= N; i++) rq.enqueue("1");
+		
+		for (int i = 1; i <= N; i++) {
+			rq.sample();
+			Assert.assertFalse(rq.isEmpty());
+			Assert.assertEquals(N, rq.size());
+		}
+	}
+	
+	@Test(expected=NoSuchElementException.class)
+	public void test12() {
+		RandomizedQueue<String> rq = new RandomizedQueue<String>();
+		rq.sample(); // Exception
+	}
+	
+	@Test
+	public void test13() {
+		RandomizedQueue<String> rq = new RandomizedQueue<String>();
+		
+		for (int i = 1; i <= 10; i++) rq.enqueue("1");
+		Iterator<String> iterator1 = rq.iterator();
+		Iterator<String> iterator2 = rq.iterator();
+		
+		String str1 = "";
+		String str2 = "";
+		
+		while(iterator1.hasNext()) str1 += iterator1.next();
+		while(iterator2.hasNext()) str2 += iterator2.next();
+		
+		Assert.assertFalse(str1 == str2); // obs.: eventually this can be equal. Run the test again.
+	}
+	
+	/**
+	 * Generates a visual representation of the population/resizing of the queue.
+	 */
 	public static void main(String [] args) {
 		RandomizedQueue<String> rq = new RandomizedQueue<String>();
-		System.out.println("1 = " + rq.capacity());
-		rq.enqueue("1");
-		System.out.println("1 = " + rq.capacity());
-		rq.enqueue("2");
-		System.out.println("2 = " + rq.capacity());
-		rq.enqueue("3");
-		System.out.println("4 = " + rq.capacity());
-		rq.enqueue("4");
-		System.out.println("4 = " + rq.capacity());
-		rq.enqueue("5");
-		System.out.println("8 = " + rq.capacity());
-		rq.enqueue("6");
-		System.out.println("8 = " + rq.capacity());
-		rq.enqueue("7");
-		System.out.println("8 = " + rq.capacity());
-		rq.enqueue("8");
-		System.out.println("8 = " + rq.capacity());
-		rq.enqueue("9");
-		System.out.println("16 = " + rq.capacity());
-		rq.enqueue("10");
-		System.out.println("16 = " + rq.capacity());
-		rq.enqueue("11");
-		System.out.println("16 = " + rq.capacity());
-		rq.enqueue("12");
-		System.out.println("16 = " + rq.capacity());
-		rq.enqueue("13");
-		System.out.println("16 = " + rq.capacity());
-		rq.enqueue("14");
-		System.out.println("16 = " + rq.capacity());
-		rq.enqueue("15");
-		System.out.println("16 = " + rq.capacity());
-		rq.enqueue("16");
-		System.out.println("16 = " + rq.capacity());
-		rq.enqueue("17");
-		System.out.println("32 = " + rq.capacity());
-		System.out.println("-----------------------------");
-		rq.dequeue();
-		System.out.println("32 = " + rq.capacity() + "\t" + rq.size()); // 16
-		rq.dequeue();
-		System.out.println("32 = " + rq.capacity() + "\t" + rq.size()); // 15
-		rq.dequeue();
-		System.out.println("32 = " + rq.capacity() + "\t" + rq.size()); // 14
-		rq.dequeue();
-		System.out.println("32 = " + rq.capacity() + "\t" + rq.size()); // 13
-		rq.dequeue();
-		System.out.println("32 = " + rq.capacity() + "\t" + rq.size()); // 12
-		rq.dequeue();
-		System.out.println("32 = " + rq.capacity() + "\t" + rq.size()); // 11
-		rq.dequeue();
-		System.out.println("32 = " + rq.capacity() + "\t" + rq.size()); // 10
-		rq.dequeue();
-		System.out.println("32 = " + rq.capacity() + "\t" + rq.size()); // 9
-		rq.dequeue();
-		System.out.println("16 = " + rq.capacity() + "\t" + rq.size()); // 8
-		rq.dequeue();
-		System.out.println("16 = " + rq.capacity() + "\t" + rq.size()); // 7
-		rq.dequeue();
-		System.out.println("16 = " + rq.capacity() + "\t" + rq.size()); // 6
-		rq.dequeue();
-		System.out.println("16 = " + rq.capacity() + "\t" + rq.size()); // 5
-		rq.dequeue();
-		System.out.println("8 = " + rq.capacity() + "\t" + rq.size()); // 4
-		rq.dequeue();
-		System.out.println("8 = " + rq.capacity() + "\t" + rq.size()); // 3
-		rq.dequeue();
-		System.out.println("2 = " + rq.capacity() + "\t" + rq.size()); // 2
-		rq.dequeue();
-		System.out.println("1 = " + rq.capacity() + "\t" + rq.size()); // 1
-		rq.dequeue();
-		System.out.println("1 = " + rq.capacity() + "\t" + rq.size()); // 0
-	}
+		
+		int N = 100;
+				
+		for (int i = 1; i <= N; i++) {			
+			rq.enqueue("1");
+			System.out.println(rq);
+		}
+		
+		for (int i = 1; i <= N; i++) {			
+			rq.dequeue();
+			System.out.println(rq);
+		}
+	}	
 }
 
