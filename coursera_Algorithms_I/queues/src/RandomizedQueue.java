@@ -99,19 +99,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Iterator<Item> iterator() {
         Iterator<Item> iterator = new RandomizedQueueIterator(list, n);
         return iterator;
-    }
-
-    /*
-    @Override
-    public String toString() {
-        String str = "";
-        for (int i = 0; i < list.length; i++) {
-            if (list[i] == null) str += "-";
-            else str += "x";
-        }
-        return str;
-    }
-    */
+    }    
 
     /**
      * @private

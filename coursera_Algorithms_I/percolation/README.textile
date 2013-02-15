@@ -1,0 +1,5 @@
+h1. Percolation
+
+Classes written under demand of "programming assignment 1":https://class.coursera.org/algs4partI-002/assignment/view?assignment_id=1 of the course _Algorithms, part I_ of Coursera and Princetton University ("here":https://class.coursera.org/algs4partI-002/class/index). Here are the "specification":http://coursera.cs.princeton.edu/algs4/assignments/percolation.html and "checklist":http://coursera.cs.princeton.edu/algs4/checklists/percolation.html.
+
+feedback_1 is the feedback of the automated tests on the version of the first submition; feedback_2 is the final feedback, with 100% compliance. File animation.txt is created by PercolationTest.java, which is used by PercolationVisualizer.java (provided by the course staff) to animate the percolation process.

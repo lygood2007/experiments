@@ -1,46 +1,49 @@
 import static org.junit.Assert.*;
 import junit.framework.Assert;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class DequeTest {
+    
+    private Deque<String> deque;
+    
+    @Before
+    public void setup() {
+        deque = new Deque<String>();
+    }
 	
 	@Test 
-	public void test1() {			
-		Deque<String> deque = new Deque<String>();			
+	public void test1() {
 		Assert.assertEquals(true, deque.isEmpty());
 		Assert.assertEquals(0, deque.size());
 	}
 	
 	@Test(expected=NoSuchElementException.class)
 	public void test2() {
-		Deque<String> deque = new Deque<String>();
 		deque.removeFirst();
 	}
 	
 	@Test(expected=NoSuchElementException.class)
 	public void test3() {
-		Deque<String> deque = new Deque<String>();
 		deque.removeLast();
 	}
 	
 	@Test(expected=NullPointerException.class)
 	public void test4() {
-		Deque<String> deque = new Deque<String>();
 		deque.addFirst(null);
 	}
 	
 	@Test(expected=NullPointerException.class)
 	public void test5() {
-		Deque<String> deque = new Deque<String>();
 		deque.addLast(null);
 	}
 	
 	@Test
 	public void test6() {
-		Deque<String> deque = new Deque<String>();
 		deque.addFirst("i");	
 		Assert.assertEquals(1, deque.size());
 		String item = deque.removeFirst();
@@ -50,7 +53,6 @@ public class DequeTest {
 	
 	@Test
 	public void test7() {
-		Deque<String> deque = new Deque<String>();
 		deque.addFirst("i");	
 		Assert.assertEquals(1, deque.size());
 		String item = deque.removeLast();
@@ -60,7 +62,6 @@ public class DequeTest {
 	
 	@Test
 	public void test8() {
-		Deque<String> deque = new Deque<String>();
 		
 		for (Integer i = 1; i <= 10; i++) {
 			deque.addFirst(i.toString());
@@ -73,7 +74,6 @@ public class DequeTest {
 	
 	@Test
 	public void test9() {
-		Deque<String> deque = new Deque<String>();
 		
 		for (Integer i = 1; i <= 10; i++) {
 			deque.addFirst(i.toString());
@@ -86,7 +86,6 @@ public class DequeTest {
 	
 	@Test
 	public void test10() {
-		Deque<String> deque = new Deque<String>();
 		
 		for (Integer i = 1; i <= 10; i++) {
 			deque.addLast(i.toString());
@@ -99,7 +98,6 @@ public class DequeTest {
 	
 	@Test
 	public void test11() {
-		Deque<String> deque = new Deque<String>();
 		
 		for (Integer i = 1; i <= 10; i++) {
 			deque.addLast(i.toString());
@@ -112,28 +110,24 @@ public class DequeTest {
 	
 	@Test
 	public void test12() {
-		Deque<String> deque = new Deque<String>();
 		Iterator<String> iterator = deque.iterator();
 		Assert.assertNotNull(iterator);
 	}
 	
 	@Test(expected=NoSuchElementException.class)
-	public void test13() {
-		Deque<String> deque = new Deque<String>();		
+	public void test13() {	
 		Iterator<String> iterator = deque.iterator();
 		iterator.next();
 	}
 	
 	@Test(expected=UnsupportedOperationException.class)
 	public void test14() {
-		Deque<String> deque = new Deque<String>();		
 		Iterator<String> iterator = deque.iterator();
 		iterator.remove();
 	}
 	
 	@Test
 	public void test15() {
-		Deque<String> deque = new Deque<String>();
 		
 		for (Integer i = 1; i <= 10; i++) {
 			deque.addFirst(i.toString());
@@ -148,4 +142,23 @@ public class DequeTest {
 			--i;
 		}
 	}
+	
+	@Test
+    public void test16() {
+        deque.addFirst("1");
+        deque.addLast("2");
+        Assert.assertEquals("1", deque.removeFirst());
+        Assert.assertEquals("2", deque.removeLast());
+        
+        deque.addFirst("1");
+        deque.addFirst("2");
+        deque.addLast("3");
+        Assert.assertEquals("2", deque.removeFirst());
+        deque.addLast("4");
+        Assert.assertEquals("1", deque.removeFirst());
+        Assert.assertEquals("4", deque.removeLast());
+        deque.addLast("5");
+        Assert.assertEquals("3", deque.removeFirst());
+        Assert.assertEquals("5", deque.removeFirst());        
+    }
 }

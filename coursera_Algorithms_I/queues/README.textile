@@ -1,0 +1,6 @@
+h1. Randomized Queues and Deques
+
+h3. Other unit tests runned
+
+* "Test for Deque":https://gist.github.com/petebeal/4947952
+* "Test for RandomizedQueue":https://gist.github.com/petebeal/4947970
