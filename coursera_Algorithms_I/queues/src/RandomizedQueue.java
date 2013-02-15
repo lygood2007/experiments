@@ -101,9 +101,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return iterator;
     }
 
-    /**
-     * @InheritDoc
-     */
+    /*
     @Override
     public String toString() {
         String str = "";
@@ -113,6 +111,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
         return str;
     }
+    */
 
     /**
      * @private
