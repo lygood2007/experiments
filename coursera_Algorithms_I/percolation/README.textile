@@ -2,4 +2,18 @@ h1. Percolation
 
 Classes written under demand of "programming assignment 1":https://class.coursera.org/algs4partI-002/assignment/view?assignment_id=1 of the course _Algorithms, part I_ of Coursera and Princetton University ("here":https://class.coursera.org/algs4partI-002/class/index). Here are the "specification":http://coursera.cs.princeton.edu/algs4/assignments/percolation.html and "checklist":http://coursera.cs.princeton.edu/algs4/checklists/percolation.html.
 
-feedback_1 is the feedback of the automated tests on the version of the first submition; feedback_2 is the final feedback, with 100% compliance. File animation.txt is created by PercolationTest.java, which is used by PercolationVisualizer.java (provided by the course staff) to animate the percolation process.
+h3. Files
+
+* animation.txt - Input for PercolationVisualizer
+* feedback - Automated tests on submission (100% compliance)
+* Percolation.java - Model of the percolation problem on an N-by-N grid
+* PercolationStats.java - Automated experiments and statistical analysis of the percolation threshold
+* PercolationTest.java - Creates output for animation of the percolation process
+* "PercolationVisualizer.java":http://coursera.cs.princeton.edu/algs4/checklists/InteractivePercolationVisualizer.java - Animates the percolation process, given the input animation.txt from PercolationTest
+
+
+h3. Requirements
+
+* JDK 1.7.0-13
+* "stdlib.jar":http://algs4.cs.princeton.edu/code/stdlib.jar for I/O
+* "algs4.jar":http://algs4.cs.princeton.edu/code/algs4.jar for random numbers, shuffling etc

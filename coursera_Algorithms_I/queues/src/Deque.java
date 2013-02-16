@@ -1,3 +1,7 @@
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * A simple generic Deque implementation.
  * @param <Item> The type of data to be stored.
@@ -5,14 +9,12 @@
  * @email ivan.pagnossin@gmail.com
  * @version: 2013.02.14
  */
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 public class Deque<Item> implements Iterable<Item> {
 
-    private Node first; // First element on the deque
-    private Node last; // Last element on the deque
-    private int n; // Amount of elements on the deque
+    private Node first; // First element on deque
+    private Node last; // Last element on deque
+    private int n; // Amount of elements on deque
+    private long key; // Count the number of changes on deque
 
     /**
      * Constructs an empty deque.
@@ -21,6 +23,7 @@ public class Deque<Item> implements Iterable<Item> {
         first = null;
         last = null;
         n = 0;
+        key = 0;
     }
 
     /**
@@ -63,6 +66,8 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         ++n;
+        
+        update();
     }
 
     /**
@@ -89,6 +94,8 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         ++n;
+        
+        update();
     }
 
     /**
@@ -101,17 +108,16 @@ public class Deque<Item> implements Iterable<Item> {
             throw new NoSuchElementException("deque is empty.");
 
         Node node = first;
-
+        first = node.next;
+        node.next = null;
+        if (first != null) first.prev = null;
+        
         --n;
+        
+        if (isEmpty()) last = first;
 
-        if (isEmpty()) {
-            first = null;
-            last = null;
-        }
-        else {
-            first = first.next;
-        }
-
+        update();
+        
         return node.item;
     }
 
@@ -125,17 +131,16 @@ public class Deque<Item> implements Iterable<Item> {
             throw new NoSuchElementException("deque is empty.");
 
         Node node = last;
+        last = node.prev;
+        node.prev = null;
+        if (last != null) last.next = null;
 
         --n;
 
-        if (isEmpty()) {
-            first = null;
-            last = null;
-        }
-        else {
-            last = last.prev;
-        }
+        if (isEmpty()) first = last;
 
+        update();
+        
         return node.item;
     }
 
@@ -147,19 +152,38 @@ public class Deque<Item> implements Iterable<Item> {
         Iterator<Item> iterator = new DequeIterator();
         return iterator;
     }
+    
+    /**
+     * @private
+     * Count changes on deque
+     */
+    private void update() {
+        ++key;
+    }
 
     /**
      * The iterator of the deque.
      * @author irpagnossin
      */
     private class DequeIterator implements Iterator<Item> {
-        private Node current = first;
-
+        private Node current = first; // Current node
+        private long iteratorKey; // # of changes on deque 
+        
+        /**
+         * Creates an iterator on deque.
+         */
+        public DequeIterator() {
+         iteratorKey = key;
+        }
+        
         /**
          * There is another item on the deque?
          * @return true if yes; false otherwise.
          */
         public boolean hasNext() {
+         if (modified())          
+          throw new ConcurrentModificationException();
+         
             return current != null;
         }
 
@@ -176,12 +200,24 @@ public class Deque<Item> implements Iterable<Item> {
          * Returns the next item on the deque.
          */
         public Item next() {
+         if (modified())          
+          throw new ConcurrentModificationException();
+         
             if (!hasNext())
                 throw new NoSuchElementException("deque is empty.");
 
             Item item = current.item;
             current = current.next;
             return item;
+        }
+        
+        /**
+         * @private
+         * Checks if the deque was changed since the creation of the iterator.
+         * @return true if yes; false otherwise.
+         */
+        private boolean modified() {
+         return iteratorKey != key;
         }
     }
 
@@ -191,8 +227,8 @@ public class Deque<Item> implements Iterable<Item> {
      * @param <Item> The type of data to be stored.
      */
     private class Node {
-        Item item;
-        Node next;
-        Node prev;
+        Item item; // Content of the node
+        Node next; // Reference to next node
+        Node prev; // Reference to previous node
     }
 }

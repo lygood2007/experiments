@@ -1,0 +1,1387 @@
+Programming Assignment 2: Randomized Queues and Deques | queues.zip
+Submission
+Submission time	Sat-16-Feb 06:21:51
+Raw Score	100.00 / 100.00
+Feedback	See the Assessment Guide for information on how to read this report.
+Assessment Summary
+Compilation:  PASSED
+Style:        FAILED
+Findbugs:     No potential bugs found.
+API:          PASSED
+
+Correctness:  32/32 tests passed
+Memory:       47/47 tests passed
+Timing:       28/28 tests passed
+
+Raw score: 100.00% [Correctness: 65%, Memory: 10%, Timing: 25%, Style: 0%]
+Assessment Details
+files submitted
+----------------------------------
+total 24K
+-rw-r--r-- 1 5.6K Feb 16 21:54 Deque.java
+-rw-r--r-- 1 5.1K Feb 16 21:54 RandomizedQueue.java
+-rw-r--r-- 1  735 Feb 16 21:54 Subset.java
+-rw-r--r-- 1 3.6K Feb 16 21:54 studentSubmission.zip
+*** MISSING readme.txt ***
+
+
+******************************************************************************
+*  compiling
+******************************************************************************
+
+
+% javac Deque.java
+*-----------------------------------------------------------
+================================================================
+
+% javac RandomizedQueue.java
+*-----------------------------------------------------------
+Note: RandomizedQueue.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+================================================================
+
+% javac Subset.java
+*-----------------------------------------------------------
+================================================================
+
+
+
+% checkstyle *.java
+*-----------------------------------------------------------
+Deque.java:230:14: Variable 'item' must be private and have accessor methods.
+Deque.java:231:14: Variable 'next' must be private and have accessor methods.
+Deque.java:232:14: Variable 'prev' must be private and have accessor methods.
+================================================================
+
+
+% findbugs *.class
+*-----------------------------------------------------------
+================================================================
+
+
+Testing the APIs of your programs.
+*-----------------------------------------------------------
+Deque:
+
+RandomizedQueue:
+
+Subset:
+
+================================================================
+
+
+******************************************************************************
+*  executing
+******************************************************************************
+
+Testing methods in Deque
+*-----------------------------------------------------------
+Running 14 total tests.
+
+Tests 1-6 make random calls to addFirst(), addLast(), removeFirst(), and removeLast().
+p1, p2, p3, and p4 are the relative frequencies of each operation, respectively.
+
+Test 1: Calls to addFirst() and addLast() only
+  *     5 random calls (p1 = 0.5, p2 = 0.5, p3 = 0.0, p4 = 0.0)
+  *    50 random calls (p1 = 0.5, p2 = 0.5, p3 = 0.0, p4 = 0.0)
+  *   500 random calls (p1 = 0.5, p2 = 0.5, p3 = 0.0, p4 = 0.0)
+  *  1000 random calls (p1 = 0.5, p2 = 0.5, p3 = 0.0, p4 = 0.0)
+==> passed
+
+Test 2: Calls to addFirst() and removeFirst()
+  *     5 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1, p4 = 0.0)
+  *    50 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1, p4 = 0.0)
+  *   500 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1, p4 = 0.0)
+  *  1000 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1, p4 = 0.0)
+  *     5 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9, p4 = 0.0)
+  *    50 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9, p4 = 0.0)
+  *   500 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9, p4 = 0.0)
+  *  1000 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9, p4 = 0.0)
+==> passed
+
+Test 3: Calls to addFirst() and removeLast()
+  *     5 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.0, p4 = 0.1)
+  *    50 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.0, p4 = 0.1)
+  *   500 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.0, p4 = 0.1)
+  *  1000 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.0, p4 = 0.1)
+  *     5 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.0, p4 = 0.9)
+  *    50 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.0, p4 = 0.9)
+  *   500 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.0, p4 = 0.9)
+  *  1000 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.0, p4 = 0.9)
+==> passed
+
+Test 4: Calls to addLast() and removeLast()
+  *     5 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.0, p4 = 0.1)
+  *    50 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.0, p4 = 0.1)
+  *   500 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.0, p4 = 0.1)
+  *  1000 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.0, p4 = 0.1)
+  *     5 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.0, p4 = 0.9)
+  *    50 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.0, p4 = 0.9)
+  *   500 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.0, p4 = 0.9)
+  *  1000 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.0, p4 = 0.9)
+==> passed
+
+Test 5: Calls to addLast() and removeFirst()
+  *     5 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.1, p4 = 0.0)
+  *    50 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.1, p4 = 0.0)
+  *   500 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.1, p4 = 0.0)
+  *  1000 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.1, p4 = 0.0)
+  *     5 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.9, p4 = 0.0)
+  *    50 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.9, p4 = 0.0)
+  *   500 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.9, p4 = 0.0)
+  *  1000 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.9, p4 = 0.0)
+==> passed
+
+Test 6: Calls to addFirst(), addLast(), removeFirst(), and removeLast()
+  *     5 random calls (p1 = 0.4, p2 = 0.4, p3 = 0.1, p4 = 0.1)
+  *    50 random calls (p1 = 0.4, p2 = 0.4, p3 = 0.1, p4 = 0.1)
+  *   500 random calls (p1 = 0.4, p2 = 0.4, p3 = 0.1, p4 = 0.1)
+  *  1000 random calls (p1 = 0.4, p2 = 0.4, p3 = 0.1, p4 = 0.1)
+  *     5 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.4, p4 = 0.4)
+  *    50 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.4, p4 = 0.4)
+  *   500 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.4, p4 = 0.4)
+  *  1000 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.4, p4 = 0.4)
+==> passed
+
+Test 7: Removing from an empty deque
+  *  removeFirst()
+  *  removeLast()
+==> passed
+
+Test 8: Create multiple deque objects at the same time
+==> passed
+
+Test 9: Check iterator() after calls only to addFirst()
+==> passed
+
+Test 10: Check iterator() after intermixed calls to addFirst(), addLast(), removeFirst(), and removeLast()
+==> passed
+
+Test 11: Create two independent iterators to same deque
+==> passed
+
+Test 12: Create Deque objects of different parameterized types
+==> passed
+
+Test 13: Check that addFirst() and addLast() throw NullPointerExceptions when inserting null items
+==> passed
+
+Test 14: Check that remove() and next() throw the specified exceptions in iterator()
+==> passed
+
+
+Total: 14/14 tests passed!
+================================================================
+
+Testing methods in RandomizedQueue
+*-----------------------------------------------------------
+Running 15 total tests.
+
+Tests 1, 2, 3, and 4 make random calls to enqueue(), dequeue(), and sample().
+p1, p2, and p3 are the relative frequencies of each operation, respectively.
+
+Test 1: Calls to enqueue()
+  *     5 random calls (p1 = 1.0, p2 = 0.0, p3 = 0.0)
+  *    50 random calls (p1 = 1.0, p2 = 0.0, p3 = 0.0)
+  *   500 random calls (p1 = 1.0, p2 = 0.0, p3 = 0.0)
+  *  1000 random calls (p1 = 1.0, p2 = 0.0, p3 = 0.0)
+==> passed
+
+Test 2: Calls to enqueue() and dequeue()
+  *     5 random calls (p1 = 0.9, p2 = 0.1, p3 = 0.0)
+  *    50 random calls (p1 = 0.9, p2 = 0.1, p3 = 0.0)
+  *   500 random calls (p1 = 0.9, p2 = 0.1, p3 = 0.0)
+  *  1000 random calls (p1 = 0.9, p2 = 0.1, p3 = 0.0)
+  *     5 random calls (p1 = 0.1, p2 = 0.9, p3 = 0.0)
+  *    50 random calls (p1 = 0.1, p2 = 0.9, p3 = 0.0)
+  *   500 random calls (p1 = 0.1, p2 = 0.9, p3 = 0.0)
+  *  1000 random calls (p1 = 0.1, p2 = 0.9, p3 = 0.0)
+==> passed
+
+Test 3: Calls to enqueue() and sample()
+  *     5 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1)
+  *    50 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1)
+  *   500 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1)
+  *  1000 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1)
+  *     5 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9)
+  *    50 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9)
+  *   500 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9)
+  *  1000 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9)
+==> passed
+
+Test 4: Calls to enqueue(), dequeue(), and sample()
+  *     5 random calls (p1 = 0.8, p2 = 0.1, p3 = 0.1)
+  *    50 random calls (p1 = 0.8, p2 = 0.1, p3 = 0.1)
+  *   500 random calls (p1 = 0.8, p2 = 0.1, p3 = 0.1)
+  *  1000 random calls (p1 = 0.8, p2 = 0.1, p3 = 0.1)
+  *     5 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.8)
+  *    50 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.8)
+  *   500 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.8)
+  *  1000 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.8)
+==> passed
+
+Test 5: dequeue() and sample() from an empty randomized queue
+  *  dequeue()
+  *  sample()
+==> passed
+
+Test 6: Create multiple randomized queue objects at the same time
+==> passed
+
+Test 7: Check that iterator() returns correct items after sequence of enqueue() operations
+==> passed
+
+Test 8: Check that iterator() returns correct items after sequence of enqueue() and dequeue() operations
+==> passed
+
+Test 9: Create two independent iterators to same randomized queue
+  *  N = 10
+  *  N = 1000
+==> passed
+
+Test 10: Create two iterators to different randomized queues
+==> passed
+
+Test 11: Create RandomizedQueue objects of different parameterized types
+==> passed
+
+Test 12: Check randomness of sample() by enqueueing strings, repeatedly calling
+sample(), and counting the frequency of each value.
+  *  enqueue strings A to C and sampling 1500 times
+  *  enqueue strings A to E and sampling 2500 times
+  *  enqueue strings A to H and sampling 4000 times
+  *  enqueue strings A to J and sampling 5000 times
+==> passed
+
+Test 13: Check randomness of dequeue() by enqueueing strings, repeatedly calling
+dequeue() until a specific enqueued string appears.
+  *  enqueue strings A to C and call dequeue() until A is dequeued; repeat 1500 times
+  *  enqueue strings A to E and call dequeue() until B is dequeued; repeat 2500 times
+  *  enqueue strings A to H and call dequeue() until A is dequeued; repeat 4000 times
+  *  enqueue strings A to J and call dequeue() until D is dequeued; repeat 5000 times
+==> passed
+
+Test 14: Check that NullPointerException is thrown when inserting null items
+==> passed
+
+Test 15: Check that remove() and next() throw the specified exceptions in iterator()
+==> passed
+
+
+Total: 15/15 tests passed!
+================================================================
+
+Testing methods in Subset
+*-----------------------------------------------------------
+Running 3 total tests.
+
+Test 1: assignment inputs
+
+% echo "A B C D E F G H I" | java Subset 3
+[student solution]
+D
+F
+H
+
+% echo "A B C D E F G H I" | java Subset 3
+[student solution]
+A
+C
+H
+
+% echo "AA BB BB BB BB BB CC CC " | java Subset 8
+[student solution]
+AA
+BB
+BB
+BB
+BB
+CC
+CC
+BB
+
+==> passed
+
+Test 2: various inputs
+
+% echo "A B C D E F G H I" | java Subset 1
+[student solution]
+A
+
+% echo "A B C D E F G H I" | java Subset 5
+[student solution]
+A
+D
+C
+E
+F
+
+% echo "A B C D E F G H I" | java Subset 5
+[student solution]
+B
+H
+C
+D
+G
+
+% echo "A B C D E F G H I" | java Subset 9
+[student solution]
+I
+E
+B
+G
+A
+D
+C
+H
+F
+
+% echo "A B C D E F G H I" | java Subset 0
+[student solution]
+
+% echo "it was the best of times it was the worst of times" | java Subset 10
+[student solution]
+times
+best
+of
+the
+was
+it
+of
+worst
+the
+it
+
+% echo "It was the best of times, it was the worst of times, it was ..." | java Subset 10
+[student solution]
+him.
+as
+dead
+could
+and
+my
+with
+the
+Gutenberg
+and
+
+% echo "AA BB BB BB BB BB CC CC " | java Subset 7
+[student solution]
+BB
+BB
+CC
+CC
+BB
+AA
+BB
+
+==> passed
+
+Test 3: check for randomness
+  * 1000 subsets of size 1 from subset10.txt
+  * 250 subsets of size 4 from subset10.txt
+  * 600 subsets of size 1 from subset6.txt
+  * 300 subsets of size 2 from subset6.txt
+  * 800 subsets of size 1 from subset8.txt
+  * 160 subsets of size 5 from subset8.txt
+==> passed
+
+Total: 3/3 tests passed!
+
+================================================================
+
+******************************************************************************
+*  memory usage
+******************************************************************************
+
+Computing memory of Deque
+*-----------------------------------------------------------
+Running 26 total tests.
+
+Test 1a-1e: 
+ Measuring total memory usage after inserting N items.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed        8          432         
+=> passed       64         3120         
+=> passed      256        12336         
+=> passed     1024        49200         
+=> passed     4096       196656         
+==> 5/5 tests passed
+
+ * Student memory = 48.00 N + 48.00  (R^2 = 1.000)
+
+
+
+Test 2a-2e: Measuring total memory usage after inserting N+1 items.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed        8          480         
+=> passed       64         3168         
+=> passed      256        12384         
+=> passed     1024        49248         
+=> passed     4096       196704         
+==> 5/5 tests passed
+
+Memory of Deque after adding N = 2^i + 1 items:
+ * Student memory = 48.00 N + 48.00  (R^2 = 1.000)
+
+
+
+Test 3a-3e: Measuring total memory usage after inserting 2N+1 items
+then deleting N items.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed        8          480         
+=> passed       64         3168         
+=> passed      256        12384         
+=> passed     1024        49248         
+=> passed     4096       196704         
+==> 5/5 tests passed
+
+ * Student memory = 48.00 N + 48.00  (R^2 = 1.000)
+
+
+
+Test 4a-4e: Measuring total memory usage after inserting N items 
+ and then deleting all but one item.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed        8           96         
+=> passed       64           96         
+=> passed      256           96         
+=> passed     1024           96         
+=> passed     4096           96         
+==> 5/5 tests passed
+
+Memory of Deque after adding N = 2^i items:
+ * Student memory = 96.00  (R^2 = 1.000)
+
+
+
+Test 5a-5e: Measuring iterator memory usage after inserting N items 
+ (should not grow with N).
+
+                 N        bytes
+----------------------------------------------------------
+=> passed        8           40         
+=> passed       64           40         
+=> passed      256           40         
+=> passed     1024           40         
+=> passed     4096           40         
+==> 5/5 tests passed
+
+Memory of Deque iterator after adding N = 2^i items:
+ * Student memory = 40.00  (R^2 = 1.000)
+
+
+
+Test 6: Checking for loitering by adding 100 strings and deleting them:
+==> passed
+
+Total: 26/26 tests passed!
+
+================================================================
+
+
+
+Computing memory of RandomizedQueue
+*-----------------------------------------------------------
+Running 21 total tests.
+
+Test 1a-1d: Measuring total memory usage after inserting N integers.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed       64          576         
+=> passed      256         2112         
+=> passed     1024         8256         
+=> passed     4096        32832         
+==> 4/4 tests passed
+
+
+ * Student memory = 8.00 N + 64.00  (R^2 = 1.000)
+
+
+
+Test 2a-2d: Measuring total memory usage after inserting N+1 items.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed       64         1088         
+=> passed      256         4160         
+=> passed     1024        16448         
+=> passed     4096        65600         
+==> 4/4 tests passed
+
+
+ * Student memory = 16.00 N + 48.00  (R^2 = 1.000)
+
+
+
+Test 3a-3d: Measuring total memory usage after inserting 2N+1 items
+then deleting N items.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed       64         2112         
+=> passed      256         8256         
+=> passed     1024        32832         
+=> passed     4096       131136         
+==> 4/4 tests passed
+
+
+ * Student memory = 32.00 N + 32.00  (R^2 = 1.000)
+
+
+
+Test 4a-4d: Measuring total memory usage after inserting N items and 
+ then deleting all but one item.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed       64           80         
+=> passed      256           80         
+=> passed     1024           80         
+=> passed     4096           80         
+==> 4/4 tests passed
+
+
+ * Student memory = 80.00  (R^2 = 1.000)
+
+
+
+Test 5a-5d: Measuring iterator memory usage after inserting N items
+
+                 N        bytes
+----------------------------------------------------------
+=> passed       64          584         
+=> passed      256         2120         
+=> passed     1024         8264         
+=> passed     4096        32840         
+==> 4/4 tests passed
+
+
+ * Student   memory = 8.00 N + 72.00  (R^2 = 1.000)
+
+
+
+Test 6: Checking for loitering by adding 100 strings and deleting them:
+==> passed
+
+Total: 21/21 tests passed!
+
+================================================================
+
+
+
+******************************************************************************
+*  timing
+******************************************************************************
+
+Timing Deque
+*-----------------------------------------------------------
+Running 14 total tests.
+
+N random calls to: addFirst(), addLast(), removeFirst(), and removeLast()
+
+                    N  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        4096     0.01
+=> passed       16384     0.01
+=> passed      128000     0.02
+=> passed      256000     0.18
+=> passed     1024000     0.62
+=> passed     2048000     0.38
+==> 7/7 tests passed
+
+
+N random calls to next() and hasNext() in iterator()
+
+                    N  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        4096     0.00
+=> passed       16384     0.00
+=> passed      128000     0.01
+=> passed      256000     0.02
+=> passed     1024000     0.03
+=> passed     2048000     0.37
+==> 7/7 tests passed
+
+Total: 14/14 tests passed!
+================================================================
+
+
+
+Timing RandomizedQueue
+*-----------------------------------------------------------
+Running 14 total tests.
+
+N random calls to: enqueue(), sample(), dequeue(), isEmpty(), and size()
+
+                    N  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        4096     0.01
+=> passed       16384     0.02
+=> passed      128000     0.03
+=> passed      256000     0.07
+=> passed     1024000     0.28
+=> passed     2048000     0.59
+==> 7/7 tests passed
+
+
+N random calls to: next() and hasNext() from iterator()
+
+                    N  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        4096     0.00
+=> passed       16384     0.01
+=> passed      128000     0.02
+=> passed      256000     0.02
+=> passed     1024000     0.11
+=> passed     2048000     0.31
+==> 7/7 tests passed
+
+Total: 14/14 tests passed!
+================================================================
+
+
+
+Submission
+Submission time	Thu-14-Feb 18:08:50
+Raw Score	89.53 / 100.00
+Feedback	See the Assessment Guide for information on how to read this report.
+Assessment Summary
+Compilation:  PASSED
+Style:        FAILED
+Findbugs:     No potential bugs found.
+API:          PASSED
+
+Correctness:  28/32 tests passed
+Memory:       36/47 tests passed
+Timing:       28/28 tests passed
+
+Raw score: 89.53% [Correctness: 65%, Memory: 10%, Timing: 25%, Style: 0%]
+Assessment Details
+files submitted
+----------------------------------
+total 24K
+-rw-r--r-- 1 4.5K Feb 15 02:10 Deque.java
+-rw-r--r-- 1 4.2K Feb 15 02:10 RandomizedQueue.java
+-rw-r--r-- 1  735 Feb 15 02:10 Subset.java
+-rw-r--r-- 1 3.2K Feb 15 02:10 studentSubmission.zip
+*** MISSING readme.txt ***
+
+
+******************************************************************************
+*  compiling
+******************************************************************************
+
+
+% javac Deque.java
+*-----------------------------------------------------------
+================================================================
+
+% javac RandomizedQueue.java
+*-----------------------------------------------------------
+Note: RandomizedQueue.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+================================================================
+
+% javac Subset.java
+*-----------------------------------------------------------
+================================================================
+
+
+
+% checkstyle *.java
+*-----------------------------------------------------------
+Deque.java:194:14: Variable 'item' must be private and have accessor methods.
+Deque.java:195:14: Variable 'next' must be private and have accessor methods.
+Deque.java:196:14: Variable 'prev' must be private and have accessor methods.
+================================================================
+
+
+% findbugs *.class
+*-----------------------------------------------------------
+================================================================
+
+
+Testing the APIs of your programs.
+*-----------------------------------------------------------
+Deque:
+
+RandomizedQueue:
+
+Subset:
+
+================================================================
+
+
+******************************************************************************
+*  executing
+******************************************************************************
+
+Testing methods in Deque
+*-----------------------------------------------------------
+Running 14 total tests.
+
+Tests 1-6 make random calls to addFirst(), addLast(), removeFirst(), and removeLast().
+p1, p2, p3, and p4 are the relative frequencies of each operation, respectively.
+
+Test 1: Calls to addFirst() and addLast() only
+  *     5 random calls (p1 = 0.5, p2 = 0.5, p3 = 0.0, p4 = 0.0)
+  *    50 random calls (p1 = 0.5, p2 = 0.5, p3 = 0.0, p4 = 0.0)
+  *   500 random calls (p1 = 0.5, p2 = 0.5, p3 = 0.0, p4 = 0.0)
+  *  1000 random calls (p1 = 0.5, p2 = 0.5, p3 = 0.0, p4 = 0.0)
+==> passed
+
+Test 2: Calls to addFirst() and removeFirst()
+  *     5 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1, p4 = 0.0)
+  *    50 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1, p4 = 0.0)
+  *   500 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1, p4 = 0.0)
+  *  1000 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1, p4 = 0.0)
+  *     5 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9, p4 = 0.0)
+  *    50 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9, p4 = 0.0)
+  *   500 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9, p4 = 0.0)
+  *  1000 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9, p4 = 0.0)
+==> passed
+
+Test 3: Calls to addFirst() and removeLast()
+  *     5 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.0, p4 = 0.1)
+  *    50 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.0, p4 = 0.1)
+  *   500 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.0, p4 = 0.1)
+  *  1000 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.0, p4 = 0.1)
+  *     5 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.0, p4 = 0.9)
+  *    50 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.0, p4 = 0.9)
+  *   500 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.0, p4 = 0.9)
+  *  1000 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.0, p4 = 0.9)
+==> passed
+
+Test 4: Calls to addLast() and removeLast()
+  *     5 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.0, p4 = 0.1)
+  *    50 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.0, p4 = 0.1)
+  *   500 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.0, p4 = 0.1)
+  *  1000 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.0, p4 = 0.1)
+  *     5 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.0, p4 = 0.9)
+  *    50 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.0, p4 = 0.9)
+  *   500 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.0, p4 = 0.9)
+  *  1000 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.0, p4 = 0.9)
+==> passed
+
+Test 5: Calls to addLast() and removeFirst()
+  *     5 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.1, p4 = 0.0)
+  *    50 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.1, p4 = 0.0)
+  *   500 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.1, p4 = 0.0)
+  *  1000 random calls (p1 = 0.0, p2 = 0.9, p3 = 0.1, p4 = 0.0)
+  *     5 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.9, p4 = 0.0)
+  *    50 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.9, p4 = 0.0)
+  *   500 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.9, p4 = 0.0)
+  *  1000 random calls (p1 = 0.0, p2 = 0.1, p3 = 0.9, p4 = 0.0)
+==> passed
+
+Test 6: Calls to addFirst(), addLast(), removeFirst(), and removeLast()
+  *     5 random calls (p1 = 0.4, p2 = 0.4, p3 = 0.1, p4 = 0.1)
+  *    50 random calls (p1 = 0.4, p2 = 0.4, p3 = 0.1, p4 = 0.1)
+  *   500 random calls (p1 = 0.4, p2 = 0.4, p3 = 0.1, p4 = 0.1)
+  *  1000 random calls (p1 = 0.4, p2 = 0.4, p3 = 0.1, p4 = 0.1)
+  *     5 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.4, p4 = 0.4)
+  *    50 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.4, p4 = 0.4)
+  *   500 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.4, p4 = 0.4)
+  *  1000 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.4, p4 = 0.4)
+==> passed
+
+Test 7: Removing from an empty deque
+  *  removeFirst()
+  *  removeLast()
+==> passed
+
+Test 8: Create multiple deque objects at the same time
+==> passed
+
+Test 9: Check iterator() after calls only to addFirst()
+==> passed
+
+Test 10: Check iterator() after intermixed calls to addFirst(), addLast(), removeFirst(), and removeLast()
+      -  student   solution has 2 non-null entries
+      -  reference solution has 1 non-null entries
+      -  1 extra entry in student solution: 1
+      iterator failed after applying operation 3
+==> FAILED
+
+Test 11: Create two independent iterators to same deque
+==> passed
+
+Test 12: Create Deque objects of different parameterized types
+==> passed
+
+Test 13: Check that addFirst() and addLast() throw NullPointerExceptions when inserting null items
+==> passed
+
+Test 14: Check that remove() and next() throw the specified exceptions in iterator()
+==> passed
+
+
+Total: 13/14 tests passed!
+================================================================
+
+Testing methods in RandomizedQueue
+*-----------------------------------------------------------
+Running 15 total tests.
+
+Tests 1, 2, 3, and 4 make random calls to enqueue(), dequeue(), and sample().
+p1, p2, and p3 are the relative frequencies of each operation, respectively.
+
+Test 1: Calls to enqueue()
+  *     5 random calls (p1 = 1.0, p2 = 0.0, p3 = 0.0)
+  *    50 random calls (p1 = 1.0, p2 = 0.0, p3 = 0.0)
+  *   500 random calls (p1 = 1.0, p2 = 0.0, p3 = 0.0)
+  *  1000 random calls (p1 = 1.0, p2 = 0.0, p3 = 0.0)
+==> passed
+
+Test 2: Calls to enqueue() and dequeue()
+  *     5 random calls (p1 = 0.9, p2 = 0.1, p3 = 0.0)
+  *    50 random calls (p1 = 0.9, p2 = 0.1, p3 = 0.0)
+  *   500 random calls (p1 = 0.9, p2 = 0.1, p3 = 0.0)
+  *  1000 random calls (p1 = 0.9, p2 = 0.1, p3 = 0.0)
+  *     5 random calls (p1 = 0.1, p2 = 0.9, p3 = 0.0)
+     java.lang.ArrayIndexOutOfBoundsException: 0
+     RandomizedQueue.enqueue(RandomizedQueue.java:50)
+     TestRandomizedQueue.random(TestRandomizedQueue.java:45)
+     TestRandomizedQueue.test2(TestRandomizedQueue.java:111)
+     TestRandomizedQueue.main(TestRandomizedQueue.java:636)
+
+  *    50 random calls (p1 = 0.1, p2 = 0.9, p3 = 0.0)
+     java.lang.ArrayIndexOutOfBoundsException: 0
+     RandomizedQueue.enqueue(RandomizedQueue.java:50)
+     TestRandomizedQueue.random(TestRandomizedQueue.java:45)
+     TestRandomizedQueue.test2(TestRandomizedQueue.java:112)
+     TestRandomizedQueue.main(TestRandomizedQueue.java:636)
+
+  *   500 random calls (p1 = 0.1, p2 = 0.9, p3 = 0.0)
+     java.lang.ArrayIndexOutOfBoundsException: 0
+     RandomizedQueue.enqueue(RandomizedQueue.java:50)
+     TestRandomizedQueue.random(TestRandomizedQueue.java:45)
+     TestRandomizedQueue.test2(TestRandomizedQueue.java:113)
+     TestRandomizedQueue.main(TestRandomizedQueue.java:636)
+
+  *  1000 random calls (p1 = 0.1, p2 = 0.9, p3 = 0.0)
+     java.lang.ArrayIndexOutOfBoundsException: 0
+     RandomizedQueue.enqueue(RandomizedQueue.java:50)
+     TestRandomizedQueue.random(TestRandomizedQueue.java:45)
+     TestRandomizedQueue.test2(TestRandomizedQueue.java:114)
+     TestRandomizedQueue.main(TestRandomizedQueue.java:636)
+
+==> FAILED
+
+Test 3: Calls to enqueue() and sample()
+  *     5 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1)
+  *    50 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1)
+  *   500 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1)
+  *  1000 random calls (p1 = 0.9, p2 = 0.0, p3 = 0.1)
+  *     5 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9)
+  *    50 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9)
+  *   500 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9)
+  *  1000 random calls (p1 = 0.1, p2 = 0.0, p3 = 0.9)
+==> passed
+
+Test 4: Calls to enqueue(), dequeue(), and sample()
+  *     5 random calls (p1 = 0.8, p2 = 0.1, p3 = 0.1)
+  *    50 random calls (p1 = 0.8, p2 = 0.1, p3 = 0.1)
+  *   500 random calls (p1 = 0.8, p2 = 0.1, p3 = 0.1)
+  *  1000 random calls (p1 = 0.8, p2 = 0.1, p3 = 0.1)
+  *     5 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.8)
+  *    50 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.8)
+     java.lang.ArrayIndexOutOfBoundsException: 0
+     RandomizedQueue.enqueue(RandomizedQueue.java:50)
+     TestRandomizedQueue.random(TestRandomizedQueue.java:45)
+     TestRandomizedQueue.test4(TestRandomizedQueue.java:144)
+     TestRandomizedQueue.main(TestRandomizedQueue.java:638)
+
+  *   500 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.8)
+     java.lang.ArrayIndexOutOfBoundsException: 0
+     RandomizedQueue.enqueue(RandomizedQueue.java:50)
+     TestRandomizedQueue.random(TestRandomizedQueue.java:45)
+     TestRandomizedQueue.test4(TestRandomizedQueue.java:145)
+     TestRandomizedQueue.main(TestRandomizedQueue.java:638)
+
+  *  1000 random calls (p1 = 0.1, p2 = 0.1, p3 = 0.8)
+     java.lang.ArrayIndexOutOfBoundsException: 0
+     RandomizedQueue.enqueue(RandomizedQueue.java:50)
+     TestRandomizedQueue.random(TestRandomizedQueue.java:45)
+     TestRandomizedQueue.test4(TestRandomizedQueue.java:146)
+     TestRandomizedQueue.main(TestRandomizedQueue.java:638)
+
+==> FAILED
+
+Test 5: dequeue() and sample() from an empty randomized queue
+  *  dequeue()
+  *  sample()
+==> passed
+
+Test 6: Create multiple randomized queue objects at the same time
+==> passed
+
+Test 7: Check that iterator() returns correct items after sequence of enqueue() operations
+==> passed
+
+Test 8: Check that iterator() returns correct items after sequence of enqueue() and dequeue() operations
+     java.lang.ArrayIndexOutOfBoundsException: 0
+     RandomizedQueue.enqueue(RandomizedQueue.java:50)
+     TestRandomizedQueue.test8(TestRandomizedQueue.java:291)
+     TestRandomizedQueue.main(TestRandomizedQueue.java:642)
+
+==> FAILED
+
+Test 9: Create two independent iterators to same randomized queue
+  *  N = 10
+  *  N = 1000
+==> passed
+
+Test 10: Create two iterators to different randomized queues
+==> passed
+
+Test 11: Create RandomizedQueue objects of different parameterized types
+==> passed
+
+Test 12: Check randomness of sample() by enqueueing strings, repeatedly calling
+sample(), and counting the frequency of each value.
+  *  enqueue strings A to C and sampling 1500 times
+  *  enqueue strings A to E and sampling 2500 times
+  *  enqueue strings A to H and sampling 4000 times
+  *  enqueue strings A to J and sampling 5000 times
+==> passed
+
+Test 13: Check randomness of dequeue() by enqueueing strings, repeatedly calling
+dequeue() until a specific enqueued string appears.
+  *  enqueue strings A to C and call dequeue() until A is dequeued; repeat 1500 times
+  *  enqueue strings A to E and call dequeue() until E is dequeued; repeat 2500 times
+  *  enqueue strings A to H and call dequeue() until G is dequeued; repeat 4000 times
+  *  enqueue strings A to J and call dequeue() until H is dequeued; repeat 5000 times
+==> passed
+
+Test 14: Check that NullPointerException is thrown when inserting null items
+==> passed
+
+Test 15: Check that remove() and next() throw the specified exceptions in iterator()
+==> passed
+
+
+Total: 12/15 tests passed!
+================================================================
+
+Testing methods in Subset
+*-----------------------------------------------------------
+Running 3 total tests.
+
+Test 1: assignment inputs
+
+% echo "A B C D E F G H I" | java Subset 3
+[student solution]
+E
+C
+H
+
+% echo "A B C D E F G H I" | java Subset 3
+[student solution]
+A
+E
+H
+
+% echo "AA BB BB BB BB BB CC CC " | java Subset 8
+[student solution]
+AA
+CC
+BB
+CC
+BB
+BB
+BB
+BB
+
+==> passed
+
+Test 2: various inputs
+
+% echo "A B C D E F G H I" | java Subset 1
+[student solution]
+D
+
+% echo "A B C D E F G H I" | java Subset 5
+[student solution]
+G
+H
+E
+F
+A
+
+% echo "A B C D E F G H I" | java Subset 5
+[student solution]
+G
+A
+F
+B
+I
+
+% echo "A B C D E F G H I" | java Subset 9
+[student solution]
+C
+A
+H
+D
+F
+B
+E
+I
+G
+
+% echo "A B C D E F G H I" | java Subset 0
+[student solution]
+
+% echo "it was the best of times it was the worst of times" | java Subset 10
+[student solution]
+it
+best
+it
+the
+was
+the
+worst
+times
+was
+of
+
+% echo "It was the best of times, it was the worst of times, it was ..." | java Subset 10
+[student solution]
+were
+life
+great
+sun.
+again.
+the
+cry
+your
+relief.
+young
+
+% echo "AA BB BB BB BB BB CC CC " | java Subset 7
+[student solution]
+BB
+CC
+CC
+AA
+BB
+BB
+BB
+
+==> passed
+
+Test 3: check for randomness
+  * 1000 subsets of size 1 from subset10.txt
+  * 250 subsets of size 4 from subset10.txt
+  * 600 subsets of size 1 from subset6.txt
+  * 300 subsets of size 2 from subset6.txt
+  * 800 subsets of size 1 from subset8.txt
+  * 160 subsets of size 5 from subset8.txt
+==> passed
+
+Total: 3/3 tests passed!
+
+================================================================
+
+******************************************************************************
+*  memory usage
+******************************************************************************
+
+Computing memory of Deque
+*-----------------------------------------------------------
+Running 26 total tests.
+
+Test 1a-1e: 
+ Measuring total memory usage after inserting N items.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed        8          424         
+=> passed       64         3112         
+=> passed      256        12328         
+=> passed     1024        49192         
+=> passed     4096       196648         
+==> 5/5 tests passed
+
+ * Student memory = 48.00 N + 40.00  (R^2 = 1.000)
+
+
+
+Test 2a-2e: Measuring total memory usage after inserting N+1 items.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed        8          472         
+=> passed       64         3160         
+=> passed      256        12376         
+=> passed     1024        49240         
+=> passed     4096       196696         
+==> 5/5 tests passed
+
+Memory of Deque after adding N = 2^i + 1 items:
+ * Student memory = 48.00 N + 40.00  (R^2 = 1.000)
+
+
+
+Test 3a-3e: Measuring total memory usage after inserting 2N+1 items
+then deleting N items.
+
+                 N        bytes
+----------------------------------------------------------
+=> FAILED        8          856   (1.4x)
+=> FAILED       64         6232   (1.9x)
+=> FAILED      256        24664   (2.0x)
+=> FAILED     1024        98392   (2.0x)
+=> FAILED     4096       393304   (2.0x)
+==> 0/5 tests passed
+
+ * Student memory = 96.00 N + -8.00  (R^2 = 1.000)
+
+
+
+Test 4a-4e: Measuring total memory usage after inserting N items 
+ and then deleting all but one item.
+
+                 N        bytes
+----------------------------------------------------------
+=> FAILED        8          424   (1.1x)
+=> FAILED       64         3112   (8.1x)
+=> FAILED      256        12328  (32.1x)
+=> FAILED     1024        49192 (128.1x)
+=> FAILED     4096       196648 (512.1x)
+==> 0/5 tests passed
+
+Memory of Deque after adding N = 2^i items:
+ * Student memory = 71498.91  (R^2 = 0.000)
+
+
+
+Test 5a-5e: Measuring iterator memory usage after inserting N items 
+ (should not grow with N).
+
+                 N        bytes
+----------------------------------------------------------
+=> passed        8           32         
+=> passed       64           32         
+=> passed      256           32         
+=> passed     1024           32         
+=> passed     4096           32         
+==> 5/5 tests passed
+
+Memory of Deque iterator after adding N = 2^i items:
+ * Student memory = 32.00  (R^2 = 1.000)
+
+
+
+Test 6: Checking for loitering by adding 100 strings and deleting them:
+ * loitering detected on 99 of 100 removeFirst() operations
+ * loitering detected on 99 of 100 removeLast() operations
+==> FAILED
+
+Total: 15/26 tests passed!
+
+================================================================
+
+
+
+Computing memory of RandomizedQueue
+*-----------------------------------------------------------
+Running 21 total tests.
+
+Test 1a-1d: Measuring total memory usage after inserting N integers.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed       64          568         
+=> passed      256         2104         
+=> passed     1024         8248         
+=> passed     4096        32824         
+==> 4/4 tests passed
+
+
+ * Student memory = 8.00 N + 56.00  (R^2 = 1.000)
+
+
+
+Test 2a-2d: Measuring total memory usage after inserting N+1 items.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed       64         1080         
+=> passed      256         4152         
+=> passed     1024        16440         
+=> passed     4096        65592         
+==> 4/4 tests passed
+
+
+ * Student memory = 16.00 N + 40.00  (R^2 = 1.000)
+
+
+
+Test 3a-3d: Measuring total memory usage after inserting 2N+1 items
+then deleting N items.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed       64         2104         
+=> passed      256         8248         
+=> passed     1024        32824         
+=> passed     4096       131128         
+==> 4/4 tests passed
+
+
+ * Student memory = 32.00 N + 24.00  (R^2 = 1.000)
+
+
+
+Test 4a-4d: Measuring total memory usage after inserting N items and 
+ then deleting all but one item.
+
+                 N        bytes
+----------------------------------------------------------
+=> passed       64           72         
+=> passed      256           72         
+=> passed     1024           72         
+=> passed     4096           72         
+==> 4/4 tests passed
+
+
+ * Student memory = 72.00  (R^2 = 1.000)
+
+
+
+Test 5a-5d: Measuring iterator memory usage after inserting N items
+
+                 N        bytes
+----------------------------------------------------------
+=> passed       64          576         
+=> passed      256         2112         
+=> passed     1024         8256         
+=> passed     4096        32832         
+==> 4/4 tests passed
+
+
+ * Student   memory = 8.00 N + 64.00  (R^2 = 1.000)
+
+
+
+Test 6: Checking for loitering by adding 100 strings and deleting them:
+==> passed
+
+Total: 21/21 tests passed!
+
+================================================================
+
+
+
+******************************************************************************
+*  timing
+******************************************************************************
+
+Timing Deque
+*-----------------------------------------------------------
+Running 14 total tests.
+
+N random calls to: addFirst(), addLast(), removeFirst(), and removeLast()
+
+                    N  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        4096     0.08
+=> passed       16384     0.00
+=> passed      128000     0.04
+=> passed      256000     0.15
+=> passed     1024000     0.64
+=> passed     2048000     1.12
+==> 7/7 tests passed
+
+
+N random calls to next() and hasNext() in iterator()
+
+                    N  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        4096     0.00
+=> passed       16384     0.01
+=> passed      128000     0.00
+=> passed      256000     0.01
+=> passed     1024000     0.55
+=> passed     2048000     1.11
+==> 7/7 tests passed
+
+Total: 14/14 tests passed!
+================================================================
+
+
+
+Timing RandomizedQueue
+*-----------------------------------------------------------
+Running 14 total tests.
+
+N random calls to: enqueue(), sample(), dequeue(), isEmpty(), and size()
+
+                    N  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        4096     0.01
+=> passed       16384     0.02
+=> passed      128000     0.03
+=> passed      256000     0.07
+=> passed     1024000     0.49
+=> passed     2048000     0.95
+==> 7/7 tests passed
+
+
+N random calls to: next() and hasNext() from iterator()
+
+                    N  seconds
+----------------------------------
+=> passed        1024     0.00
+=> passed        4096     0.00
+=> passed       16384     0.00
+=> passed      128000     0.01
+=> passed      256000     0.02
+=> passed     1024000     0.15
+=> passed     2048000     0.51
+==> 7/7 tests passed
+
+Total: 14/14 tests passed!
+================================================================
+
+
+
+Submission
+Submission time	Thu-14-Feb 15:38:17
+Raw Score	0.00 / 100.00
+Feedback	
+Compilation:  PASSED
+
+API:          FAILED
+RandomizedQueue:
+
+
+The following methods should be removed or made private:
+  *  public String toString()
+
+
+
+Submission
+Submission time	Wed-13-Feb 17:48:50
+Raw Score	0.00 / 100.00
+Feedback	
+Compilation:  FAILED
+Missing file: Subset.java

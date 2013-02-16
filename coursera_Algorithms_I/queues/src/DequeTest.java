@@ -1,4 +1,3 @@
-import static org.junit.Assert.*;
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -161,4 +160,36 @@ public class DequeTest {
         Assert.assertEquals("3", deque.removeFirst());
         Assert.assertEquals("5", deque.removeFirst());        
     }
+	
+	@Test(expected=java.util.ConcurrentModificationException.class)
+	public void test17 () {
+		
+		deque.addFirst("1");
+		deque.addFirst("2");
+		
+		// Given
+		Iterator<String> it = deque.iterator();
+		
+		// When deque is changed
+		deque.addFirst("3");
+		
+		// Then throws ConcurrentModificationException
+		it.next();		
+	}
+	
+	@Test(expected=java.util.ConcurrentModificationException.class)
+	public void test18 () {
+		
+		deque.addFirst("1");
+		deque.addFirst("2");
+		
+		// Given
+		Iterator<String> it = deque.iterator();
+		
+		// When deque is changed
+		deque.addFirst("3");
+		
+		// Then throws ConcurrentModificationException
+		it.hasNext();		
+	}
 }

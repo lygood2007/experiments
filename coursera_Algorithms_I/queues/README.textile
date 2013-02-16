@@ -1,6 +1,28 @@
 h1. Randomized Queues and Deques
 
-h3. Other unit tests runned
+Classes written under demand of "programming assignment 2":https://class.coursera.org/algs4partI-002/assignment/view?assignment_id=3 of the course _Algorithms, part I_ of Coursera and Princetton University ("here":https://class.coursera.org/algs4partI-002/class/index). Here are the "specification":http://coursera.cs.princeton.edu/algs4/assignments/queues.html and "checklist":http://coursera.cs.princeton.edu/algs4/checklists/queues.html.
+
+h3. Files
+
+* feedback - Automated tests on submission (100% compliance)
+* resizing_test - Visual representation of the sizing/resizing of RandomizedQueue
+* src/Deque.java - A double-ended queue, or deque (pronounced 'deck')
+* src/DequeMemoryTest.java - Test of memory usage/release of Deque.java
+* src/DequeTest.java - Unit tests of Deque.java
+* src/RandomizedQueue.java - A randomized queue (items are dequeue()d in random order)
+* src/RandomizedQueueTest.java - Unit tests of RandomizedQueue.java
+* src/Subset.java - RandomizedQueue test client
+
+h3. 3rd party tests
 
 * "Test for Deque":https://gist.github.com/petebeal/4947952
 * "Test for RandomizedQueue":https://gist.github.com/petebeal/4947970
+
+h3. Requirements
+
+* JDK 1.7.0-13
+* "JUnit":http://junit.sourceforge.net/ 4.10 and "Hamcrest":http://code.google.com/p/hamcrest/ 1.0.0 for unit tests
+* "classmexer":http://www.javamex.com/classmexer/ for memory tests
+* "stdlib.jar":http://algs4.cs.princeton.edu/code/stdlib.jar for I/O
+* "algs4.jar":http://algs4.cs.princeton.edu/code/algs4.jar for random numbers, shuffling etc
+
