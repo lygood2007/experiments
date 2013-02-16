@@ -110,6 +110,35 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }    
     
     /**
+     * Prints the items on the queue.
+     */
+    @Override
+    public String toString() {
+        String output = "[";
+        int count = 0;
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] != null) {
+                output += list[i] + (++count == n ? "" : ", ");
+            }
+        }
+        output += "]";
+        return output;
+    }    
+    
+    /**
+     * Prints a visual representation of the occupation of the list.
+	 * Just for fun.
+     */
+    public String xray() {
+        String str = "";
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] == null) str += "-";
+            else str += "x";
+        }
+        return str;
+    }    
+    
+    /**
      * @private
      * Resizes the queue.
      */
