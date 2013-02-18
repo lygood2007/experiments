@@ -1,0 +1,9 @@
+
+
+* A discrete signal $x[n] = exp(i\omega n)$ is periodic if $\omega = 2\pi p/q$, where p and q are rational.
+* If \omega = 2\pi/M, x[n+M] = x[n]
+* For any discrete signal,
+** \omega_min = 0
+** \omega_max = \pi
+
+x[n] --- z^{-1} ---> x[n-1] (shift to the RIGHT)
