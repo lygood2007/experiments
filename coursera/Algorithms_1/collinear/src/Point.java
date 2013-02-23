@@ -15,7 +15,8 @@ import java.util.Comparator;
  */
 public class Point implements Comparable<Point> {
 
-    public final Comparator<Point> SLOPE_ORDER = new PointComparator(); // Compare points by slope
+    public final Comparator<Point> SLOPE_ORDER
+    	= new PointComparator(); // Compare points by slope to this point
 
     private final int x; // x coordinate
     private final int y; // y coordinate
@@ -64,7 +65,7 @@ public class Point implements Comparable<Point> {
         else if (that.x != this.x && that.y == this.y)
             ans = +0; // Horizontal line
         else
-            ans = (that.y - this.y) / (that.x - this.x);
+            ans = (double) (that.y - this.y) / (that.x - this.x);
         
         return ans;        
     }

@@ -116,37 +116,5 @@ public class PointTest {
         Assert.assertTrue(p4.compareTo(p3) == -1);
         Assert.assertTrue(p0.compareTo(p1) ==  0);
     }
-    
-    /*@Test
-    public void xy_ordering_2() {
-                
-        Point[] ordered = {
-            new Point( 3, 0),
-            new Point( 3, 1),
-            new Point( 2, 3),
-            new Point( 1, 3),
-            new Point( 0, 3),
-            new Point(-1, 3),
-            new Point(-2, 2),
-            new Point(-3, 1),
-            new Point(-3,-1),
-            new Point(-2,-2),
-            new Point(-1,-3),
-            new Point( 0,-3),
-            new Point( 1,-3),
-            new Point( 2,-2),
-            new Point( 3,-1)
-        };
-        
-        Point[] shuffled = new Point[ordered.length];
-        for (int i = 0; i < shuffled.length; i++) shuffled[i] = ordered[i];        
-        StdRandom.shuffle(shuffled);
-                
-        Arrays.sort(shuffled, ordered[0].SLOPE_ORDER);
-                
-        for (int i = 0; i < shuffled.length; i++) Assert.assertEquals(ordered[i], shuffled[i]);
-        
-    }*/
-
 }
 
