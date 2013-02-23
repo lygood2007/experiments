@@ -1,6 +1,4 @@
-import static org.junit.Assert.*;
 import junit.framework.Assert;
-
 import org.junit.Test;
 import java.util.Arrays;
 
@@ -39,49 +37,65 @@ public class PointTest {
     @Test
     public void slope_ordering_1() {
         // Given
-        Point p2 = new Point(2, 2);
-        Point p1 = new Point(1, 3);
+    	Point p0 = new Point( 0,  0);
+        Point p1 = new Point( 1,  0);
+        Point p2 = new Point( 0,  1);
+        Point p3 = new Point(-1,  0);
+        Point p4 = new Point( 0, -1);
         
         // Then 
-        Assert.assertEquals(1, p1.SLOPE_ORDER.compare(p1, p2));
-        Assert.assertEquals(1, p2.SLOPE_ORDER.compare(p1, p2));
+        Assert.assertEquals(-1, p0.SLOPE_ORDER.compare(p1, p2));
+        Assert.assertEquals(-1, p0.SLOPE_ORDER.compare(p2, p3));
+        Assert.assertEquals(-1, p0.SLOPE_ORDER.compare(p3, p4));
     }
     
     @Test
     public void slope_ordering_2() {
         // Given
-        Point p1 = new Point( 1,  0);
-        Point p2 = new Point( 0,  1);
-        Point p3 = new Point(-1,  0);
-        Point p4 = new Point( 0, -1);
-        
-        // Then 
-        Assert.assertEquals(-1, p1.SLOPE_ORDER.compare(p1, p2));
-        Assert.assertEquals(-1, p1.SLOPE_ORDER.compare(p2, p3));
-        Assert.assertEquals(-1, p1.SLOPE_ORDER.compare(p3, p4));
+    	
+    	int N = (int) (10 + 100 * Math.random());
+    	double R = 1000;
+    	double dAngle = 2 * Math.PI / N;
+    	
+    	Point[] points = new Point[N];
+    	for(int i = 0; i < N; i++) {
+    		int x = (int) (R * Math.cos(i * dAngle));
+    		int y = (int) (R * Math.sin(i * dAngle));
+    		points[i] = new Point(x, y);
+    	}
+    	
+    	Point ZERO = new Point(0, 0);
+    	for (int i = 1; i < N; i++) {
+    		Assert.assertEquals(+1, ZERO.SLOPE_ORDER.compare(points[i], points[i-1]));
+    	}    	
     }
     
     @Test
     public void slope_ordering_3() {
-
-        Point p1 = new Point( 1,  0);
-        Point p2 = new Point( 0,  1);
-        Point p3 = new Point(-1,  0);
-        Point p4 = new Point( 0, -1);
-                
-        final Point[] ORDERED = {p1, p2, p3, p4}; // I know this is correctly ordered
-        
-        // Given a shuffled array of points
-        Point[] shuffled = {p1, p2, p3, p4};
-        StdRandom.shuffle(shuffled);
-        
-        // When sorted
-        Arrays.sort(shuffled, p1.SLOPE_ORDER);
-        
-        // It equals to ORDERED
-        for(int i = 0; i < shuffled.length; i++) {
-            Assert.assertEquals(shuffled[i], ORDERED[i]);
-        }
+    	
+        // Given a shuffled array of Points  	
+    	int N = (int) (10 + 100 * Math.random());
+    	double R = 1000;
+    	double dAngle = 2 * Math.PI / N;
+    	Point ZERO = new Point(0, 0);
+    	
+    	Point[] ordered = new Point[N];
+    	Point[] shuffled = new Point[N];
+    	for(int i = 0; i < N; i++) {
+    		int x = (int) (R * Math.cos(i * dAngle));
+    		int y = (int) (R * Math.sin(i * dAngle));
+    		ordered[i] = shuffled[i] = new Point(x, y);
+    	}
+    	
+    	StdRandom.shuffle(shuffled);
+    	
+    	// When sorted
+    	Arrays.sort(shuffled, ZERO.SLOPE_ORDER);
+    	
+    	// Then it is sorted
+    	for (int i = 1; i < N; i++) {
+    		Assert.assertEquals(ordered[i], shuffled[i]);
+    	}    	
     }
     
     @Test
@@ -103,7 +117,7 @@ public class PointTest {
         Assert.assertTrue(p0.compareTo(p1) ==  0);
     }
     
-    @Test
+    /*@Test
     public void xy_ordering_2() {
                 
         Point[] ordered = {
@@ -132,7 +146,7 @@ public class PointTest {
                 
         for (int i = 0; i < shuffled.length; i++) Assert.assertEquals(ordered[i], shuffled[i]);
         
-    }
+    }*/
 
 }
 

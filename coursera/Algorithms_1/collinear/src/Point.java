@@ -100,22 +100,22 @@ public class Point implements Comparable<Point> {
     class PointComparator implements Comparator<Point> {
         
         /**
-         * Compares two 2D-points by slope.
+         * Compares two 2D-points by slope (invoking point is the reference)
          * @see java.util.Comparator
          */
         @Override
         public int compare(Point p1, Point p2) {
             
-            Point ZERO = new Point(0,0);
-            double slopeP1 = ZERO.slopeTo(p1);
-            double slopeP2 = ZERO.slopeTo(p2);
+            double angleP1 = Math.atan2(p1.y - y, p1.x - x);
+            if (angleP1 < 0) angleP1 += 2*Math.PI;
             
-            // TODO: patologyc cases: slopeP* infinity etc
+            double angleP2 = Math.atan2(p2.y - y, p2.x - x);
+            if (angleP2 < 0) angleP2 += 2*Math.PI;
             
-            int ans = 0;
-            if (Math.abs(slopeP1 - slopeP2) < Double.MIN_VALUE) ans = 0;
-            else if (slopeP1 < slopeP2) ans = -1;
-            else ans = +1;
+            int ans;
+            if (angleP1 < angleP2) ans = -1;
+            else if (angleP1 > angleP2) ans = +1;
+            else ans = 0;
                         
             return ans;
         }        
