@@ -1,0 +1,18 @@
+h1. Randomized Queues and Deques
+
+Classes written under demand of "programming assignment 3":https://class.coursera.org/algs4partI-002/assignment/view?assignment_id=4 of the course _Algorithms, part I_ of Coursera and Princetton University ("here":https://class.coursera.org/algs4partI-002/class/index). Here are the "specification":http://coursera.cs.princeton.edu/algs4/assignments/collinear.html and "checklist":http://coursera.cs.princeton.edu/algs4/checklists/collinear.html.
+
+h3. Files
+
+* src/Point.java - A 2D-point representation
+* src/Brute.java - Search for 4-aligned Point's (brute force algorithm)
+* src/Fast.java - Search for 4-aligned Point's (faster algorithm)
+
+
+h3. Requirements
+
+* JDK 1.7.0-13
+* "JUnit":http://junit.sourceforge.net/ 4.10 and "Hamcrest":http://code.google.com/p/hamcrest/ 1.0.0 for unit tests
+* "stdlib.jar":http://algs4.cs.princeton.edu/code/stdlib.jar for I/O
+* "algs4.jar":http://algs4.cs.princeton.edu/code/algs4.jar for random numbers, shuffling etc
+

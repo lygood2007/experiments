@@ -7,6 +7,8 @@
  * Dependencies: StdDraw.java
  *
  * Description: An immutable data type for points in the plane.
+ * 
+ * TODO: reimplement Comparator using slopes, not angle
  */
 import java.util.Comparator;
 
@@ -15,8 +17,8 @@ import java.util.Comparator;
  */
 public class Point implements Comparable<Point> {
 
-    public final Comparator<Point> SLOPE_ORDER
-    	= new PointComparator(); // Compare points by slope to this point
+    public final Comparator<Point> SLOPE_ORDER =
+            new PointComparator(); // Compare points by slope to this point
 
     private final int x; // x coordinate
     private final int y; // y coordinate
@@ -48,9 +50,33 @@ public class Point implements Comparable<Point> {
         /* DO NOT MODIFY */
         StdDraw.line(this.x, this.y, that.x, that.y);
     }
-
+    
     /**
-     * Slope between this point and that point.
+     * String representation of this point
+     */
+    public String toString() {
+        /* DO NOT MODIFY */
+        return "(" + x + ", " + y + ")";
+    }
+    
+    /**
+     * Is this point lexicographically smaller than that one?
+     */
+    public int compareTo(Point that) {
+        
+        int ans;
+        
+        if      (this.y < that.y) ans = -1;
+        else if (this.y > that.y) ans = +1;
+        else if (this.x < that.x) ans = -1;
+        else if (this.x > that.x) ans = +1;
+        else                      ans =  0;
+        
+        return ans;
+    }
+    
+    /**
+     * Slope from this point to that point.
      * @param that The other point.
      * @return The slope, a real number.
      */
@@ -69,30 +95,6 @@ public class Point implements Comparable<Point> {
         
         return ans;        
     }
-
-    /**
-     * Is this point lexicographically smaller than that one?
-     */
-    public int compareTo(Point that) {
-        
-        int ans;
-        
-        if      (this.y < that.y) ans = -1;
-        else if (this.y > that.y) ans = +1;
-        else if (this.x < that.x) ans = -1;
-        else if (this.x > that.x) ans = +1;
-        else                      ans =  0;
-        
-        return ans;
-    }
-
-    /**
-     * String representation of this point
-     */
-    public String toString() {
-        /* DO NOT MODIFY */
-        return "(" + x + ", " + y + ")";
-    }
     
     /**
      * Compares two 2D-points by slope.
@@ -107,15 +109,12 @@ public class Point implements Comparable<Point> {
         @Override
         public int compare(Point p1, Point p2) {
             
-            double angleP1 = Math.atan2(p1.y - y, p1.x - x);
-            if (angleP1 < 0) angleP1 += 2*Math.PI;
-            
-            double angleP2 = Math.atan2(p2.y - y, p2.x - x);
-            if (angleP2 < 0) angleP2 += 2*Math.PI;
+            double slopeP1 = slopeTo(p1);
+            double slopeP2 = slopeTo(p2);
             
             int ans;
-            if (angleP1 < angleP2) ans = -1;
-            else if (angleP1 > angleP2) ans = +1;
+            if (slopeP1 < slopeP2) ans = -1;
+            else if (slopeP1 > slopeP2) ans = +1;
             else ans = 0;
                         
             return ans;
