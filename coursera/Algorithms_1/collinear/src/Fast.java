@@ -81,55 +81,46 @@ public class Fast {
         
         LinkedList<Point[]> allSegments = new LinkedList<Point[]>();
         LinkedList<Point> oneSegment = new LinkedList<Point>();
-        Iterator<Point[]> it;
         
         Point[] copy = Arrays.copyOf(points, points.length);
         
         for (int i = 0; i < points.length; i++) {
             
-            // Part 1: construct oneSegment, a list of points aligned with points[i]
             Arrays.sort(copy, points[i].SLOPE_ORDER);
-            
+            //print(points[i], copy);
             oneSegment = new LinkedList<Point>();
+            oneSegment.push(points[i]);
             
             for (int j = 1; j < points.length; j++) {
-                
+                //System.out.println(j);
                 if (points[i] == copy[j] || points[i] == copy[j-1]) continue;
-                            
                 
                 if (equals(points[i].slopeTo(copy[j]),
                            points[i].slopeTo(copy[j-1]))) {
                     
-                    if (oneSegment.isEmpty()) oneSegment.push(copy[j-1]);
+                    if (oneSegment.size() == 1) oneSegment.push(copy[j-1]);
                     oneSegment.push(copy[j]);
                 }
                 else {
-                    //if (!oneSegment.isEmpty()) break;
-                    // TODO: this method is not working well because there may be some aligned points, but not enough to create a segment 
-                    if (oneSegment.size() > 3) break;
-                    else oneSegment = new LinkedList<Point>();
+                    //printList(oneSegment);
+                    if (oneSegment.size() > 1) {
+                        if (oneSegment.size() >= 4) insert(oneSegment, allSegments);
+                        //else System.out.println("no add");
+                        oneSegment = new LinkedList<Point>();
+                        oneSegment.push(points[i]);
+                    }
+                    else {
+                        //System.out.println("no add");
+                    }
                 }
             }
             
-            oneSegment.push(points[i]);
-            
-            // Part 2: add oneSegment to allSegments if it is not there yet 
-            if (oneSegment.size() > 3) {
-                Point[] sorted = oneSegment.toArray(new Point[oneSegment.size()]);
-                Arrays.sort(sorted);
-                
-                boolean insert = true;
-                it = allSegments.iterator();
-                while (it.hasNext() && insert) {
-                    if (Arrays.equals(it.next(), sorted)) insert = false;
-                }                
-                if (insert) allSegments.push(sorted);
-            }
+            if (oneSegment.size() >= 4) insert(oneSegment, allSegments);
         }
         
         String output = "";
         
-        it = allSegments.iterator();
+        Iterator<Point[]> it = allSegments.iterator();
         while (it.hasNext()) {
             Point[] pts = it.next();
             
@@ -146,6 +137,36 @@ public class Fast {
         for (Point p : points) p.draw();
         
         System.out.println(output);
+    }
+    
+    private void printList(LinkedList<Point> l) {
+        Iterator<Point> it = l.iterator();
+        while(it.hasNext()) {
+            System.out.print(it.next());
+        }
+        System.out.print("... ");
+    }
+    
+    private void print(Point p, Point[] ps) {
+        String output = p + "\t";
+        for (Point pt : ps) output += pt;
+        System.out.println(output);
+    }
+    
+    private void insert(LinkedList<Point> segment, LinkedList<Point[]> segments) {
+        Point[] sorted = segment.toArray(new Point[segment.size()]);
+        Arrays.sort(sorted);
+        
+        boolean insert = true;
+        Iterator<Point[]> it = segments.iterator();
+        while (it.hasNext() && insert) {
+            if (Arrays.equals(it.next(), sorted)) insert = false;
+        }               
+        if (insert) {
+            segments.push(sorted);
+            System.out.println("add");
+        }
+        else System.out.println("no add");
     }
     
     /**
