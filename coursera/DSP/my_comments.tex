@@ -1,0 +1,37 @@
+\documentclass[14paper, 12pt]{article}
+	\usepackage[utf8]{inputenc}
+	\usepackage[T1]{fontenc}
+	\usepackage{amsmath}
+	%\usepackage{paralist}
+
+	\newcommand\integer{\mathbb{Z}}
+	\DeclareMathOperator{\LCM}{LCM}
+
+\begin{document}
+
+\begin{itemize}
+	\item A discrete signal $x[n] = \exp(i\omega n)$ is periodic if $\omega = 2\pi p/q$ for $p,q\in\integer$.
+	\item If $\omega = 2\pi/M$, $x[n+M] = x[n]$
+	\item For any discrete signal,
+	\item $\omega_\text{min} = 0$
+	\item $\omega_\text{max} = \pi$
+	\item Colors are eigenfunctions of optical elements
+	\item $z^{-k}\left(x[n]\right) = x[n-k]$
+\end{itemize}
+
+	\paragraph{Problem:} given a periodic signal $x[n]=\exp(i\omega n)$ with $\omega = 2\pi p/q$ and $p,q\in\integer$, what is the amount of samples before $x[n]$ repeats?
+
+	\paragraph{Solution:} because $x[n]$ is periodic, there may be a $\Delta n\in\integer$ such that $x[n+\Delta n] = x[n]$, and we want to find the minimum $\Delta n$. From this equality,
+	\begin{equation}
+	\exp(i\omega\Delta n) = 1 \quad\Rightarrow\quad
+		\left(2\pi\frac{p}{q}\right)\Delta n = 2\pi r \quad\Rightarrow\quad
+			\Delta n = \frac{q}{p} r.
+	\end{equation}
+	with $r\in\integer$. In other words, we need to find the smallest integer $r$ for which $qr/p$ is integer. This means that $qr$ must be the least common multiple of $q$ and $p$. So, $r = \LCM(p,q)/q$ and
+	\begin{equation}
+		\Delta n = \frac{\LCM(p,q)}{p}.
+	\end{equation}
+
+	\paragraph{Example:} $x[n]=\exp(i2\pi35/15n)$. So, $p=35$, $q=15$ and $\LCM(p,q) = 105$. So, $\Delta n = 105/35 = 3$.
+
+\end{document}

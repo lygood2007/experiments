@@ -44,13 +44,15 @@ public class Fast {
             points[i++] = new Point(x, y);
         }
         
-        StdDraw.setXscale(min-1, max+1);
-        StdDraw.setYscale(min-1, max+1);
+        //StdDraw.setXscale(min-1, max+1);
+        //StdDraw.setYscale(min-1, max+1);
+        StdDraw.setXscale(0, 32768); // Requested by the assignment
+        StdDraw.setYscale(0, 32768); // Requested by the assignment
         
         LinkedList<Point[]> segments = new LinkedList<Point[]>();
         
         seek(points, segments);
-        draw(segments);
+        draw(points, segments);        
     }
     
     /**
@@ -58,6 +60,9 @@ public class Fast {
      * Seeks for the line-segments composed of 4 or more points.
      */
     private static void seek(Point[] points, LinkedList<Point[]> segments) {
+        
+        if (points.length < 4) return;
+        
         Point[] copy = Arrays.copyOf(points, points.length);
         
         for (int i = 0; i < points.length; i++) {
@@ -89,8 +94,8 @@ public class Fast {
      * Draws the line-segments found by seek()
      * @see seek
      */
-    private static void draw(LinkedList<Point[]> segments) {
-        
+    private static void draw(Point[] points, LinkedList<Point[]> segments) {
+                
         String output = "";
         
         Iterator<Point[]> it = segments.iterator();
@@ -107,6 +112,9 @@ public class Fast {
         }
         
         System.out.println(output);
+        
+        StdDraw.setPenRadius(0.01);
+        for (Point p : points) p.draw();
     }
     
     /**

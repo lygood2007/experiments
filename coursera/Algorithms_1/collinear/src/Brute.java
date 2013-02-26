@@ -40,8 +40,10 @@ public class Brute {
             points[i++] = new Point(x, y);
         }
         
-        StdDraw.setXscale(min-1, max+1);
-        StdDraw.setYscale(min-1, max+1);
+        //StdDraw.setXscale(min-1, max+1);
+        //StdDraw.setYscale(min-1, max+1);
+        StdDraw.setXscale(0, 32768); // Requested by the assignment
+        StdDraw.setYscale(0, 32768); // Requested by the assignment
         
         seekAndDraw(points);
     }
@@ -53,39 +55,44 @@ public class Brute {
      */
     private static void seekAndDraw(Point[] points) {
         
-        for (int p = 0; p < points.length; p++) {
-            for (int q = p+1; q < points.length; q++) {
-                for (int r = q+1; r < points.length; r++) {
-                    for (int s = r+1; s < points.length; s++) {
-                        
-                        if (p == q || p == r || p == s
-                         || q == r || q == s || r == s)
-                            continue;
-                        
-                        if (aligned(points[p],
-                                    points[q],
-                                    points[r],
-                                    points[s])) {
+        if (points.length >= 4) {
+            for (int p = 0; p < points.length; p++) {
+                for (int q = p+1; q < points.length; q++) {
+                    for (int r = q+1; r < points.length; r++) {
+                        for (int s = r+1; s < points.length; s++) {
                             
-                            Point[] alignedPoints = {
-                                    points[p],
-                                    points[q],
-                                    points[r],
-                                    points[s]
-                            };
-                            Arrays.sort(alignedPoints);
+                            if (p == q || p == r || p == s
+                             || q == r || q == s || r == s)
+                                continue;
                             
-                            System.out.println(alignedPoints[0] + " -> "
-                                             + alignedPoints[1] + " -> "
-                                             + alignedPoints[2] + " -> "
-                                             + alignedPoints[3]);
-                            
-                            alignedPoints[0].drawTo(alignedPoints[3]);
+                            if (aligned(points[p],
+                                        points[q],
+                                        points[r],
+                                        points[s])) {
+                                
+                                Point[] alignedPoints = {
+                                        points[p],
+                                        points[q],
+                                        points[r],
+                                        points[s]
+                                };
+                                Arrays.sort(alignedPoints);
+                                
+                                System.out.println(alignedPoints[0] + " -> "
+                                                 + alignedPoints[1] + " -> "
+                                                 + alignedPoints[2] + " -> "
+                                                 + alignedPoints[3]);
+                                
+                                alignedPoints[0].drawTo(alignedPoints[3]);
+                            }
                         }
                     }
                 }
             }
         }
+        
+        StdDraw.setPenRadius(0.01);
+        for (Point p : points) p.draw();
     }
  
     /**
