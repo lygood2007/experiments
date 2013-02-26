@@ -11,29 +11,16 @@ import java.util.Arrays;
  */
 public class Brute {
 
-    private Point[] points; // the set of points to analyze
-
     /**
-     * Constructor
-     * @param points
-     */
-    public Brute(Point[] ps) {
-        this.points = Arrays.copyOf(ps, ps.length);
-        draw();
-    }
- 
-    /**
-     * Client test
-     * @param args
+     * Given an input file with 2D-points, seeks for aligned points
+     * @param args Name of the input file
      */
     public static void main(String[] args) {
         
         In input = new In(args[0]);
         
-        int xmin = Integer.MAX_VALUE;
-        int xmax = Integer.MIN_VALUE;
-        int ymin = Integer.MAX_VALUE;
-        int ymax = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
         
         int N = input.readInt();
         Point[] points = new Point[N];
@@ -44,29 +31,27 @@ public class Brute {
             int x = input.readInt();
             int y = input.readInt();
             
-            if (x < xmin) xmin = x;
-            else if (x > xmax) xmax = x;
+            if (x < min) min = x;
+            else if (x > max) max = x;
             
-            if (y < ymin) ymin = y;
-            else if (y > ymax) ymax = y;
+            if (y < min) min = y;
+            else if (y > max) max = y;
             
             points[i++] = new Point(x, y);
         }
         
-        StdDraw.setXscale(xmin-1, xmax+1);
-        StdDraw.setYscale(ymin-1, ymax+1);
+        StdDraw.setXscale(min-1, max+1);
+        StdDraw.setYscale(min-1, max+1);
         
-        Stopwatch sw = new Stopwatch();
-        new Brute(points);
-        System.out.println(String.format("Elapsed time: %3.3f s",
-                                         sw.elapsedTime()/1000));
+        seekAndDraw(points);
     }
  
     /**
      * @private
-     * Draws the set of points given and the lines connecting aligned points.
+     * Seeks for the line-segments composed of 4 or more points,
+     * draws and prints them.
      */
-    private void draw() {
+    private static void seekAndDraw(Point[] points) {
         
         for (int p = 0; p < points.length; p++) {
             for (int q = p+1; q < points.length; q++) {
@@ -101,33 +86,24 @@ public class Brute {
                 }
             }
         }
-        
-        StdDraw.setPenRadius(0.01);
-        for (Point p : points) p.draw();
     }
  
     /**
      * @private
-     * Indicates whether four given points are aligned.
-     * @param a First point
-     * @param b Second point
-     * @param c Third point
-     * @param d Fourth point
-     * @return true if they are aligned; false otherwise.
+     * Checks whether p1, p2, p3 and p4 are aligned.
      */
-    private boolean aligned(Point a, Point b, Point c, Point d) {
-        return equals(a.slopeTo(b), a.slopeTo(c))
-            && equals(a.slopeTo(c), a.slopeTo(d));
+    private static boolean aligned(Point p1, Point p2, Point p3, Point p4) {
+        return equals(p1.slopeTo(p2), p1.slopeTo(p3))
+            && equals(p1.slopeTo(p3), p1.slopeTo(p4));
     }
  
     /**
      * @private
-     * Double comparison
-     * @param a First number
-     * @param b Second number
-     * @return true if a == b; false otherwise.
+     * Checkes for Double equality
      */
-    private boolean equals(double a, double b) {
-        return Math.abs(a-b) < Double.MIN_VALUE;
+    private static boolean equals(double a, double b) {
+        boolean ans = a == b;
+        if (!ans) ans = Math.abs(a-b) < Double.MIN_VALUE;
+        return ans;
     }
 }

@@ -17,5 +17,4 @@ h3. Requirements
 * JDK 1.7.0-13
 * "JUnit":http://junit.sourceforge.net/ 4.10 for unit tests
 * "stdlib.jar":http://algs4.cs.princeton.edu/code/stdlib.jar for I/O
-* "algs4.jar":http://algs4.cs.princeton.edu/code/algs4.jar for random numbers, shuffling etc
 

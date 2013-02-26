@@ -8,31 +8,15 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * For a given set of 2D-points, draws the points, scans for 4-aligned
+ * For a given set of 2D-points, scans for 4-aligned
  * subsets of points and draws lines connecting them. Differently from
  * Brute.java, this class uses a more efficient algorithm to do this.
  */
 public class Fast {
-
-    private Point[] points; // the set of points to analyze
-    private LinkedList<Point[]> segments; // List of the line-segments found
     
     /**
-     * Constructor
-     * @param points
-     */
-    public Fast(Point[] ps) {
-        points = Arrays.copyOf(ps, ps.length);
-        segments = new LinkedList<Point[]>();
-        
-        seek();
-        draw();
-    }
-    
-    /**
-     * Client test
+     * Given an input file with 2D-points, seeks for aligned points
      * @param args Name of the input file
-     * @throws Exception 
      */
     public static void main(String[] args) {
         
@@ -42,10 +26,8 @@ public class Fast {
         
         Point[] points = new Point[N];
         
-        int xmin = Integer.MAX_VALUE;
-        int xmax = Integer.MIN_VALUE;
-        int ymin = Integer.MAX_VALUE;
-        int ymax = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
         
         int i = 0;
         while (!input.isEmpty()) {
@@ -53,34 +35,29 @@ public class Fast {
             int x = input.readInt();
             int y = input.readInt();
             
-            if (x < xmin) xmin = x;
-            else if (x > xmax) xmax = x;
+            if (x < min) min = x;
+            else if (x > max) max = x;
             
-            if (y < ymin) ymin = y;
-            else if (y > ymax) ymax = y;
+            if (y < min) min = y;
+            else if (y > max) max = y;
             
             points[i++] = new Point(x, y);
         }
         
-        xmin = Math.min(xmin, ymin);
-        ymin = xmin;
-        xmax = Math.max(xmax, ymax);
-        ymax = xmax;
+        StdDraw.setXscale(min-1, max+1);
+        StdDraw.setYscale(min-1, max+1);
         
-        StdDraw.setXscale(xmin-1, xmax+1);
-        StdDraw.setYscale(ymin-1, ymax+1);
+        LinkedList<Point[]> segments = new LinkedList<Point[]>();
         
-        Stopwatch sw = new Stopwatch();
-        new Fast(points); 
-        System.out.println(String.format("Elapsed time: %3.3f s",
-                                         sw.elapsedTime()/1000));
+        seek(points, segments);
+        draw(segments);
     }
     
     /**
      * @private
      * Seeks for the line-segments composed of 4 or more points.
      */
-    private void seek() {
+    private static void seek(Point[] points, LinkedList<Point[]> segments) {
         Point[] copy = Arrays.copyOf(points, points.length);
         
         for (int i = 0; i < points.length; i++) {
@@ -95,7 +72,7 @@ public class Fast {
                 if (!aligned(points[i], copy[j], copy[j-1])) {
                     
                     if (j - jmin >= 3)
-                        addSegment(copy, jmin, j-1, points[i]);
+                        addSegment(copy, jmin, j-1, points[i], segments);
                     
                     jmin = j;
                 }
@@ -103,7 +80,7 @@ public class Fast {
             } while (++j < points.length);
             
             if (j - jmin >= 3)
-                addSegment(copy, jmin, j-1, points[i]);
+                addSegment(copy, jmin, j-1, points[i], segments);
         }
     }
     
@@ -112,7 +89,7 @@ public class Fast {
      * Draws the line-segments found by seek()
      * @see seek
      */
-    private void draw() {
+    private static void draw(LinkedList<Point[]> segments) {
         
         String output = "";
         
@@ -139,8 +116,10 @@ public class Fast {
      * @param imin Lower index (starts copy here)
      * @param imax Upper index (stops copy here)
      * @param pivot The point used to find this segment
+     * @param segments List of segments
      */
-    private void addSegment(Point[] original, int imin, int imax, Point pivot) {
+    private static void addSegment(Point[] original, int imin, int imax,
+            Point pivot, LinkedList<Point[]> segments) {
 
         Point[] segment = new Point[imax - imin + 2];
         int j = 0;
@@ -159,18 +138,19 @@ public class Fast {
         if (insert) segments.push(segment);
     }
     
-    private boolean aligned(Point p1, Point p2, Point p3) {
+    /**
+     * @private
+     * Checks whether p1, p2 and p3 are aligned.
+     */
+    private static boolean aligned(Point p1, Point p2, Point p3) {
         return equals(p1.slopeTo(p2), p1.slopeTo(p3));
     }
     
     /**
      * @private
-     * Double comparison
-     * @param a First number
-     * @param b Second number
-     * @return true if a == b; false otherwise.
+     * Checkes for Double equality
      */
-    private boolean equals(double a, double b) {
+    private static boolean equals(double a, double b) {
         boolean ans = a == b;
         if (!ans) ans = Math.abs(a-b) < Double.MIN_VALUE;
         return ans;

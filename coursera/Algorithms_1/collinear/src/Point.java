@@ -98,7 +98,7 @@ public class Point implements Comparable<Point> {
      * Compares two 2D-points by slope.
      * @see java.util.Comparator
      */
-    class PointComparator implements Comparator<Point> {
+    private class PointComparator implements Comparator<Point> {
         
         /**
          * Compares two 2D-points by slope (invoking point is the reference)
