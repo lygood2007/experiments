@@ -35,75 +35,9 @@ public class PointTest {
     }
     
     @Test
-    public void slope_ordering_1() {
-        // Given
-    	Point p0 = new Point( 0,  0);
-        Point p1 = new Point( 1,  0);
-        Point p2 = new Point( 0,  1);
-        Point p3 = new Point(-1,  0);
-        Point p4 = new Point( 0, -1);
-        
-        // Then 
-        Assert.assertEquals(-1, p0.SLOPE_ORDER.compare(p1, p2));
-        Assert.assertEquals(-1, p0.SLOPE_ORDER.compare(p2, p3));
-        Assert.assertEquals(-1, p0.SLOPE_ORDER.compare(p3, p4));
-    }
-    
-    @Test
-    public void slope_ordering_2() {
-        // Given
-    	
-    	int N = (int) (10 + 100 * Math.random());
-    	double R = 1000;
-    	double dAngle = 2 * Math.PI / N;
-    	
-    	Point[] points = new Point[N];
-    	for(int i = 0; i < N; i++) {
-    		int x = (int) (R * Math.cos(i * dAngle));
-    		int y = (int) (R * Math.sin(i * dAngle));
-    		points[i] = new Point(x, y);
-    	}
-    	
-    	Point ZERO = new Point(0, 0);
-    	for (int i = 1; i < N; i++) {
-    		Assert.assertEquals(+1, ZERO.SLOPE_ORDER.compare(points[i], points[i-1]));
-    	}    	
-    }
-    
-    @Test
-    public void slope_ordering_3() {
-    	
-        // Given a shuffled array of Points  	
-    	int N = (int) (10 + 100 * Math.random());
-    	double R = 1000;
-    	double dAngle = 2 * Math.PI / N;
-    	Point ZERO = new Point(0, 0);
-    	
-    	Point[] ordered = new Point[N];
-    	Point[] shuffled = new Point[N];
-    	for(int i = 0; i < N; i++) {
-    		int x = (int) (R * Math.cos(i * dAngle));
-    		int y = (int) (R * Math.sin(i * dAngle));
-    		ordered[i] = shuffled[i] = new Point(x, y);
-    	}
-    	
-    	StdRandom.shuffle(shuffled);
-    	
-    	// When sorted
-    	Arrays.sort(shuffled, ZERO.SLOPE_ORDER);
-    	
-    	// Then it is sorted
-    	for (int i = 1; i < N; i++) {
-    		Assert.assertEquals(ordered[i], shuffled[i]);
-    	}    	
-    }
-    
-    @Test
-    public void slope_ordering_4() {
+    public void slope_ordering() {
         Point p1 = new Point(0,  0);
         Point p2 = new Point(0,  1);
-        Point p3 = new Point(0, -1);
-        Point p4 = new Point(0,  0);
         
         System.out.println(p1.SLOPE_ORDER.compare(p1, p2));
         System.out.println(p1.SLOPE_ORDER.compare(p1, p1));

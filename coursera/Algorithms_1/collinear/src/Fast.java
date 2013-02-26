@@ -15,17 +15,18 @@ import java.util.LinkedList;
 public class Fast {
 
     private Point[] points; // the set of points to analyze
-    private LinkedList<Point[]> segments;
+    private LinkedList<Point[]> segments; // List of the line-segments found
     
     /**
      * Constructor
      * @param points
      */
-    public Fast(Point[] points) {
-        this.points = points;
+    public Fast(Point[] ps) {
+        points = Arrays.copyOf(ps, ps.length);
         segments = new LinkedList<Point[]>();
-        draw();
         
+        seek();
+        draw();
     }
     
     /**
@@ -77,10 +78,9 @@ public class Fast {
     
     /**
      * @private
-     * Draws the set of points given and the lines connecting aligned points.
+     * Seeks for the line-segments composed of 4 or more points.
      */
-    private void draw() {
-        
+    private void seek() {
         Point[] copy = Arrays.copyOf(points, points.length);
         
         for (int i = 0; i < points.length; i++) {
@@ -92,26 +92,27 @@ public class Fast {
             
             do {
                 
-                /*if (points[i] == copy[j] || points[i] == copy[j-1]) {
-                    jmin = j;
-                    continue;
-                }*/
-                
                 if (!aligned(points[i], copy[j], copy[j-1])) {
                     
-                    if (j - jmin >= 3) {
+                    if (j - jmin >= 3)
                         addSegment(copy, jmin, j-1, points[i]);
-                    }
                     
                     jmin = j;
                 }
                 
             } while (++j < points.length);
             
-            if (j - jmin >= 3) {
+            if (j - jmin >= 3)
                 addSegment(copy, jmin, j-1, points[i]);
-            }
         }
+    }
+    
+    /**
+     * @private
+     * Draws the line-segments found by seek()
+     * @see seek
+     */
+    private void draw() {
         
         String output = "";
         
@@ -128,34 +129,38 @@ public class Fast {
             output += "\n";         
         }
         
-        StdDraw.setPenRadius(0.01);
-        for (Point p : points) p.draw();
-        
         System.out.println(output);
     }
     
+    /**
+     * @private
+     * Inserts a new segment to the segments list, if it is not there yet.
+     * @param original Sub-set of points to copy from
+     * @param imin Lower index (starts copy here)
+     * @param imax Upper index (stops copy here)
+     * @param pivot The point used to find this segment
+     */
     private void addSegment(Point[] original, int imin, int imax, Point pivot) {
 
         Point[] segment = new Point[imax - imin + 2];
         int j = 0;
-        for (int i = imin; i <= imax; i++) {
+        for (int i = imin; i <= imax; i++)
             segment[j++] = original[i];
-        }        
-        //segment = Arrays.copyOfRange(original, imin, imax);
+        
         segment[j] = pivot;
         Arrays.sort(segment);
                 
-        // TODO: otimizar com hash?
         boolean insert = true;
         Iterator<Point[]> it = segments.iterator();
         while (it.hasNext() && insert) {
             if (Arrays.equals(it.next(), segment)) insert = false;
-        }               
+        }
+        
         if (insert) segments.push(segment);
     }
     
-    private boolean aligned(Point pivot, Point p1, Point p2) {
-        return equals(pivot.slopeTo(p1), pivot.slopeTo(p2));
+    private boolean aligned(Point p1, Point p2, Point p3) {
+        return equals(p1.slopeTo(p2), p1.slopeTo(p3));
     }
     
     /**

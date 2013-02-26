@@ -17,8 +17,8 @@ public class Brute {
      * Constructor
      * @param points
      */
-    public Brute(Point[] points) {
-        this.points = points;
+    public Brute(Point[] ps) {
+        this.points = Arrays.copyOf(ps, ps.length);
         draw();
     }
  

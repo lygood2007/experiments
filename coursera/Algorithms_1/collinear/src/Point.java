@@ -7,8 +7,6 @@
  * Dependencies: StdDraw.java
  *
  * Description: An immutable data type for points in the plane.
- * 
- * TODO: reimplement Comparator using slopes, not angle
  */
 import java.util.Comparator;
 
