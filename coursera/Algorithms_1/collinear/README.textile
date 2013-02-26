@@ -1,4 +1,4 @@
-h1. Randomized Queues and Deques
+h1. Collinear points
 
 Classes written under demand of "programming assignment 3":https://class.coursera.org/algs4partI-002/assignment/view?assignment_id=4 of the course _Algorithms, part I_ of Coursera and Princetton University ("here":https://class.coursera.org/algs4partI-002/class/index). Here are the "specification":http://coursera.cs.princeton.edu/algs4/assignments/collinear.html and "checklist":http://coursera.cs.princeton.edu/algs4/checklists/collinear.html.
 
@@ -8,6 +8,9 @@ h3. Files
 * src/Brute.java - Search for 4-aligned Point's (brute force algorithm)
 * src/Fast.java - Search for 4-aligned Point's (faster algorithm)
 
+h3. 3rd party tests
+
+* "Sample input files":http://coursera.cs.princeton.edu/algs4/testing/collinear
 
 h3. Requirements
 
