@@ -15,6 +15,7 @@ import java.util.LinkedList;
 public class Fast {
 
     private Point[] points; // the set of points to analyze
+    private LinkedList<Point[]> segments;
     
     /**
      * Constructor
@@ -22,6 +23,7 @@ public class Fast {
      */
     public Fast(Point[] points) {
         this.points = points;
+        segments = new LinkedList<Point[]>();
         draw();
         
     }
@@ -79,48 +81,41 @@ public class Fast {
      */
     private void draw() {
         
-        LinkedList<Point[]> allSegments = new LinkedList<Point[]>();
-        LinkedList<Point> oneSegment = new LinkedList<Point>();
-        
         Point[] copy = Arrays.copyOf(points, points.length);
         
         for (int i = 0; i < points.length; i++) {
             
             Arrays.sort(copy, points[i].SLOPE_ORDER);
-            //print(points[i], copy);
-            oneSegment = new LinkedList<Point>();
-            oneSegment.push(points[i]);
             
-            for (int j = 1; j < points.length; j++) {
-                //System.out.println(j);
-                if (points[i] == copy[j] || points[i] == copy[j-1]) continue;
+            int jmin = 0;
+            int j = 1;
+            
+            do {
                 
-                if (equals(points[i].slopeTo(copy[j]),
-                           points[i].slopeTo(copy[j-1]))) {
+                /*if (points[i] == copy[j] || points[i] == copy[j-1]) {
+                    jmin = j;
+                    continue;
+                }*/
+                
+                if (!aligned(points[i], copy[j], copy[j-1])) {
                     
-                    if (oneSegment.size() == 1) oneSegment.push(copy[j-1]);
-                    oneSegment.push(copy[j]);
-                }
-                else {
-                    //printList(oneSegment);
-                    if (oneSegment.size() > 1) {
-                        if (oneSegment.size() >= 4) insert(oneSegment, allSegments);
-                        //else System.out.println("no add");
-                        oneSegment = new LinkedList<Point>();
-                        oneSegment.push(points[i]);
+                    if (j - jmin >= 3) {
+                        addSegment(copy, jmin, j-1, points[i]);
                     }
-                    else {
-                        //System.out.println("no add");
-                    }
+                    
+                    jmin = j;
                 }
-            }
+                
+            } while (++j < points.length);
             
-            if (oneSegment.size() >= 4) insert(oneSegment, allSegments);
+            if (j - jmin >= 3) {
+                addSegment(copy, jmin, j-1, points[i]);
+            }
         }
         
         String output = "";
         
-        Iterator<Point[]> it = allSegments.iterator();
+        Iterator<Point[]> it = segments.iterator();
         while (it.hasNext()) {
             Point[] pts = it.next();
             
@@ -139,34 +134,28 @@ public class Fast {
         System.out.println(output);
     }
     
-    private void printList(LinkedList<Point> l) {
-        Iterator<Point> it = l.iterator();
-        while(it.hasNext()) {
-            System.out.print(it.next());
-        }
-        System.out.print("... ");
-    }
-    
-    private void print(Point p, Point[] ps) {
-        String output = p + "\t";
-        for (Point pt : ps) output += pt;
-        System.out.println(output);
-    }
-    
-    private void insert(LinkedList<Point> segment, LinkedList<Point[]> segments) {
-        Point[] sorted = segment.toArray(new Point[segment.size()]);
-        Arrays.sort(sorted);
-        
+    private void addSegment(Point[] original, int imin, int imax, Point pivot) {
+
+        Point[] segment = new Point[imax - imin + 2];
+        int j = 0;
+        for (int i = imin; i <= imax; i++) {
+            segment[j++] = original[i];
+        }        
+        //segment = Arrays.copyOfRange(original, imin, imax);
+        segment[j] = pivot;
+        Arrays.sort(segment);
+                
+        // TODO: otimizar com hash?
         boolean insert = true;
         Iterator<Point[]> it = segments.iterator();
         while (it.hasNext() && insert) {
-            if (Arrays.equals(it.next(), sorted)) insert = false;
+            if (Arrays.equals(it.next(), segment)) insert = false;
         }               
-        if (insert) {
-            segments.push(sorted);
-            System.out.println("add");
-        }
-        else System.out.println("no add");
+        if (insert) segments.push(segment);
+    }
+    
+    private boolean aligned(Point pivot, Point p1, Point p2) {
+        return equals(pivot.slopeTo(p1), pivot.slopeTo(p2));
     }
     
     /**
