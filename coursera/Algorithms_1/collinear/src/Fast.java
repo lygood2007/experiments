@@ -4,6 +4,8 @@
  */
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -19,6 +21,8 @@ public class Fast {
      * @param args Name of the input file
      */
     public static void main(String[] args) {
+        
+        Stopwatch sw = new Stopwatch();
         
         In input = new In(args[0]);
         
@@ -50,16 +54,17 @@ public class Fast {
         StdDraw.setYscale(0, 32768); // Requested by the assignment
         
         LinkedList<Point[]> segments = new LinkedList<Point[]>();
+        HashMap<Integer,Object> segments2 = new HashMap<Integer,Object>();
         
-        seek(points, segments);
-        draw(points, segments);        
+        seek(points, segments, segments2);
+        draw(points, segments, segments2);
     }
     
     /**
      * @private
      * Seeks for the line-segments composed of 4 or more points.
      */
-    private static void seek(Point[] points, LinkedList<Point[]> segments) {
+    private static void seek(Point[] points, LinkedList<Point[]> segments, HashMap<Integer,Object> segments2) {
         
         if (points.length < 4) return;
         
@@ -77,7 +82,7 @@ public class Fast {
                 if (!aligned(points[i], copy[j], copy[j-1])) {
                     
                     if (j - jmin >= 3)
-                        addSegment(copy, jmin, j-1, points[i], segments);
+                        addSegment(copy, jmin, j-1, points[i], segments, segments2);
                     
                     jmin = j;
                 }
@@ -85,7 +90,7 @@ public class Fast {
             } while (++j < points.length);
             
             if (j - jmin >= 3)
-                addSegment(copy, jmin, j-1, points[i], segments);
+                addSegment(copy, jmin, j-1, points[i], segments, segments2);
         }
     }
     
@@ -94,7 +99,7 @@ public class Fast {
      * Draws the line-segments found by seek()
      * @see seek
      */
-    private static void draw(Point[] points, LinkedList<Point[]> segments) {
+    private static void draw(Point[] points, LinkedList<Point[]> segments, HashMap<Integer,Object> segments2) {
                 
         String output = "";
         
@@ -127,7 +132,7 @@ public class Fast {
      * @param segments List of segments
      */
     private static void addSegment(Point[] original, int imin, int imax,
-            Point pivot, LinkedList<Point[]> segments) {
+            Point pivot, LinkedList<Point[]> segments, HashMap<Integer,Object> segments2) {
 
         Point[] segment = new Point[imax - imin + 2];
         int j = 0;
@@ -136,14 +141,23 @@ public class Fast {
         
         segment[j] = pivot;
         Arrays.sort(segment);
+        
+        int hash = (segment[0].toString() + segment[segment.length-1]).hashCode();
+        
+        Point[] s = {segment[0], segment[segment.length-1]};
                 
+        if (!segments2.containsKey(hash)) {
+            segments2.put(hash, null);            
+            segments.push(s);
+        }
+        /*
         boolean insert = true;
         Iterator<Point[]> it = segments.iterator();
         while (it.hasNext() && insert) {
             if (Arrays.equals(it.next(), segment)) insert = false;
         }
         
-        if (insert) segments.push(segment);
+        if (insert) segments.push(segment);*/
     }
     
     /**
