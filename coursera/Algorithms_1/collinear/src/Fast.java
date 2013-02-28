@@ -3,10 +3,10 @@
  * @email ivan.pagnossin@gmail.com
  */
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * For a given set of 2D-points, scans for 4-aligned
@@ -14,6 +14,19 @@ import java.util.LinkedList;
  * Brute.java, this class uses a more efficient algorithm to do this.
  */
 public class Fast {
+    
+    private static Point[] points;
+    private ArrayList<Point[]> segments = new ArrayList<Point[]>();
+    private HashSet<Integer> edges = new HashSet<Integer>();
+    
+    public Fast() {
+        if (points != null) {
+            Stopwatch stopwatch = new Stopwatch();
+            seek();
+            System.out.println("elapsed: " + stopwatch.elapsedTime());
+            draw();
+        }
+    }
     
     /**
      * Given an input file with 2D-points, seeks for aligned points
@@ -25,7 +38,7 @@ public class Fast {
         
         int N = input.readInt();
         
-        Point[] points = new Point[N];
+        Fast.points = new Point[N];
         
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
@@ -45,31 +58,25 @@ public class Fast {
             points[i++] = new Point(x, y);
         }
         
-        //StdDraw.setXscale(min-1, max+1);
-        //StdDraw.setYscale(min-1, max+1);
-        StdDraw.setXscale(0, 32768); // Requested by the assignment
-        StdDraw.setYscale(0, 32768); // Requested by the assignment
+        StdDraw.setXscale(min-1, max+1);
+        StdDraw.setYscale(min-1, max+1);
+        //StdDraw.setXscale(0, 32768); // Requested by the assignment
+        //StdDraw.setYscale(0, 32768); // Requested by the assignment
         
-        LinkedList<Point[]> segments = new LinkedList<Point[]>();
-        HashMap<Integer, Object> edges = new HashMap<Integer, Object>();
+        new Fast();
         
-        seek(points, segments, edges);
-        draw(points, segments, edges);
     }
     
     /**
      * @private
      * Seeks for the line-segments composed of 4 or more points.
      */
-    private static void seek(
-            Point[] points,
-            LinkedList<Point[]> segments,
-            HashMap<Integer, Object> segments2) {
+    private void seek() {
         
         if (points.length < 4) return;
         
         Point[] copy = Arrays.copyOf(points, points.length);
-        
+                
         for (int i = 0; i < points.length; i++) {
             
             Arrays.sort(copy, points[i].SLOPE_ORDER);
@@ -78,19 +85,21 @@ public class Fast {
             int j = 1;
             
             do {
+                if (copy[j] != points[i] && copy[j-1] != points[i]) {
                 
-                if (!aligned(points[i], copy[j], copy[j-1])) {
-                    
-                    if (j - jmin >= 3)
-                        addSegment(copy, jmin, j-1, points[i], segments, segments2);
-                    
-                    jmin = j;
+                    if (!aligned(points[i], copy[j], copy[j-1])) {
+                        
+                        if (j - jmin >= 3)
+                            addSegment(copy, jmin, j-1, points[i]);
+                        
+                        jmin = j;
+                    }
                 }
                 
             } while (++j < points.length);
             
             if (j - jmin >= 3)
-                addSegment(copy, jmin, j-1, points[i], segments, segments2);
+                addSegment(copy, jmin, j-1, points[i]);
         }
     }
     
@@ -102,12 +111,9 @@ public class Fast {
      * Method seek(), which performs the search, takes no more than 1 second!
      * @see seek
      */
-    private static void draw(
-            Point[] points,
-            LinkedList<Point[]> segments,
-            HashMap<Integer, Object> segments2) {
+    private void draw() {
                 
-        String output = "";
+        StringBuffer output = new StringBuffer();
         
         Iterator<Point[]> it = segments.iterator();
         while (it.hasNext()) {
@@ -116,16 +122,16 @@ public class Fast {
             pts[0].drawTo(pts[pts.length-1]);
             
             for (int i = 0; i < pts.length; i++) {
-                output += pts[i];
-                if (i < pts.length - 1) output += " -> ";
+                output.append(pts[i]);
+                if (i < pts.length - 1) output.append(" -> ");
             }
-            output += "\n";         
+            output.append("\n");
         }
-        
-        System.out.println(output);
         
         StdDraw.setPenRadius(0.01);
         for (Point p : points) p.draw();
+        
+        System.out.println(output);
     }
     
     /**
@@ -137,13 +143,11 @@ public class Fast {
      * @param pivot The point used to find this segment
      * @param segments List of segments
      */
-    private static void addSegment(
+    private void addSegment(
             Point[] original,
             int imin,
             int imax,
-            Point pivot,
-            LinkedList<Point[]> segments,
-            HashMap<Integer, Object> edges) {
+            Point pivot) {
 
         Point[] segment = new Point[imax - imin + 2];
         int j = 0;
@@ -155,9 +159,9 @@ public class Fast {
         
         int hash = (segment[0].toString() + segment[segment.length-1]).hashCode();
         
-        if (!edges.containsKey(hash)) {
-            edges.put(hash, null);            
-            segments.push(segment);
+        if (!edges.contains(hash)) {
+            edges.add(hash);            
+            segments.add(segment);
         }
     }
     
@@ -165,7 +169,7 @@ public class Fast {
      * @private
      * Checks whether p1, p2 and p3 are aligned.
      */
-    private static boolean aligned(Point p1, Point p2, Point p3) {
+    private boolean aligned(Point p1, Point p2, Point p3) {
         return equals(p1.slopeTo(p2), p1.slopeTo(p3));
     }
     
@@ -173,7 +177,7 @@ public class Fast {
      * @private
      * Checks for Double equality
      */
-    private static boolean equals(double a, double b) {
+    private boolean equals(double a, double b) {
         boolean ans = a == b;
         if (!ans) ans = Math.abs(a-b) < Double.MIN_VALUE;
         return ans;

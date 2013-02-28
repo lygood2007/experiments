@@ -5,8 +5,8 @@ public class GridTest {
         
         Out file = new Out("my_grid.txt");
         
-        int M = 4;
-        int N = 100;
+        int M = 20;
+        int N = 20;
         
         file.println(N*M);
         for (int x = 0; x < M; x++) {

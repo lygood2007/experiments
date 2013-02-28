@@ -40,10 +40,10 @@ public class Brute {
             points[i++] = new Point(x, y);
         }
         
-        //StdDraw.setXscale(min-1, max+1);
-        //StdDraw.setYscale(min-1, max+1);
-        StdDraw.setXscale(0, 32768); // Requested by the assignment
-        StdDraw.setYscale(0, 32768); // Requested by the assignment
+        StdDraw.setXscale(min-1, max+1);
+        StdDraw.setYscale(min-1, max+1);
+        //StdDraw.setXscale(0, 32768); // Requested by the assignment
+        //StdDraw.setYscale(0, 32768); // Requested by the assignment
         
         seekAndDraw(points);
     }
