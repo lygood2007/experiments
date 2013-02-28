@@ -4,7 +4,6 @@
  */
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,8 +20,6 @@ public class Fast {
      * @param args Name of the input file
      */
     public static void main(String[] args) {
-        
-        Stopwatch sw = new Stopwatch();
         
         In input = new In(args[0]);
         
@@ -54,17 +51,20 @@ public class Fast {
         StdDraw.setYscale(0, 32768); // Requested by the assignment
         
         LinkedList<Point[]> segments = new LinkedList<Point[]>();
-        HashMap<Integer,Object> segments2 = new HashMap<Integer,Object>();
+        HashMap<Integer, Object> edges = new HashMap<Integer, Object>();
         
-        seek(points, segments, segments2);
-        draw(points, segments, segments2);
+        seek(points, segments, edges);
+        draw(points, segments, edges);
     }
     
     /**
      * @private
      * Seeks for the line-segments composed of 4 or more points.
      */
-    private static void seek(Point[] points, LinkedList<Point[]> segments, HashMap<Integer,Object> segments2) {
+    private static void seek(
+            Point[] points,
+            LinkedList<Point[]> segments,
+            HashMap<Integer, Object> segments2) {
         
         if (points.length < 4) return;
         
@@ -97,9 +97,15 @@ public class Fast {
     /**
      * @private
      * Draws the line-segments found by seek()
+     * 
+     * obs.: in a simple test, this method takes around 93% of running time.
+     * Method seek(), which performs the search, takes no more than 1 second!
      * @see seek
      */
-    private static void draw(Point[] points, LinkedList<Point[]> segments, HashMap<Integer,Object> segments2) {
+    private static void draw(
+            Point[] points,
+            LinkedList<Point[]> segments,
+            HashMap<Integer, Object> segments2) {
                 
         String output = "";
         
@@ -131,8 +137,13 @@ public class Fast {
      * @param pivot The point used to find this segment
      * @param segments List of segments
      */
-    private static void addSegment(Point[] original, int imin, int imax,
-            Point pivot, LinkedList<Point[]> segments, HashMap<Integer,Object> segments2) {
+    private static void addSegment(
+            Point[] original,
+            int imin,
+            int imax,
+            Point pivot,
+            LinkedList<Point[]> segments,
+            HashMap<Integer, Object> edges) {
 
         Point[] segment = new Point[imax - imin + 2];
         int j = 0;
@@ -144,20 +155,10 @@ public class Fast {
         
         int hash = (segment[0].toString() + segment[segment.length-1]).hashCode();
         
-        Point[] s = {segment[0], segment[segment.length-1]};
-                
-        if (!segments2.containsKey(hash)) {
-            segments2.put(hash, null);            
-            segments.push(s);
+        if (!edges.containsKey(hash)) {
+            edges.put(hash, null);            
+            segments.push(segment);
         }
-        /*
-        boolean insert = true;
-        Iterator<Point[]> it = segments.iterator();
-        while (it.hasNext() && insert) {
-            if (Arrays.equals(it.next(), segment)) insert = false;
-        }
-        
-        if (insert) segments.push(segment);*/
     }
     
     /**
@@ -170,7 +171,7 @@ public class Fast {
     
     /**
      * @private
-     * Checkes for Double equality
+     * Checks for Double equality
      */
     private static boolean equals(double a, double b) {
         boolean ans = a == b;
