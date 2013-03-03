@@ -1,6 +1,11 @@
+% Sampling on 'time' domain
+N = 128;
+t = (1:N)'; % obs.: this is unnecessary. Instead, we need only keep track of the indexes.
+
+% ------------------------------
 % Input signal ('time' domain)
-x = [1 2 3 4]';
-N = length(x);
+x = [ones(1,64) zeros(1,64)]'; % ATENTION to length
+%plot(t, x);
 
 % ------------------------------
 % Calculates the Discrete Fourier Transform (DFT) transformation matrix
@@ -13,9 +18,19 @@ WN = exp(-i * (2*pi/N) * A .* B);
 
 % ------------------------------
 % DFT of x ('frequency' domain)
+k = t ./ N;
 X = WN * x;
+%plot(k, X,'rx-');
 
 % ------------------------------
-% Back to 'time' domain
-y = 1/N * conj(WN) * X; % equals x
+% Inverse DFT: back to 'time' domain
+%y = 1/N * conj(WN) * X; % equals x
 
+% ------------------------------
+% Real part
+magnitude = abs(X);
+%plot(k, magnitude);
+
+% ------------------------------
+phase = angle(X);
+%plot(k, phase);
