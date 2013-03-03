@@ -1,11 +1,12 @@
-% Sampling on 'time' domain
-N = 128;
-t = (1:N)'; % obs.: this is unnecessary. Instead, we need only keep track of the indexes.
-
 % ------------------------------
-% Input signal ('time' domain)
-x = [ones(1,64) zeros(1,64)]'; % ATENTION to length
-%plot(t, x);
+% Input signal ('time' domain) composed of three tones
+N = 500;
+x1 = sin(2*pi* 40*(1:N)/N); % tone 1
+x2 = sin(2*pi* 80*(1:N)/N); % tone 2
+x3 = sin(2*pi*160*(1:N)/N); % tone 3
+x = [x1 zeros(1,N) x2 zeros(1,N) x3]';
+%wavplay(x);
+N = length(x);
 
 % ------------------------------
 % Calculates the Discrete Fourier Transform (DFT) transformation matrix
@@ -17,36 +18,26 @@ B = repmat(a, N,1);
 WN = exp(-i * (2*pi/N) * A .* B); 
 
 % ------------------------------
-% DFT of x ('frequency' domain)
-%k = t ./ N; % Normalized frequencies: (0,1]
+% x-axis: t (time domain) or k (frequency domain)
+t = (1:N);
+k = t ./ N; % Normalized frequencies: (0,1]
+
+% ------------------------------
+% DFT of x
 %X = WN * x;
-%plot(k, X,'rx-');
+%plot(k, abs(X));
 
 % ------------------------------
-% Inverse DFT: back to 'time' domain
-% The real() function is needed to avoid numerical
-% errors that introduce imaginary components on the signal.
-%y = real(1/N * conj(WN) * X); % equals x
-%plot(t, y);
+% DFT in a reduced base:
+% WNreduced is a cut-off of the original DFT transformation matrix. That
+% means it represents a low-dimension DFT. As a result, the three tones
+% (peaks) where merged into two, a process known as "frequency mixing".
+WNreduced = [WN(1:600,:); WN(N-600:N,:)];
+inverseWNreduced = conj([WN(:,1:600) WN(:,N-600:N)]);
+Xapprox = WNreduced * x;
+xapprox = 1/N * real(inverseWNreduced * Xapprox);
 
-% ------------------------------
-% Real part
-%magnitude = abs(X);
-%plot(k, magnitude);
+X = WN * xapprox;
+%plot(k, abs(X));
+%wavplay(xapprox);
 
-% ------------------------------
-% Phase computation is very sensitive if phase is close to pi:
-% the graph of phase below shows spikes that doesn't exist; instead,
-% the expected result is a increasing phase, from -pi/2 to +pi/2 for
-% even samples and zero for odd samples.
-%phase = angle(X);
-%plot(k, phase); 
-
-% ------------------------------
-% Change the dimension d of the basis, ie, the amount of orthogonal
-% sinusoidal waves used to decompose the input signal, in order to
-% see how it approaches x as d approaches N.
-d = 50; % n <= N
-Xd = WN(1:d,:) * x;
-yd = real(1/N * conj(WN(:,1:d)) * Xd);
-plot(t, yd);
