@@ -1,10 +1,21 @@
 public class Solver {
     
-    private int N = 3;
+    private int N = 4;
+    private int[][] AVAILABLE_ACTIONS = {
+        {        +1, +N}, // In a given state, if the hole is in position 0, only actions +1 and +N can be applied
+        {    -1, +1, +N}, // If hole's position is 1, only -1, +1 and +3 are applicable
+        {    -1,     +N},
+        {-N,     +1, +N},
+        {-N, -1, +1, +N},
+        {-N, -1,     +N},
+        {-N,     +1    }, // Only action -N and +1 can be applied
+        {-N, -1, +1    },
+        {-N, -1        }
+    }; 
     
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
-        
+               
     }
     
     // is the initial board solvable?
@@ -28,9 +39,11 @@ public class Solver {
     }
     
     private int[] getAvailableActions(int n) {
-        int i = n / N;
+        int i = n / N; // (i,j) coordinate in a N-by-N grid
         int j = n % N;
-        int a, b;
+        
+        int a; // (a,b) coordinate in a 3-by-3 grid 
+        int b;
         
         if (i == 0) a = 0;
         else if (i == N-1) a = 2;
@@ -40,21 +53,10 @@ public class Solver {
         else if (j == N-1) b = 2;
         else b = 1;
         
-        int nn = a + N * b;
+        int m = a + 3 * b;
         
-        return AVAILABLE_ACTIONS[nn];
-        
+        return AVAILABLE_ACTIONS[m];
     }
     
-    private int[][] AVAILABLE_ACTIONS = {
-            {        +1, +N}, // In a given state, if the hole is in position 0, only actions +1 and +3 can be applied
-            {    -1, +1, +N}, // If hole's position is 1, only -1, +1 and +3 are applicable
-            {    -1,     +N},
-            {-N,     +1, +N},
-            {-N, -1, +1, +N},
-            {-N, -1,     +N},
-            {-N,     +1    }, // Only action -3 and +1 can be applied
-            {-N, -1, +1    },
-            {-N, -1        }
-    };
+    private final int[][] 
 }
