@@ -1,11 +1,13 @@
-\documentclass[14paper, 12pt]{article}
+\documentclass[a4paper, 12pt]{article}
 	\usepackage[utf8]{inputenc}
 	\usepackage[T1]{fontenc}
 	\usepackage{amsmath}
+	\usepackage{amssymb}
 	%\usepackage{paralist}
 
-	\newcommand\integer{\mathbb{Z}}
+	\newcommand\integer{\ensuremath{\mathbb{Z}}}
 	\DeclareMathOperator{\LCM}{LCM}
+	\newcommand\new[1]{\textbf{#1}}
 
 \begin{document}
 
@@ -17,6 +19,14 @@
 	\item $\omega_\text{max} = \pi$
 	\item Colors are eigenfunctions of optical elements
 	\item $z^{-k}\left(x[n]\right) = x[n-k]$
+	\item \new{finite-support extension}: one way of extend a finite-length signal to infinity, by padding it with zeros.
+	\item DFT reads Discrete Fourier Transform: the Fourier transform of a finite-length discrete signals.
+	\item DFS reads Discrete Fourier Series: the Fourier transform of a finite-length discrete signals, made infinite by repetition. This leads to a sequence o peaks on frequency domain.
+	\item DTFT reads Discrete Time Fourier Transform, the Fourier transform of infinite signals.
+	\item DFT is used for \emph{finite} length signals
+	\item DFS is used for infinite \emph{periodic} signals (but discrete?)
+	\item DTFT is used for \emph{infinite} length signals
+	\item A zero-padded DFT is simply a sampled DTFT of the finite-support extension.
 \end{itemize}
 
 	\paragraph{Problem:} given a periodic signal $x[n]=\exp(i\omega n)$ with $\omega = 2\pi p/q$ and $p,q\in\integer$, what is the amount of samples before $x[n]$ repeats?
