@@ -20,4 +20,10 @@ insertion sort ~ O(N^2/4). It is quicker for partially sorted list (the best sce
 shell sort (h-sort) ~O(N^(3/2)) for h = 3x+1. There is no accurate model. For an already sorted list, h-sort with h = 3x + 1 is ~O(N log(N))
 Knuth-shuffle ~O(N)
 
+
 32 bit-seed leads to 2^32 possible random numbers!
+
+
+Red-Black BST: java.util.TreeMap, java.util.TreeSet
+Hash tables: java.util.HashMap, java.util.IdentityHashMap
+
