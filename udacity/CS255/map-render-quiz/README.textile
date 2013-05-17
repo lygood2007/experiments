@@ -1,0 +1,5 @@
+Files shared on Dropbox ("here":http://dl.dropbox.com/u/4017125/map-render-quiz.zip) by "Hoover":http://forums.udacity.com/users/111991323/hoover#cs255
+
+Also, look at an explanation about tile indexes "here":http://forums.udacity.com/questions/100035072/here-is-an-explanation-of-the-game-world-and-the-tileset.
+
+
