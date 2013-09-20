@@ -1,2 +1,5 @@
 /coursera_AI-planning/MAC/nbproject/private/
 /coursera_AI-planning/MAC/build/
+
+*.pyc
+*~
