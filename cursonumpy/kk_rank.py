@@ -9,19 +9,16 @@ def kk_rank(f, opt):
     if opt == "min":
         padding = np.max(f) + 1
     else:
-        padding = np.min(f) - 1
+        if opt == "max":
+            padding = np.min(f) - 1
+        else:
+            padding = np.min(f) - 1
     
-    ans = np.empty((H+2,W+2))
-    ans[:,:] = padding
-    
-    tmp = np.empty((9,H+2,W+2))
+    tmp = np.empty((9,H+2,W+2))    
     
     c = 0    
     for i in range(0,3):
         for j in range(0,3):
-            
-            # Fill core with displaced f
-            tmp[c,i:H+i,j:W+j] = f
             
             # Fill borders with appropriate value
             tmp[c,0:i,:]     = padding
@@ -29,13 +26,18 @@ def kk_rank(f, opt):
             tmp[c,:,0:j]     = padding
             tmp[c,:,W+j:W+2] = padding
             
-            # Update answer
-            if opt == "min":
-                ans = np.minimum(ans, tmp[c])
-            else:
-                ans = np.maximum(ans, tmp[c])
-                
+            # Fill core with displaced f
+            tmp[c,i:H+i,j:W+j] = f
+            
             c += 1
+            
+    if (opt == "min"):
+        ans = np.amin(tmp, axis=0)
+    else:
+        if (opt == "max"):
+            ans = np.amax(tmp, axis=0)
+        else:
+            ans = np.median(tmp, axis=0)
             
     return ans[1:H+1,1:W+1]
 
