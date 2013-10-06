@@ -19,13 +19,13 @@ def kk_rank(f, opt):
     
     ans = np.empty((H+2,W+2))        
     ans[1,   1  ] = np.round(function(layers[[0,1,  3,4        ]], axis=0))[1,   1  ] # top-left-hand corner
-    ans[2:H, 1  ] = np.round(function(layers[[0,1,  3,4,  6,7  ]], axis=0))[2:H, 1  ] # left
+    ans[2:H, 1  ] = np.round(function(layers[[0,1,  3,4,  6,7  ]], axis=0))[2:H, 1  ] # left line
     ans[  H, 1  ] = np.round(function(layers[[      3,4,  6,7  ]], axis=0))[  H, 1  ] # bottom-left-hand corner
-    ans[  H, 2:W] = np.round(function(layers[[      3,4,5,6,7,8]], axis=0))[  H, 2:W] # bottom
+    ans[  H, 2:W] = np.round(function(layers[[      3,4,5,6,7,8]], axis=0))[  H, 2:W] # bottom line
     ans[  H,   W] = np.round(function(layers[[        4,5,  7,8]], axis=0))[  H,   W] # bottom-right-hand corner
-    ans[2:H,   W] = np.round(function(layers[[  1,2,  4,5,  7,8]], axis=0))[2:H,   W] # right
+    ans[2:H,   W] = np.round(function(layers[[  1,2,  4,5,  7,8]], axis=0))[2:H,   W] # right line
     ans[1,     W] = np.round(function(layers[[  1,2,  4,5      ]], axis=0))[1,     W] # top-right-hand corner
-    ans[1,   2:W] = np.round(function(layers[[0,1,2,3,4,5      ]], axis=0))[1,   2:W] # top
+    ans[1,   2:W] = np.round(function(layers[[0,1,2,3,4,5      ]], axis=0))[1,   2:W] # top line
     ans[2:H, 2:W] = np.round(function(layers[[0,1,2,3,4,5,6,7,8]], axis=0))[2:H, 2:W] # middle
         
     return ans[1:H+1,1:W+1]
