@@ -10,42 +10,27 @@ def kk_rank(f, opt):
     
     H,W = f.shape
     
-    tmp = np.zeros((9,H+2,W+2))
+    layers = np.zeros((9,H+2,W+2))
     c = 0
-    for i in range(-1,2):
-        for j in range(-1,2):
-            x = 1 + i
-            y = 1 + j
-            tmp[c,x:H+x,y:W+y] = f
+    for i in range(0,3):
+        for j in range(0,3):
+            layers[c,i:H+i,j:W+j] = f
             c += 1
     
-    result = np.empty((9,H+2,W+2))
-        
-    result[0] = function(tmp[[0,1,  3,4        ]], axis=0)
-    result[1] = function(tmp[[0,1,  3,4,  6,7  ]], axis=0)
-    result[2] = function(tmp[[      3,4,  6,7  ]], axis=0)
-    result[3] = function(tmp[[      3,4,5,6,7,8]], axis=0)
-    result[4] = function(tmp[[        4,5,  7,8]], axis=0)
-    result[5] = function(tmp[[  1,2,  4,5,  7,8]], axis=0)
-    result[6] = function(tmp[[  1,2,  4,5      ]], axis=0)
-    result[7] = function(tmp[[0,1,2,3,4,5      ]], axis=0)
-    result[8] = function(tmp[[0,1,2,3,4,5,6,7,8]], axis=0)
-        
-    #print result
-    ans = np.zeros((H+2,W+2))
-    ans[1,1]     = result[0,1,1]
-    ans[2:H,1]   = result[1,2:H,1]
-    ans[H,1]     = result[2,H,1]
-    ans[H,2:W]   = result[3,H,2:W]
-    ans[H,W]     = result[4,H,W]
-    ans[2:H,W]   = result[5,2:H,W]
-    ans[1,W]     = result[6,1,W]
-    ans[1,2:W]   = result[7,1,2:W]
-    ans[2:H,2:W] = result[8,2:H,2:W]
+    ans = np.empty((H+2,W+2))        
+    ans[1,   1  ] = np.round(function(layers[[0,1,  3,4        ]], axis=0))[1,   1  ] # top-left-hand corner
+    ans[2:H, 1  ] = np.round(function(layers[[0,1,  3,4,  6,7  ]], axis=0))[2:H, 1  ] # left
+    ans[  H, 1  ] = np.round(function(layers[[      3,4,  6,7  ]], axis=0))[  H, 1  ] # bottom-left-hand corner
+    ans[  H, 2:W] = np.round(function(layers[[      3,4,5,6,7,8]], axis=0))[  H, 2:W] # bottom
+    ans[  H,   W] = np.round(function(layers[[        4,5,  7,8]], axis=0))[  H,   W] # bottom-right-hand corner
+    ans[2:H,   W] = np.round(function(layers[[  1,2,  4,5,  7,8]], axis=0))[2:H,   W] # right
+    ans[1,     W] = np.round(function(layers[[  1,2,  4,5      ]], axis=0))[1,     W] # top-right-hand corner
+    ans[1,   2:W] = np.round(function(layers[[0,1,2,3,4,5      ]], axis=0))[1,   2:W] # top
+    ans[2:H, 2:W] = np.round(function(layers[[0,1,2,3,4,5,6,7,8]], axis=0))[2:H, 2:W] # middle
         
     return ans[1:H+1,1:W+1]
 
-f = np.random.rand(2,2)
-out = kk_rank(f, "median")
+f = np.random.rand(3,3)
+out = kk_rank(f, "max")
 print "Input: ", f
 print "Output: ", out
