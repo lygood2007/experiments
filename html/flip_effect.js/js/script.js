@@ -12,16 +12,20 @@
 		}
 	};
 
+	var FLIP_DURATION = 0.3; // seconds
+
 	var Card = {
 		
+		t: 0, // seconds (s)
+		T: FLIP_DURATION, // s
+		dt: 0.01, // s
+
 		left0: 0,
 		left: 0,
 		width0: 72,
 		width: 0,		
 		view: null,
-		//prev_cosa: 0,
-		angle: 0,
-		
+		angle: 0,		
 		EPS: 1e-5,
 		x: 80,
 		face: true,
@@ -29,8 +33,34 @@
 
 		set_view: function(view) {
 			this.view = view;
-			this.left0 = 0;//view.left;
+			this.left0 = 0;
 			this.width0 = view.width();
+		},
+
+		evolve: function () {
+			var omega = 2 * Math.PI / this.T;
+			
+			this.t += this.dt;
+			this.angle = omega * this.t;
+			
+			if (this.angle < Math.PI && this.angle > 0) {
+				this.rotate(this.angle);
+			}
+			else {
+
+				if (this.face) {
+					this.t = 0;
+					this.angle = 0;
+					this.dt = +0.01;
+				}
+				else {
+					this.t = this.T / 2;
+					this.angle = Math.PI;
+					this.dt = -0.01;			
+				}
+
+				this.rotate(this.angle);
+			}
 		},
 
 		rotate: function (angle) {
@@ -73,51 +103,19 @@
 		},
 	};
 
+	var card1 = Object.create(Card);
+	card1.set_view($("#1"));
 
-
-
-	var card = Object.create(Card);
-	card.set_view($("#1"));
-	
 	var card2 = Object.create(Card);
 	card2.set_view($("#2"));
 
-	var t = 0; // s
-	var dt = 0.01; // s
-	var omega = 2 * Math.PI / 0.3;
-	var count = 0;
-	var angle = 0;
-	var goon = function () {
-		//if (count == 5) return;
+	var cards = [card1, card2];
 
-		t += dt;
-		angle = omega * t;
+	$("#1").click(update);
 
-		if (angle < Math.PI && angle > 0) {			
-			card.rotate(angle);
-			setTimeout(goon, 1000 * dt);
-			
-		}
-		else {
-			if (!card.face) angle = Math.PI;
-			else angle = 0;
-
-			card.rotate(angle);
-		}
-
-		count += 1;
+	function update () {
+		for (var i = 0, n = cards.length; i < n; i++) cards[i].evolve();
+		if (cards[0].state == "FLIPPING") setTimeout(update, 1000 * Math.abs(cards[0].dt)); // I can use cards[0] data bacause all cards evolve together
 	}
-
-	$("#1").click(function () {
-
-		if (card.state != "FLIPPING") {
-
-			if (card.state == "BACK") dt = -0.01;
-			else dt = 0.01;
-
-			setTimeout(goon, 1000 * dt);
-		}
-	});
-
 	
 })();
