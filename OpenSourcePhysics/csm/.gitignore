@@ -1,0 +1,8 @@
+/build
+/dist
+/nbproject
+build.xml
+manifest.xml
+
+*.class
+*.jar
