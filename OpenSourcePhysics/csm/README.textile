@@ -1,0 +1,11 @@
+h3. Computer Simulation Methods (CSM)
+
+This is a Java project I created to study computer simulation methods
+for Physics with experiments and exercises from the book
+"Computer Simulation Methods", by H. Gould, J. Tabochnik and W. Christian.
+
+h3. Dependencies
+
+Simulations depend on the OpenSourcePhysics library (opensourcephysics.org).
+
+
